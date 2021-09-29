@@ -3,9 +3,42 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E2AABC21-D86B-49C8-83B4-2AB2C90FB0DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaekwonTourney.API", "src\TaekwonTourney.API\TaekwonTourney.API.csproj", "{217D2EA5-9D4E-4E3B-8007-E73DF0BA3CC5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaekwonTourney.Models", "src\TaekwonTourney.Models\TaekwonTourney.Models.csproj", "{E4455800-FB69-412D-8095-4222C2E2F15F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{695F5FF3-AF93-4431-9A23-24D0CC939B90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaekwonTourney.Contracts", "TaekwonTourney.Contracts\TaekwonTourney.Contracts.csproj", "{E0F598CE-24B3-47A1-8447-6F079B6D39EF}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{217D2EA5-9D4E-4E3B-8007-E73DF0BA3CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{217D2EA5-9D4E-4E3B-8007-E73DF0BA3CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{217D2EA5-9D4E-4E3B-8007-E73DF0BA3CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{217D2EA5-9D4E-4E3B-8007-E73DF0BA3CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4455800-FB69-412D-8095-4222C2E2F15F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4455800-FB69-412D-8095-4222C2E2F15F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4455800-FB69-412D-8095-4222C2E2F15F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4455800-FB69-412D-8095-4222C2E2F15F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0F598CE-24B3-47A1-8447-6F079B6D39EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0F598CE-24B3-47A1-8447-6F079B6D39EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0F598CE-24B3-47A1-8447-6F079B6D39EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0F598CE-24B3-47A1-8447-6F079B6D39EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{217D2EA5-9D4E-4E3B-8007-E73DF0BA3CC5} = {E2AABC21-D86B-49C8-83B4-2AB2C90FB0DA}
+		{E4455800-FB69-412D-8095-4222C2E2F15F} = {E2AABC21-D86B-49C8-83B4-2AB2C90FB0DA}
+		{E0F598CE-24B3-47A1-8447-6F079B6D39EF} = {E2AABC21-D86B-49C8-83B4-2AB2C90FB0DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCA69B55-57E6-465A-A1A0-A7C7709260C7}
