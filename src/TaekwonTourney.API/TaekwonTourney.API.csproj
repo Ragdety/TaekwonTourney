@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TaekwonTourney.Contracts\TaekwonTourney.Contracts.csproj" />
+    <ProjectReference Include="..\TaekwonTourney.Contracts\TaekwonTourney.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
