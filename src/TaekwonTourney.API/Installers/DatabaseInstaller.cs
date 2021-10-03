@@ -15,22 +15,24 @@ namespace TaekwonTourney.API.Installers
 			IServiceCollection services,
 			IWebHostEnvironment environment)
 		{
-            //For now, we will be using in memory database
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase(databaseName: "TaekwonTourneyInMemory")
-            );
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        configuration.GetConnectionString("TaekwonTourney")));
-            //services.AddIdentity<User, IdentityRole<int>>(options =>
-            //{
-            //    options.Password.RequiredLength = 8;
-            //    options.Password.RequireLowercase = true;
-            //    options.Password.RequireUppercase = true;
-            //    options.Password.RequireNonAlphanumeric = false;
-            //})
-            //.AddRoles<IdentityRole<int>>()
-            //.AddEntityFrameworkStores<ApplicationDbContext>();
-        }
+			////For now, we will be using in memory database
+			//services.AddDbContext<ApplicationDbContext>(options =>
+			//    options.UseInMemoryDatabase(databaseName: "TaekwonTourneyInMemory")
+			//);
+
+			var connectionString = configuration.GetConnectionString("TaekwonTourneyDev");
+
+			services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlServer(connectionString));
+			services.AddIdentity<User, IdentityRole<int>>(options =>
+			{
+				options.Password.RequiredLength = 8;
+				options.Password.RequireLowercase = true;
+				options.Password.RequireUppercase = true;
+				options.Password.RequireNonAlphanumeric = false;
+			})
+			.AddRoles<IdentityRole<int>>()
+			.AddEntityFrameworkStores<ApplicationDbContext>();
+		}
 	}
 }

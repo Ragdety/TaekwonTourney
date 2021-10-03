@@ -17,5 +17,14 @@ namespace TaekwonTourney.API.Database
 
 		//These DbSets represent database tables
 		public DbSet<Tournament> Tournamets { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+			//To rename from AspNetUsers -> Users
+			builder.Entity<User>()
+				.ToTable("Users");
+		}
 	}
 }
