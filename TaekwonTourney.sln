@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{695F5FF3-A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaekwonTourney.Contracts", "src\TaekwonTourney.Contracts\TaekwonTourney.Contracts.csproj", "{E46E78BB-8989-4F13-878F-125C82B3113A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaekwonTourney.Core", "src\TaekwonTourney.Core\TaekwonTourney.Core.csproj", "{1C02831D-156C-445A-B7E2-5D23A69BEB62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{E46E78BB-8989-4F13-878F-125C82B3113A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E46E78BB-8989-4F13-878F-125C82B3113A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E46E78BB-8989-4F13-878F-125C82B3113A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C02831D-156C-445A-B7E2-5D23A69BEB62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C02831D-156C-445A-B7E2-5D23A69BEB62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C02831D-156C-445A-B7E2-5D23A69BEB62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C02831D-156C-445A-B7E2-5D23A69BEB62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{217D2EA5-9D4E-4E3B-8007-E73DF0BA3CC5} = {E2AABC21-D86B-49C8-83B4-2AB2C90FB0DA}
 		{E4455800-FB69-412D-8095-4222C2E2F15F} = {E2AABC21-D86B-49C8-83B4-2AB2C90FB0DA}
 		{E46E78BB-8989-4F13-878F-125C82B3113A} = {E2AABC21-D86B-49C8-83B4-2AB2C90FB0DA}
+		{1C02831D-156C-445A-B7E2-5D23A69BEB62} = {E2AABC21-D86B-49C8-83B4-2AB2C90FB0DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCA69B55-57E6-465A-A1A0-A7C7709260C7}
