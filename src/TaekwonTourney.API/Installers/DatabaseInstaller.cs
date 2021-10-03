@@ -15,11 +15,6 @@ namespace TaekwonTourney.API.Installers
 			IServiceCollection services,
 			IWebHostEnvironment environment)
 		{
-			////For now, we will be using in memory database
-			//services.AddDbContext<ApplicationDbContext>(options =>
-			//    options.UseInMemoryDatabase(databaseName: "TaekwonTourneyInMemory")
-			//);
-
 			var connectionString = configuration.GetConnectionString("TaekwonTourneyDev");
 
 			services.AddDbContext<ApplicationDbContext>(options =>
