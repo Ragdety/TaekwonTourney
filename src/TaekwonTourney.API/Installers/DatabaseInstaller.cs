@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaekwonTourney.API.Database;
-using TaekwonTourney.Models;
+using TaekwonTourney.Core.Models;
 
 namespace TaekwonTourney.API.Installers
 {

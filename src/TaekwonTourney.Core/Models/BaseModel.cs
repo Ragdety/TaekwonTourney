@@ -1,4 +1,4 @@
-﻿namespace TaekwonTourney.Models
+﻿namespace TaekwonTourney.Core.Models
 {
 	public class BaseModel<TKey>
 	{

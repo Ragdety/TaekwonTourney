@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaekwonTourney.Contracts.v1;
-using TaekwonTourney.Core.Interfaces.ServicesInterfaces;
+using TaekwonTourney.Core.Interfaces.RepoInterfaces;
 
 namespace TaekwonTourney.API.Controllers.v1
 {
 	public class TournamentController : Controller
 	{
-		//Will use the service in controller to get what we need
-		private readonly ITournamentService _tournamentService;
+		//Will use the repo in controller to get what we need
+		private readonly ITournamentRepository _tournamentRepository;
 
-		public TournamentController(ITournamentService tournamentService)
+		public TournamentController(ITournamentRepository tournamentRepository)
 		{
-			_tournamentService = tournamentService;
+			_tournamentRepository = tournamentRepository;
 		}
 
 		[HttpGet(ApiRoutes.Tournaments.GetAll)]

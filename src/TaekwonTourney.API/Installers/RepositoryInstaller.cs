@@ -17,6 +17,7 @@ namespace TaekwonTourney.API.Installers
 			//services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
 			services.AddScoped<ITournamentRepository, TournamentRepository>();
+			services.AddScoped<IIdentityRepository, IdentityRepository>();
 		}
 	}
 }

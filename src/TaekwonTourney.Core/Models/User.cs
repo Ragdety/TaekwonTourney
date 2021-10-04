@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace TaekwonTourney.Models
+namespace TaekwonTourney.Core.Models
 {
 	public class User : IdentityUser<int>
 	{
