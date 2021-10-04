@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\TaekwonTourney.Contracts\TaekwonTourney.Contracts.csproj" />
     <ProjectReference Include="..\TaekwonTourney.Core\TaekwonTourney.Core.csproj" />
-    <ProjectReference Include="..\TaekwonTourney.Models\TaekwonTourney.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TaekwonTourney.API.Database;
 using TaekwonTourney.Core.Interfaces.RepoInterfaces;
-using TaekwonTourney.Models;
+using TaekwonTourney.Core.Models;
 
 namespace TaekwonTourney.API.Repositories
 {
@@ -13,7 +11,6 @@ namespace TaekwonTourney.API.Repositories
 	public class TournamentRepository : BaseRepository<Tournament>, ITournamentRepository
 	{
 		private readonly DbSet<Tournament> _tournaments;
-		private ITournamentRepository _tournamentRepositoryImplementation;
 
 		public TournamentRepository(ApplicationDbContext db) : base(db)
 		{

@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaekwonTourney.Models\TaekwonTourney.Models.csproj" />
+    <Folder Include="Interfaces\ServicesInterfaces" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\ServicesInterfaces" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.10" />
   </ItemGroup>
 
 </Project>
