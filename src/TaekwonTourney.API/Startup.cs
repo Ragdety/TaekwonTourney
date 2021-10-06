@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TaekwonTourney.API.Installers;
+using TaekwonTourney.API.Options;
 
 namespace TaekwonTourney.API
 {
@@ -32,14 +33,25 @@ namespace TaekwonTourney.API
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				app.UseSwagger();
-				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaekwonTourney.API v1"));
+				
+				var swaggerOptions = new SwaggerOptions();
+				Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
+				
+				app.UseSwagger(option =>
+				{
+					option.RouteTemplate = swaggerOptions.JsonRoute;
+				});
+				app.UseSwaggerUI(option =>
+				{
+					option.SwaggerEndpoint(swaggerOptions.UIEndpoint, swaggerOptions.Description);
+				});
 			}
 
 			app.UseHttpsRedirection();
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>

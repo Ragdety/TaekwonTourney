@@ -12,17 +12,23 @@ namespace TaekwonTourney.Contracts.v1
 		public const string Version = "v1";
 		public const string Base = Root + "/" + Version;
 
-		public const string Home = Base + "/home";
-
 		public static class Tournaments
 		{
-			private const string TournamentBase = "/tournaments";
+			private const string TournamentBase = Base + "/tournaments";
 
 			public const string GetAll = TournamentBase;
 			public const string Get = TournamentBase + "/{tournamentId}";
 			public const string Create = TournamentBase;
 			public const string Update = TournamentBase + "/{tournamentId}";
 			public const string Delete = TournamentBase + "/{tournamentId}";
+		}
+
+		public static class Identity
+		{
+			public const string IdentityBase = Base + "identity";
+
+			public const string Register = IdentityBase + "/register";
+			public const string Login = IdentityBase + "/login";
 		}
 	}
 }

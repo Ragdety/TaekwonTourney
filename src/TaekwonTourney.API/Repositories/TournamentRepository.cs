@@ -16,5 +16,7 @@ namespace TaekwonTourney.API.Repositories
 		{
 			_tournaments = db.Set<Tournament>();
 		}
+		
+		
 	}
 }

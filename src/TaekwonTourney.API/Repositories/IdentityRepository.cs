@@ -1,18 +1,25 @@
 ﻿using System.Threading.Tasks;
 using TaekwonTourney.Core.DomainObjects;
+using TaekwonTourney.Core.DomainObjects.DomainModels;
 using TaekwonTourney.Core.Interfaces.RepoInterfaces;
 
 namespace TaekwonTourney.API.Repositories
 {
     public class IdentityRepository : IIdentityRepository
     {
-        //Will extract parameters into object for register and login
-        public async Task<AuthenticationResult> RegisterAsync(string firstName, string lastName, string userName, string email, string password)
+        
+        
+        public IdentityRepository()
+        {
+                
+        }
+        
+        public async Task<AuthenticationResult> RegisterAsync(UserRegisterModel userToRegister)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<AuthenticationResult> LoginAsync(string emailOrUserName, string password)
+        public async Task<AuthenticationResult> LoginAsync(UserLoginModel userToLogin)
         {
             throw new System.NotImplementedException();
         }
