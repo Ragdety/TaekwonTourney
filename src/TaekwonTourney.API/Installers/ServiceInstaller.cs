@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TaekwonTourney.API.Services;
+using TaekwonTourney.Core.Interfaces.ServiceInterfaces;
 
 namespace TaekwonTourney.API.Installers
 {
@@ -11,7 +14,14 @@ namespace TaekwonTourney.API.Installers
 			IServiceCollection services,
 			IWebHostEnvironment environment)
 		{
-			
+			services.AddHttpContextAccessor();
+			services.AddSingleton<IUriService>(provider =>
+			{
+				var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+				var request = accessor.HttpContext.Request;
+				var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent(), "/");
+				return new UriService(absoluteUri);
+			});
 		}
 	}
 }

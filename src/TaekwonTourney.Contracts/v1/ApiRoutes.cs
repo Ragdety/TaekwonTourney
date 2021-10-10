@@ -25,7 +25,7 @@ namespace TaekwonTourney.Contracts.v1
 
 		public static class Identity
 		{
-			public const string IdentityBase = Base + "identity";
+			private const string IdentityBase = Base + "/identity";
 
 			public const string Register = IdentityBase + "/register";
 			public const string Login = IdentityBase + "/login";

@@ -25,8 +25,4 @@
     <ProjectReference Include="..\TaekwonTourney.Core\TaekwonTourney.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services" />
-  </ItemGroup>
-
 </Project>

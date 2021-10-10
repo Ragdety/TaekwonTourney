@@ -11,8 +11,7 @@ namespace TaekwonTourney.Core.DomainObjects.DomainModels
         public string Email { get; set; }
         public string Password { get; set; }
         public UserRole UserRole { get; set; }
-        public DateTime RegisterDate { get; set; }
         
-        //Will add belt level option 
+        //Will add belt level option if is student
     }
 }

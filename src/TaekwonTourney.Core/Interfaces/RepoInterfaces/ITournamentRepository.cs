@@ -1,6 +1,8 @@
-﻿namespace TaekwonTourney.Core.Interfaces.RepoInterfaces
+﻿using TaekwonTourney.Core.Models;
+
+namespace TaekwonTourney.Core.Interfaces.RepoInterfaces
 {
-	public interface ITournamentRepository
+	public interface ITournamentRepository : IBaseRepository<Tournament>
 	{
 	}
 }
