@@ -68,12 +68,52 @@ namespace TaekwonTourney.API.Repositories
                 };
             }
 
+            return GenerateAuthResult(newUser);
+        }
+
+        public async Task<AuthenticationResult> LoginAsync(UserLoginModel userToLogin)
+        {
+            User user;
+            if (Helpers.AuthHelper.IsValidEmail(userToLogin.UserNameOrEmail))
+                user = await _userManager.FindByEmailAsync(userToLogin.UserNameOrEmail);
+            else
+                user = await _userManager.FindByNameAsync(userToLogin.UserNameOrEmail);
+            
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] {"User does not exist"}
+                };
+            }
+
+            var validPassword = await _userManager.CheckPasswordAsync(user, userToLogin.Password);
+
+            if (!validPassword)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "Incorrect Password" }
+                };
+            }
+
+            return GenerateAuthResult(user);
+        }
+
+        //Might implement later
+        public Task<AuthenticationResult> RefreshTokenAsync(string token, string refreshToken)
+        {
+            throw new System.NotImplementedException();
+        }
+        
+        private AuthenticationResult GenerateAuthResult(User newUser)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 //All information about our user stored in jwt
-                Subject = new ClaimsIdentity(new []
+                Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
@@ -85,7 +125,8 @@ namespace TaekwonTourney.API.Repositories
                     new Claim("id", newUser.Id.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
-                SigningCredentials =new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials =
+                    new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -95,17 +136,6 @@ namespace TaekwonTourney.API.Repositories
                 Success = true,
                 Token = tokenHandler.WriteToken(token)
             };
-        }
-
-        public async Task<AuthenticationResult> LoginAsync(UserLoginModel userToLogin)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        //Might implement later
-        public Task<AuthenticationResult> RefreshTokenAsync(string token, string refreshToken)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
