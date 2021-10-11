@@ -23,15 +23,25 @@ namespace TaekwonTourney.API.Controllers.v1
 		}
 
 		[HttpGet(ApiRoutes.Tournaments.GetAll)]
-		public IActionResult GetAll()
+		public async Task<IActionResult> GetAll()
 		{
-			throw new System.NotImplementedException();
+            var Tournaments = await _tournamentRepository.FindAllAsync();
+			//throw new System.NotImplementedException();
+			if (Tournaments == null)
+			   return NotFound("No tournaments were found");
+
+			return Ok(Tournaments);   
 		}
 
 		[HttpGet(ApiRoutes.Tournaments.Get)]
-		public IActionResult Get([FromRoute] int tournamentId)
+		public async Task<IActionResult> Get([FromRoute] int tournamentId)
 		{
-			throw new System.NotImplementedException();
+			var Tournament = await _tournamentRepository.FindByIdAsync(tournamentId);
+			//throw new System.NotImplementedException();
+			if(Tournament == null)
+			   return NotFound($"No tournament found with ID {tournamentId} ");
+
+			return Ok(Tournament);
 		}
 
 		[HttpPost(ApiRoutes.Tournaments.Create)]
@@ -56,16 +66,50 @@ namespace TaekwonTourney.API.Controllers.v1
 			return BadRequest();
 		}
 
+
+
+
+
 		[HttpPut(ApiRoutes.Tournaments.Update)]
-		public IActionResult Update()
+		public async Task<IActionResult> Update(
+			[FromRoute] int tournamentId,
+			[FromBody] TournamentCreationModel Tournament)
 		{
-			throw new System.NotImplementedException();
+			//var now = DateTime.UtcNow;
+			var tournament = await _tournamentRepository.FindByIdAsync(tournamentId);
+
+			if(tournament == null)
+				return NotFound($"No tournament found with ID: {tournamentId}");
+
+				
+			tournament.TournamentName = Tournament.TournamentName;
+				tournament.TournamentType = Tournament.TournamentType;
+				tournament.TournamentDate = Tournament.TournamentDate;
+				tournament.Organizer = null;
+				tournament.Participants = null;	
+				//tournament.UpdatedOn = now;
+
+				var updated = await _tournamentRepository.UpdateAsync(tournament);
+
+				if(updated)
+				   return Ok($"Tournament Updated with ID: {tournamentId}");
+
+				return NotFound($"No course found with ID: {tournamentId}");   
+			//throw new System.NotImplementedException();
 		}
 
 		[HttpDelete(ApiRoutes.Tournaments.Delete)]
-		public IActionResult Delete()
-		{
-			throw new System.NotImplementedException();
+		public async Task<IActionResult> Delete([FromRoute] int tournamentId)
+	    {
+				 var tournamentToDelete = await _tournamentRepository.FindByIdAsync(tournamentId);
+
+				 var deleted = await _tournamentRepository.DeleteAsync(tournamentToDelete);
+
+				if (deleted)
+			    return NoContent();
+			
+				return NotFound( new { Error = "Report was not found."});
+			//throw new System.NotImplementedException();
 		}
 	}
 }
