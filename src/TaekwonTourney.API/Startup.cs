@@ -50,6 +50,14 @@ namespace TaekwonTourney.API
 			app.UseHttpsRedirection();
 
 			app.UseRouting();
+			
+			app.UseCors(builder => builder
+				.WithOrigins(
+					"https://localhost:3000"
+				)
+				.AllowAnyMethod()
+				.AllowAnyHeader()
+			);
 
 			app.UseAuthentication();
 			app.UseAuthorization();
