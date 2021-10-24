@@ -67,6 +67,7 @@ function Register() {
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [errors, setErrors] = useState([]);
 
   const handleChange = (e: any, name: any) => {
     const user: any = {};
@@ -76,23 +77,23 @@ function Register() {
     switch(name){
       case 'firstName':
         setFirstName(user.firstName);
-        user.firstName.length < 2 ? setFirstNameError('First Name must be at least 2 characters') : setFirstNameError('');
+        //user.firstName.length < 2 ? setFirstNameError('First Name must be at least 2 characters') : setFirstNameError('');
         break;
       case 'lastName':
         setLastName(user.lastName);
-        user.lastName.length < 2 ? setLastNameError('Last Name must be at least 2 characters') : setLastNameError('');
+        //user.lastName.length < 2 ? setLastNameError('Last Name must be at least 2 characters') : setLastNameError('');
         break;
       case 'email':
         setEmail(user.email);
-        !emailRegex.test(user.email) ? setEmailError('Invalid Email') : setEmailError('');
+        //!emailRegex.test(user.email) ? setEmailError('Invalid Email') : setEmailError('');
         break;
       case 'username':
         setUsername(user.username);
-        user.username.length < 8 ? setUsernameError('Username must be at least 8 or more characters') : setUsernameError('');
+        //user.username.length < 8 ? setUsernameError('Username must be at least 8 or more characters') : setUsernameError('');
         break;
       case 'password':
         setPassword(user.password);
-        user.password.length < 8 ? setPasswordError('Password must be 8 or more characters') : setPasswordError('');
+        //user.password.length < 8 ? setPasswordError('Password must be 8 or more characters') : setPasswordError('');
         break;
       case 'confirmPassword':
         setConfirmPassword(user.confirmPassword);
@@ -105,21 +106,34 @@ function Register() {
     }
   }
 
-  function signUp(){
-      identity.post('/register', {
-        FirstName: 'TestReact',
-        LastName: 'TestReact',
-        Username: 'TestReact',
-        Email: 'test@test.com',
-        Password: 'Test1234',
-        UserRole: 1
+  const register = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault() //To not reload page for now
+    const res = await identity.post('/register', {
+      FirstName: firstName,
+      LastName: lastName,
+      Username: username,
+      Email: email,
+      Password: password,
+      UserRole: "Student" 
+      //Need to add dropdown to support UserRoles: 
+      //["Organizer", "Student", "Instructor", "FamilyMember"]
+    })
+    .catch(error => {
+      const errors = error.response.data.errors;
+      console.log(errors)
+      //Will set error states here:
+      setErrors(errors);
+      // errors.forEach((er: any) => {
+      //   alert(er)
+      // });
     });
+    console.log(res);
   }
 
   return (
     <div className={classes.container}>
-      <form className={classes.form} id="signup">
-        <h1>Sign Up</h1>
+      <form className={classes.form} id="signup" onSubmit={register}>
+        <h1>Register</h1>
           <label className={classes.label}>First Name </label>
           <input 
             type="text" 
@@ -149,7 +163,7 @@ function Register() {
             required
             onChange={(e) => handleChange(e, 'email')}
           />
-         {emailError && <p className={classes.p2} style={{color: 'red'}}>{emailError}</p>}
+         {/*{emailError && <p className={classes.p2} style={{color: 'red'}}>{emailError}</p>}*/}
 
           <label className={classes.label}>Create Username </label>
           <input 
@@ -182,7 +196,8 @@ function Register() {
           />
          {confirmPasswordError && <p className={classes.p2} style={{color: 'red'}}>{confirmPasswordError}</p>}
 
-        <button className={classes.submitButton} type="submit" onClick={signUp}>Sign Up</button>
+        <button className={classes.submitButton} type="submit" /*onClick={register}*/>Register</button>
+        {errors && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{errors}</p>}
       </form>
       <p className={classes.p4}>Already have an account? 
          <Link to="/Login" style={{textDecoration:'none', color:'blue'}}> 
