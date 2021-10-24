@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using TaekwonTourney.Core.Enums;
 
 namespace TaekwonTourney.Core.Models
@@ -13,5 +14,9 @@ namespace TaekwonTourney.Core.Models
         //Will do checks here to see if is blackbelt
         public BlackBeltLevel? BlackBeltLevel { get; set; }
         public bool IsBlackBelt { get; set; }
+        
+        public int TournamentId { get; set; }
+        [ForeignKey(nameof(TournamentId))]
+        public virtual Tournament Tournament { get; set; }
     }
 }

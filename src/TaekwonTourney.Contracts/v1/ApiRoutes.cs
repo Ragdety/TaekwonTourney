@@ -8,13 +8,13 @@ namespace TaekwonTourney.Contracts.v1
 {
 	public static class ApiRoutes
 	{
-		public const string Root = "api";
-		public const string Version = "v1";
-		public const string Base = Root + "/" + Version;
+		private const string Root = "api";
+		private const string Version = "v1";
+		private const string Base = Root + "/" + Version;
 
 		public static class Tournaments
 		{
-			private const string TournamentBase = Base + "/tournaments";
+			public const string TournamentBase = Base + "/tournaments";
 
 			public const string GetAll = TournamentBase;
 			public const string Get = TournamentBase + "/{tournamentId}";
@@ -25,10 +25,20 @@ namespace TaekwonTourney.Contracts.v1
 
 		public static class Identity
 		{
-			private const string IdentityBase = Base + "/identity";
+			public const string IdentityBase = Base + "/identity";
 
 			public const string Register = IdentityBase + "/register";
 			public const string Login = IdentityBase + "/login";
+		}
+		
+		public static class TournamentParticipants
+		{
+			public const string ParticipantsBase = 
+				Tournaments.TournamentBase + "/{tournamentId}" + "/participants";
+
+			public const string CreateParticipant = ParticipantsBase;
+			public const string GetAllTournamentParticipants = ParticipantsBase;
+			public const string GetTournamentParticipant = ParticipantsBase + "/{participantId}";
 		}
 	}
 }

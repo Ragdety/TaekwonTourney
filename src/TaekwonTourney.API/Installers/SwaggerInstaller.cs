@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,11 @@ namespace TaekwonTourney.API.Installers
 				});
 				
 				c.AddSecurityRequirement(security);
+			});
+			
+			services.AddSwaggerGen (c =>
+			{
+				c.ResolveConflictingActions (apiDescriptions => apiDescriptions.First());
 			});
 		}
 	}
