@@ -1,12 +1,12 @@
 name: Backend Continuous Integration
 
 on:
-  #push:
-  #  branches:
-  #    - backend_changes
+  push:
+    branches:
+      - backend_changes
   pull_request:
     branches:
-      - main
+      - backend_changes
 
 jobs:
   build: 
