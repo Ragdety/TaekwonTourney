@@ -43,7 +43,7 @@ namespace TaekwonTourney.API.Repositories
             {
                 return new AuthenticationResult
                 {
-                    Errors = new[] {"User with this username address already exists"}
+                    Errors = new[] {"User with this username already exists"}
                 };
             }
 
