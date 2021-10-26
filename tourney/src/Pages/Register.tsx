@@ -97,8 +97,6 @@ function Register() {
       case 'confirmPassword':
         setConfirmPassword(user.confirmPassword);
         user.confirmPassword !== password ? setConfirmPasswordError('Passwords must be the same') : setConfirmPasswordError('');
-        console.log(user.password);
-        console.log(user.confirmPassword !== user.password);
         break;
       default:
         break;
@@ -107,11 +105,11 @@ function Register() {
 
   function signUp(){
       identity.post('/register', {
-        FirstName: 'TestReact',
-        LastName: 'TestReact',
-        Username: 'TestReact',
-        Email: 'test@test.com',
-        Password: 'Test1234',
+        FirstName: firstName,
+        LastName: lastName,
+        Username: username,
+        Email: email,
+        Password: password,
         UserRole: 1
     });
   }
@@ -121,7 +119,8 @@ function Register() {
       <form className={classes.form} id="signup">
         <h1>Sign Up</h1>
           <label className={classes.label}>First Name </label>
-          <input 
+          <input
+            id="First_Name" 
             type="text" 
             className={classnames(classes.formInput, {'is-invalid' : firstNameError, 'is-valid' : !firstNameError && firstName.length})}
             autoFocus 
@@ -132,7 +131,8 @@ function Register() {
           {firstNameError && <p className={classes.p2} style={{color: 'red'}}>{firstNameError}</p>}
 
           <label className={classes.label}>Last Name </label>
-          <input 
+          <input
+            id="Last_Name" 
             type="text" 
             className={classnames(classes.formInput, {'is-invalid' : lastNameError, 'is-valid' : !lastNameError && lastName.length})}
             placeholder="Enter Your Last Name"
@@ -143,6 +143,7 @@ function Register() {
 
           <label className={classes.label}>Email </label>
           <input 
+            id="Email"
             type="text"
             className={classnames(classes.formInput, {'is-invalid' : emailError, 'is-valid' : !emailError && email.length})} 
             placeholder="Enter Your Email Address"
@@ -153,6 +154,7 @@ function Register() {
 
           <label className={classes.label}>Create Username </label>
           <input 
+            id="Username"
             type="text" 
             className={classnames(classes.formInput, {'is-invalid' : usernameError, 'is-valid' : !usernameError && username.length})} 
             placeholder="Enter Your Username"
@@ -162,7 +164,8 @@ function Register() {
          {usernameError && <p className={classes.p2} style={{color: 'red'}}>{usernameError}</p>}
 
           <label className={classes.label}>Create Password </label>
-          <input 
+          <input
+            id="Password" 
             type="password"
             className={classnames(classes.formInput, {'is-invalid' : passwordError, 'is-valid' : !passwordError && password.length})} 
             placeholder="Enter Password"
@@ -174,6 +177,7 @@ function Register() {
 
           <label className={classes.label} style={{marginTop: 15}}>Confirm Password </label>
           <input 
+            id="Confirm Password"
             type="password" 
             className={classnames(classes.formInput, {'is-invalid' : confirmPasswordError, 'is-valid' : !confirmPasswordError && confirmPassword.length})}
             placeholder="Confirm Your Password"

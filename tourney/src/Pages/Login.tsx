@@ -105,7 +105,7 @@ function Login() {
           />
           <p className={classes.p2}></p>
           {passwordError && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{passwordError}</p>}
-        <button className={classes.submitButton} type="submit">Sign Up</button>
+        <button className={classes.submitButton} type="submit">Log In</button>
       </form>
       <p className={classes.p4}>Don't have an account? 
          <Link to="/Register" style={{textDecoration:'none', color:'blue'}}> 
