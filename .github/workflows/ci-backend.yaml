@@ -1,9 +1,8 @@
-name: Continuous Integration and Deployment
-
+name: Continuous Integration
 on:
-  push:
+  pull_request:
     branches:
-      - backend_changes
+      - master
 
 jobs:
   build: 
