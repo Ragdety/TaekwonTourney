@@ -103,17 +103,7 @@ function Register() {
         break;
     }
   }
-
-<<<<<<< HEAD
-  function signUp(){
-      identity.post('/register', {
-        FirstName: firstName,
-        LastName: lastName,
-        Username: username,
-        Email: email,
-        Password: password,
-        UserRole: 1
-=======
+  
   const register = async (e: { preventDefault: () => void; }) => {
     e.preventDefault() //To not reload page for now
     const res = await identity.post('/register', {
@@ -122,20 +112,19 @@ function Register() {
       Username: username,
       Email: email,
       Password: password,
-      UserRole: "Student" 
+      UserRole: "Student"
       //Need to add dropdown to support UserRoles: 
       //["Organizer", "Student", "Instructor", "FamilyMember"]
     })
-    .catch(error => {
-      const errors = error.response.data.errors;
-      console.log(errors)
-      //Will set error states here:
-      setErrors(errors);
-      // errors.forEach((er: any) => {
-      //   alert(er)
-      // });
->>>>>>> f7a9967ea3adce9d399b7bc6ada71c9cd11db9d0
-    });
+        .catch(error => {
+          const errors = error.response.data.errors;
+          console.log(errors)
+          //Will set error states here:
+          setErrors(errors);
+          // errors.forEach((er: any) => {
+          //   alert(er)
+          // });
+        });
     console.log(res);
   }
 
