@@ -42,6 +42,8 @@ git status
 git add .
 git commit -m %1
 git status
+
+echo Run git push command to push new changes...
 REM git push
 POPD
 
