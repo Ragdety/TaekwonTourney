@@ -51,9 +51,13 @@ namespace TaekwonTourney.API
 
 			app.UseRouting();
 			
+			var corsHostsOptions = new CorsHostsOptions();
+			Configuration.Bind(nameof(corsHostsOptions), corsHostsOptions);
+			
 			app.UseCors(builder => builder
 				.WithOrigins(
-					"https://localhost:3000"
+					corsHostsOptions.LocalWebClient,
+					corsHostsOptions.LocalSecureWebClient
 				)
 				.AllowAnyMethod()
 				.AllowAnyHeader()

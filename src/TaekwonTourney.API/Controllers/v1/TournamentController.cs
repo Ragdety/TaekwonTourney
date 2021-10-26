@@ -92,12 +92,12 @@ namespace TaekwonTourney.API.Controllers.v1
 		public async Task<IActionResult> Delete([FromRoute] int tournamentId)
 	    {
 		    var tournamentToDelete = await _tournamentRepository.FindByIdAsync(tournamentId);
+		    
+		    if(tournamentToDelete == null)
+			    return NotFound( new { Error = "Tournament was not found."});
 
-		    var deleted = await _tournamentRepository.DeleteAsync(tournamentToDelete);
-		    if (deleted)
-				return NoContent();
-		
-			return NotFound( new { Error = "Tournament was not found."});
-		}
+		    await _tournamentRepository.DeleteAsync(tournamentToDelete);
+		    return NoContent();
+	    }
 	}
 }
