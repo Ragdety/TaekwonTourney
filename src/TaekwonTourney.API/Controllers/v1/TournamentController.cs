@@ -88,15 +88,15 @@ namespace TaekwonTourney.API.Controllers.v1
 		{
 			var organizerOwnsTournament = await
 				_tournamentRepository.OrganizerOwnsTournament(
-					tournamentId, 
-					int.Parse(HttpContext.GetUserId()));
+					int.Parse(HttpContext.GetUserId()),
+					tournamentId);
 
 			if (!organizerOwnsTournament)
 				return BadRequest(new ApiGeneralResponse
 				{
 					Status = 400,
 					Success = false,
-					Messages = new []{ "You do not own this tournament" }
+					Messages = new []{ $"You do not own tournament with ID: {tournamentId}"}
 				});
 			
 			var tournament = await _tournamentRepository.FindByIdAsync(tournamentId);
