@@ -17,11 +17,6 @@ namespace TaekwonTourney.API.Repositories
             _participants = db.Set<Participant>();
         }
 
-        public Task<bool> CreateAsync(Participant entity, int tournamentId)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<IEnumerable<Participant>> FindTournamentParticipants(int tournamentId)
         {
             return await _participants
