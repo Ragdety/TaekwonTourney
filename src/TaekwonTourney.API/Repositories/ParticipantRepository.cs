@@ -24,11 +24,10 @@ namespace TaekwonTourney.API.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Participant>> FindTournamentParticipant(int participantId, int tournamentId)
+        public async Task<Participant> FindTournamentParticipant(int participantId, int tournamentId)
         {
-            return await _participants
-                .Where(x => x.TournamentId == tournamentId && x.Id == participantId)
-                .ToListAsync();
+            return await _participants.SingleOrDefaultAsync(
+                x => x.TournamentId == tournamentId && x.Id == participantId);
         }
     }
 }
