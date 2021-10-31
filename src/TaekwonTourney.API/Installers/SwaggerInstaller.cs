@@ -23,21 +23,30 @@ namespace TaekwonTourney.API.Installers
 
 				var securityScheme = new OpenApiSecurityScheme
 				{
-					BearerFormat = "Bearer"
+					Name = "Authorization",
+					Description = "JWT Authorization header using the bearer scheme",
+					In = ParameterLocation.Header,
+					Type = SecuritySchemeType.ApiKey,
+					Scheme = "Bearer",
+					BearerFormat = "JWT"
 				};
 				
 				var security = new OpenApiSecurityRequirement
 				{
-					{securityScheme, Array.Empty<string>()}
+					{  
+						new OpenApiSecurityScheme  
+						{  
+							Reference = new OpenApiReference  
+							{  
+								Type = ReferenceType.SecurityScheme,  
+								Id = "Bearer"  
+							}  
+						},
+                        Array.Empty<string>()
+                    } 
 				};
 				
-				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-				{
-					Description = "JWT Authorization header using the bearer scheme",
-					Name = "Authorization",
-					In = ParameterLocation.Header,
-					Type = SecuritySchemeType.ApiKey
-				});
+				c.AddSecurityDefinition("Bearer", securityScheme);
 				
 				c.AddSecurityRequirement(security);
 			});

@@ -10,7 +10,5 @@ namespace TaekwonTourney.Core.Models
 		public string LastName { get; set; }
 		public UserRole UserRole { get; set; }
 		public DateTime RegisterDate { get; set; }
-		
-		public string Something { get; set; }
 	}
 }
