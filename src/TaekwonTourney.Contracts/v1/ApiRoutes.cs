@@ -40,5 +40,12 @@ namespace TaekwonTourney.Contracts.v1
 			public const string GetAllTournamentParticipants = ParticipantsBase;
 			public const string GetTournamentParticipant = ParticipantsBase + "/{participantId}";
 		}
+
+		public static class Users
+		{
+			public const string UsersBase = "/users";
+			
+			public const string Me = UsersBase + "/me";
+		}
 	}
 }

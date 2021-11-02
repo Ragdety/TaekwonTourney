@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using TaekwonTourney.API.Options;
 using TaekwonTourney.API.Repositories;
+using TaekwonTourney.Core.Enums;
 using TaekwonTourney.Core.Interfaces.RepoInterfaces;
 
 namespace TaekwonTourney.API.Installers
@@ -32,6 +34,14 @@ namespace TaekwonTourney.API.Installers
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                
+                //TODO:
+                //Need to add UserRole enum to claims...
+                //And investigate about AddPolicy
+                // x.AddPolicy("TourneyOrganizer", new AuthorizationPolicyBuilder()
+                //     .RequireAuthenticatedUser()
+                //     .RequireClaim("role", UserRole.Organizer)
+                //     .Build());
             })
             .AddJwtBearer(x =>
             {

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaekwonTourney.API.Database;
 
 namespace TaekwonTourney.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211031054722_AddParticipantsModifiedTournament")]
+    partial class AddParticipantsModifiedTournament
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,7 +206,7 @@ namespace TaekwonTourney.API.Migrations
 
                     b.HasIndex("OrganizerId");
 
-                    b.ToTable("Tournaments");
+                    b.ToTable("Tournamets");
                 });
 
             modelBuilder.Entity("TaekwonTourney.Core.Models.User", b =>
@@ -261,9 +263,6 @@ namespace TaekwonTourney.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Something")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")

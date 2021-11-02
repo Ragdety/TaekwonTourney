@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TaekwonTourney.Contracts.Responses;
 using TaekwonTourney.Contracts.v1;
 using TaekwonTourney.Core.DomainObjects.DomainModels;
 using TaekwonTourney.Core.Interfaces.RepoInterfaces;
+using TaekwonTourney.Core.Responses;
 
 namespace TaekwonTourney.API.Controllers.v1
 {

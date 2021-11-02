@@ -16,8 +16,13 @@ namespace TaekwonTourney.API.Database
 		}
 
 		//These DbSets represent database tables
+<<<<<<< HEAD
 		public DbSet<Tournament> Tournamets { get; set; }
 		//public DbSet<Participant> Participants { get; set; }
+=======
+		public DbSet<Tournament> Tournaments { get; set; }
+		public DbSet<Participant> Participants { get; set; }
+>>>>>>> 04af01ec02a74b76df8a838655ec3364a42e8cf1
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
