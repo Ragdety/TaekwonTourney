@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import classnames from 'classnames';
 import identity from "../APICalls/identity";
+import { Redirect } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -61,17 +62,18 @@ function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [firstNameError] = useState('');
+  const [lastNameError] = useState('');
+  const [emailError] = useState('');
+  const [usernameError] = useState('');
+  const [passwordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [redirect, setRedirect] = useState(false);
   const [errors, setErrors] = useState([]);
 
   const handleChange = (e: any, name: any) => {
     const user: any = {};
-    var emailRegex = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    //var emailRegex = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
     user[name] = e.target.value;
     
     switch(name){
@@ -112,13 +114,14 @@ function Register() {
       Username: username,
       Email: email,
       Password: password,
-      UserRole: "Student"
+      UserRole: "Student",
+      Credentials: 'include',
       //Need to add dropdown to support UserRoles: 
       //["Organizer", "Student", "Instructor", "FamilyMember"]
     })
         .catch(error => {
-          const errors = error.response.data.errors;
-          console.log(errors)
+          const errors = error.response.data;
+          console.log(errors);
           //Will set error states here:
           setErrors(errors);
           // errors.forEach((er: any) => {
@@ -126,6 +129,11 @@ function Register() {
           // });
         });
     console.log(res);
+    setRedirect(true);
+  }
+
+  if(redirect){
+    return <Redirect to='/Login' />;
   }
 
   return (

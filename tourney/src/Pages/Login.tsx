@@ -2,6 +2,8 @@ import React, { useState} from "react";
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import classnames from 'classnames';
+import identity from "../APICalls/identity";
+import { Redirect } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,31 +62,60 @@ function Login() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [emailError] = useState('');
+  const [passwordError] = useState('');
+  const [redirect, setRedirect] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const handleChange = (e: any, name: any) => {
     const user: any = {};
-    var emailRegex = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    //var emailRegex = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
     user[name] = e.target.value;
     
     switch(name){
       case 'email':
         setEmail(user.email);
-        !emailRegex.test(user.email) ? setEmailError('Invalid Email') : setEmailError('');
+        //!emailRegex.test(user.email) ? setEmailError('Invalid Email') : setEmailError('');
         break;
       case 'password':
         setPassword(user.password);
-        user.password.length < 8 ? setPasswordError('Password must be 8 or more characters') : setPasswordError('');
+        //user.password.length < 8 ? setPasswordError('Password must be 8 or more characters') : setPasswordError('');
         break;
       default:
         break;
     }
   }
 
+  const login = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault() //To not reload page for now
+    const res = await identity.post('/login', {
+      Email: email,
+      Password: password,
+      UserRole: "Student",
+      Credentials: 'include',
+      //Need to add dropdown to support UserRoles: 
+      //["Organizer", "Student", "Instructor", "FamilyMember"]
+    })
+        .catch(error => {
+          const errors = error.response.data;
+          //Will set error states here:
+          console.log(errors);
+          setErrors(errors);
+          // errors.forEach((er: any) => {
+          //   alert(er)
+          // });
+        });
+    console.log(res);
+    setRedirect(true);
+  }
+
+  if(redirect){
+    return <Redirect to='/Dashboard' />;
+  }
+
   return (
     <div className={classes.container}>
-      <form className={classes.form} id="signup">
+      <form className={classes.form} id="signup" onSubmit={login}>
         <h1 className={classes.h1}>Log In</h1>
           <label className={classes.label}>Email </label>
           <input 
@@ -106,6 +137,7 @@ function Login() {
           <p className={classes.p2}></p>
           {passwordError && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{passwordError}</p>}
         <button className={classes.submitButton} type="submit">Log In</button>
+        {errors && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{errors}</p>}
       </form>
       <p className={classes.p4}>Don't have an account? 
          <Link to="/Register" style={{textDecoration:'none', color:'blue'}}> 
@@ -117,3 +149,4 @@ function Login() {
 }
 
 export default Login;
+
