@@ -17,5 +17,11 @@ namespace TaekwonTourney.API.Services
         {
             return new Uri(_baseUri + ApiRoutes.Tournaments.Get.Replace("{tournamentId}", tournamentId));
         }
+        public Uri GetParticipantUri(string participantId,string tournamentId)
+        {
+            return new Uri(_baseUri + ApiRoutes.TournamentParticipants.GetTournamentParticipant
+                                                 .Replace("{participantId}", participantId)
+                                                 .Replace("{tournamentId}", tournamentId));
+        }
     }
 }
