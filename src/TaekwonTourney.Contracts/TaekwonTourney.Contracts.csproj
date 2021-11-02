@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaekwonTourney.Core\TaekwonTourney.Core.csproj" />
+  </ItemGroup>
+
 </Project>

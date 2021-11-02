@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TaekwonTourney.Contracts.Responses
+namespace TaekwonTourney.Core.Responses
 {
     public class AuthFailedResponse
     {

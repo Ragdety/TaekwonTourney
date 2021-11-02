@@ -13,6 +13,7 @@ using TaekwonTourney.Core.DomainObjects.DomainModels;
 using TaekwonTourney.Core.Interfaces.RepoInterfaces;
 using TaekwonTourney.Core.Interfaces.ServiceInterfaces;
 using TaekwonTourney.Core.Models;
+using TaekwonTourney.Core.Responses;
 
 namespace TaekwonTourney.API.Controllers.v1
 {
