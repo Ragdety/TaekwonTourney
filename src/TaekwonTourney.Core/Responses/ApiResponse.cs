@@ -1,4 +1,4 @@
-﻿namespace TaekwonTourney.Contracts.Responses
+﻿namespace TaekwonTourney.Core.Responses
 {
     public class ApiResponse<T>
     {

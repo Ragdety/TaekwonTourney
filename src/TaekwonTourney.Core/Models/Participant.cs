@@ -10,8 +10,6 @@ namespace TaekwonTourney.Core.Models
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public BeltLevel BeltLevel { get; set; }
-        
-        //Will do checks here to see if is blackbelt
         public BlackBeltLevel? BlackBeltLevel { get; set; }
 
         public bool IsBlackBelt => BeltLevel.Equals(BeltLevel.BlackBelt);

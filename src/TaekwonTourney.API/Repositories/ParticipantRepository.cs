@@ -8,7 +8,7 @@ using TaekwonTourney.Core.Models;
 
 namespace TaekwonTourney.API.Repositories
 {
-    public class ParticipantRepository : BaseRepository<Participant>, IParticipantRepository
+    public class ParticipantRepository : BaseRepositoryOld<Participant>, IParticipantRepository
     {
         private readonly DbSet<Participant> _participants;
 

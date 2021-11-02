@@ -7,6 +7,6 @@ namespace TaekwonTourney.Core.Interfaces.RepoInterfaces
 {
     public interface IUserRepository
     {
-        public Task<IEnumerable<User>> GetUser();
+        public Task<object> GetUserProfile(int userId);
     }
 }   

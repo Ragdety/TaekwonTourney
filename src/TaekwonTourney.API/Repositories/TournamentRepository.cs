@@ -9,7 +9,7 @@ namespace TaekwonTourney.API.Repositories
 	/// <summary>
 	/// Repository to query tournament related data from database
 	/// </summary>
-	public class TournamentRepository : BaseRepository<Tournament>, ITournamentRepository
+	public class TournamentRepository : BaseRepositoryOld<Tournament>, ITournamentRepository
 	{
 		private readonly DbSet<Tournament> _tournaments;
 
