@@ -4,32 +4,29 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from '@mui/material/CardMedia';
 import Typography from "@mui/material/Typography";
-import { makeStyles } from '@mui/styles';
 import Grid from "@mui/material/Grid";
 import House from '../Images/house-163526.jpg';
 import AboutUs from '../Images/imprint-418597.jpg';
 import MeetTheTeam from '../Images/teamwork-3213924.jpg';
 import { CardActionArea } from "@mui/material";
 
-interface MyTheme {
-    marginLeft: number;
-    breakpoints: 'string';
-}
-
 export default function HomeCard() {
-  const [click, setClick] = React.useState(false);
+  //const [click, setClick] = React.useState(false);
 
+  /*
   const handleClick = () => {
     setClick(!click);
   };
-
+  */
+/*
   const useStyles = makeStyles((theme: MyTheme) => ({
     root: {
         marginLeft: 10,
         marginTop: 75,
       },
   }));
-  const classes = useStyles();
+  //const classes = useStyles();
+*/
   const [spacing] = React.useState(9);
 
   return (

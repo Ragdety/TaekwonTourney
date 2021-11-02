@@ -9,6 +9,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
@@ -18,7 +19,7 @@ interface MyTheme {
   boxShadow: string;
 }
 
-export default function NavBar() {
+export default function DashBoardNavBar() {
 
   const useStyles = makeStyles((theme: MyTheme) => ({
     tr: {
@@ -124,7 +125,7 @@ export default function NavBar() {
           >
               <AccountCircle />
           </IconButton>
-          <p>Login</p>
+          <p>Profile</p>
       </MenuItem>
     </Menu>
   );
@@ -140,6 +141,7 @@ export default function NavBar() {
               color="inherit"
               aria-label="open drawer"
               sx={{ mr: 2 }}
+              style={{float: 'right'}}
             >
               Taekwon Tourney
             </IconButton>
@@ -161,29 +163,17 @@ export default function NavBar() {
                   About
               </Button>
           </Link>
-          <Link to="/Login" style={{textDecoration:'none', color:'white'}}>
+          <Link to="/Profile" style={{textDecoration:'none', color:'white'}}>
               <Button
                 size="large"
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
                 /*onClick= *handleProfileMenuOpen*/
-                style={{marginRight: '50px'}}
+                style={{marginRight: '-10px'}}
                 color="inherit"
               >
-                  Login
-              </Button>
-          </Link>
-          <Link to="/Register" style={{textDecoration:'none', color:'white'}}>
-              <Button
-                size="large"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                /*onClick= *handleProfileMenuOpen*/
-                color="inherit"
-              >
-                  Register
+                  <AccountCircleIcon />
               </Button>
           </Link>
           </Box>
