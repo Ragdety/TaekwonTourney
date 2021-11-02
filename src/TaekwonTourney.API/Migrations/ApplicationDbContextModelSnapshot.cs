@@ -174,7 +174,7 @@ namespace TaekwonTourney.API.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TournamentId")
+                    b.Property<int>("TournamentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -266,6 +266,9 @@ namespace TaekwonTourney.API.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Something")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -342,9 +345,13 @@ namespace TaekwonTourney.API.Migrations
 
             modelBuilder.Entity("TaekwonTourney.Core.Models.Participant", b =>
                 {
-                    b.HasOne("TaekwonTourney.Core.Models.Tournament", null)
+                    b.HasOne("TaekwonTourney.Core.Models.Tournament", "Tournament")
                         .WithMany("Participants")
-                        .HasForeignKey("TournamentId");
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tournament");
                 });
 
             modelBuilder.Entity("TaekwonTourney.Core.Models.Tournament", b =>
