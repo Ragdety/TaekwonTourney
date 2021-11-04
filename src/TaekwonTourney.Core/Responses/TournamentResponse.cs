@@ -3,11 +3,11 @@ using TaekwonTourney.Core.Models;
 
 namespace TaekwonTourney.Core.Responses
 {
-    public class SaveTournamentResponse : BaseResponse
+    public class TournamentResponse : BaseResponse
     {
         public Tournament Tournament { get; private set; }
         
-        private SaveTournamentResponse(
+        private TournamentResponse(
             bool success, 
             string message, 
             Tournament tournament) : base(success, message)
@@ -18,9 +18,9 @@ namespace TaekwonTourney.Core.Responses
         /// <summary>
         /// Creates a success response.
         /// </summary>
-        /// <param name="category">Saved tournament.</param>
+        /// <param name="tournament">Tournament entity.</param>
         /// <returns>Response.</returns>
-        public SaveTournamentResponse(Tournament category) : this(true, string.Empty, category)
+        public TournamentResponse(Tournament tournament) : this(true, string.Empty, tournament)
         { }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace TaekwonTourney.Core.Responses
         /// </summary>
         /// <param name="message">Error message.</param>
         /// <returns>Response.</returns>
-        public SaveTournamentResponse(string message) : this(false, message, null)
+        public TournamentResponse(string message) : this(false, message, null)
         { }
     }
 }
