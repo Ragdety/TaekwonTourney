@@ -4,7 +4,7 @@ using TaekwonTourney.Core.Models;
 
 namespace TaekwonTourney.Core.Interfaces.RepoInterfaces
 {
-	public interface ITournamentRepository //: IBaseRepository<Tournament>
+	public interface ITournamentRepository
 	{
 		Task CreateAsync(Tournament tournament);
 		Task<IEnumerable<Tournament>> FindAllAsync();
