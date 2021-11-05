@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import classnames from 'classnames';
 import identity from "../APICalls/identity";
 import { Redirect } from "react-router";
+import { useCookies } from 'react-cookie';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -62,6 +63,7 @@ function Login() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [cookie, setCookie] = useCookies(['jwt']);
   const [emailError] = useState('');
   const [passwordError] = useState('');
   const [redirect, setRedirect] = useState(false);
@@ -86,17 +88,29 @@ function Login() {
     }
   }
 
+  const handleCookies = (token: any) => {
+    //let expires = new Date()
+    //expires.setTime(expires.getTime() + (response.data.expires_in * 1000))
+    setCookie('jwt', token);
+ };
+
   const login = async (e: { preventDefault: () => void; }) => {
     e.preventDefault() //To not reload page for now
     const res = await identity.post('/login', {
-      Email: email,
+      UserNameOrEmail: email,
       Password: password,
-      UserRole: "Student",
-      Credentials: 'include',
       //Need to add dropdown to support UserRoles: 
       //["Organizer", "Student", "Instructor", "FamilyMember"]
     })
+       .then(res => {
+          console.log(res);
+          const jsonObject = JSON.stringify(res.data);
+          const token = JSON.parse(jsonObject).token;
+          handleCookies(token);
+          
+        })
         .catch(error => {
+          console.log(error);
           const errors = error.response.data;
           //Will set error states here:
           console.log(errors);
@@ -105,7 +119,6 @@ function Login() {
           //   alert(er)
           // });
         });
-    console.log(res);
     setRedirect(true);
   }
 

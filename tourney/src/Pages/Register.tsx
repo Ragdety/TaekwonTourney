@@ -115,7 +115,6 @@ function Register() {
       Email: email,
       Password: password,
       UserRole: "Student",
-      Credentials: 'include',
       //Need to add dropdown to support UserRoles: 
       //["Organizer", "Student", "Instructor", "FamilyMember"]
     })
