@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TaekwonTourney.API.Repositories;
 using TaekwonTourney.API.Services;
+using TaekwonTourney.Core.Interfaces.RepoInterfaces;
 using TaekwonTourney.Core.Interfaces.ServiceInterfaces;
 
 namespace TaekwonTourney.API.Installers
@@ -22,6 +24,8 @@ namespace TaekwonTourney.API.Installers
 				var absoluteUri = string.Concat(request?.Scheme, "://", request?.Host.ToUriComponent(), "/");
 				return new UriService(absoluteUri);
 			});
+			services.AddScoped<ITournamentService, TournamentService>();
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
 		}
 	}
 }

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaekwonTourney.API.Extensions;
-using TaekwonTourney.API.Services;
-using TaekwonTourney.Contracts.Responses;
 using TaekwonTourney.Contracts.v1;
 using TaekwonTourney.Core.DomainObjects.DomainModels;
-using TaekwonTourney.Core.Interfaces.RepoInterfaces;
 using TaekwonTourney.Core.Interfaces.ServiceInterfaces;
 using TaekwonTourney.Core.Models;
 using TaekwonTourney.Core.Responses;
@@ -21,43 +15,28 @@ namespace TaekwonTourney.API.Controllers.v1
 	public class TournamentController : Controller
 	{
 		//Will use the repo in controller to get what we need
-		private readonly ITournamentRepository _tournamentRepository;
+		private readonly ITournamentService _tournamentService;
 		private readonly IUriService _uriService;
 
-		public TournamentController(ITournamentRepository tournamentRepository, IUriService uriService)
+		public TournamentController(ITournamentService tournamentService, IUriService uriService)
 		{
-			_tournamentRepository = tournamentRepository;
+			_tournamentService = tournamentService;
 			_uriService = uriService;
 		}
 
 		[HttpGet(ApiRoutes.Tournaments.GetAll)]
-		public async Task<IActionResult> GetAll()
-		{
-            var tournaments = await _tournamentRepository.FindAllAsync();
-			if (tournaments == null)
-				return NotFound(new ApiGeneralResponse() 
-				{
-					Status = 404,
-					Success = false,
-					Messages = new []{ "No tournaments were found" }
-				});
-
-			return Ok(new ApiResponse<IEnumerable<Tournament>>(tournaments));   
-		}
+		public async Task<IActionResult> GetAll() =>
+			Ok(await _tournamentService.ListAsync());   
+		
 
 		[HttpGet(ApiRoutes.Tournaments.Get)]
 		public async Task<IActionResult> Get([FromRoute] int tournamentId)
 		{
-			var tournament = await _tournamentRepository.FindByIdAsync(tournamentId);
+			var tournament = await _tournamentService.FindByIdAsync(tournamentId);
 			if(tournament == null)
-				return NotFound(new ApiGeneralResponse 
-				{
-					Status = 404,
-					Success = false,
-					Messages = new []{ $"No tournament found with ID: {tournamentId}" }
-				});
+				return NotFound(new TournamentResponse($"No tournament found with ID: {tournamentId}"));
 
-			return Ok(new ApiResponse<Tournament>(tournament));  
+			return Ok(tournament);  
 		}
 
 		[HttpPost(ApiRoutes.Tournaments.Create)]
@@ -72,14 +51,11 @@ namespace TaekwonTourney.API.Controllers.v1
 				Participants = null
 			};
 
-			var successful = await _tournamentRepository.CreateAsync(tournament);
-
-			if (successful)
-			{
-				var locationUri = _uriService.GetTournamentUri(tournament.Id.ToString());
-				return Created(locationUri, tournament);
-			}
-			return BadRequest();
+			var response = await _tournamentService.CreateAsync(tournament);
+			if (!response.Success) return BadRequest(response);
+			
+			var locationUri = _uriService.GetTournamentUri(tournament.Id.ToString());
+			return Created(locationUri, tournament);
 		}
 		
 		[HttpPut(ApiRoutes.Tournaments.Update)]
@@ -88,63 +64,28 @@ namespace TaekwonTourney.API.Controllers.v1
 			[FromBody] TournamentCreationModel tournamentToCreate)
 		{
 			var organizerOwnsTournament = await
-				_tournamentRepository.OrganizerOwnsTournament(
+				_tournamentService.OrganizerOwnsTournament(
 					int.Parse(HttpContext.GetUserId()),
 					tournamentId);
 
-			if (!organizerOwnsTournament)
-				return BadRequest(new ApiGeneralResponse
-				{
-					Status = 400,
-					Success = false,
-					Messages = new []{ $"You do not own tournament with ID: {tournamentId}"}
-				});
+			if (organizerOwnsTournament)
+				return BadRequest( new TournamentResponse(
+					$"You do not own tournament with ID: {tournamentId}"));
 			
-			var tournament = await _tournamentRepository.FindByIdAsync(tournamentId);
-
-			if(tournament == null)
-				return NotFound(new ApiGeneralResponse 
-				{
-					Status = 404,
-					Success = false,
-					Messages = new []{ $"No tournament found with ID: {tournamentId}" }
-				});
-			tournament.TournamentName = tournamentToCreate.TournamentName;
-			tournament.TournamentType = tournamentToCreate.TournamentType;
-			tournament.TournamentDate = tournamentToCreate.TournamentDate;
-
-			var updated = await _tournamentRepository.UpdateAsync(tournament);
+			var response = await _tournamentService.UpdateAsync(tournamentId, tournamentToCreate);
 			
-			if(updated)
-			   return Ok(new ApiGeneralResponse
-			   {
-				   Status = 200,
-				   Success = true,
-				   Messages = new[] {$"Tournament updated with ID: {tournamentId}"}
-			   });
+			if(response.Success)
+			   return Ok(response.Tournament);
 			
-			return NotFound(new ApiGeneralResponse
-			{
-				Status = 404,
-				Success = false,
-				Messages = new []{ $"No tournament found with ID: {tournamentId}" }
-			});
+			return NotFound(response);
 		}
 
 		[HttpDelete(ApiRoutes.Tournaments.Delete)]
 		public async Task<IActionResult> Delete([FromRoute] int tournamentId)
 	    {
-		    var tournamentToDelete = await _tournamentRepository.FindByIdAsync(tournamentId);
-		    
-		    if(tournamentToDelete == null)
-			    return NotFound(new ApiGeneralResponse 
-			    {
-				    Status = 404,
-				    Success = false,
-				    Messages = new []{ $"No tournament found with ID: {tournamentId}" }
-			    });
-
-		    await _tournamentRepository.DeleteAsync(tournamentToDelete);
+		    var response = await _tournamentService.DeleteAsync(tournamentId);
+		    if(!response.Success)
+			    return NotFound(response);
 		    return NoContent();
 	    }
 	}

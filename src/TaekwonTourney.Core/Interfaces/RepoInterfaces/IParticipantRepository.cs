@@ -4,9 +4,11 @@ using TaekwonTourney.Core.Models;
 
 namespace TaekwonTourney.Core.Interfaces.RepoInterfaces
 {
-    public interface IParticipantRepository : IBaseRepository<Participant>
+    public interface IParticipantRepository
     {
-        public Task<IEnumerable<Participant>> FindTournamentParticipants(int tournamentId);
-        public Task<Participant> FindTournamentParticipant(int participantId, int tournamentId);
+        Task CreateAsync(Participant participant);
+        void Delete(Participant participant);
+        Task<IEnumerable<Participant>> FindTournamentParticipants(int tournamentId);
+        Task<Participant> FindTournamentParticipant(int participantId, int tournamentId);
     }
 }

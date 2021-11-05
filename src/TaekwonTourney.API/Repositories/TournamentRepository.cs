@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TaekwonTourney.API.Database;
 using TaekwonTourney.Core.Interfaces.RepoInterfaces;
@@ -9,26 +11,46 @@ namespace TaekwonTourney.API.Repositories
 	/// <summary>
 	/// Repository to query tournament related data from database
 	/// </summary>
-	public class TournamentRepository : BaseRepositoryOld<Tournament>, ITournamentRepository
+	public class TournamentRepository : BaseRepository, ITournamentRepository
 	{
-		private readonly DbSet<Tournament> _tournaments;
-
 		public TournamentRepository(ApplicationDbContext db) : base(db)
 		{
-			_tournaments = db.Set<Tournament>();
+		}
+
+		public async Task CreateAsync(Tournament tournament)
+		{
+			await _db.Tournaments.AddAsync(tournament);
+		}
+		
+		public async Task<IEnumerable<Tournament>> FindAllAsync()
+		{
+			return await _db.Tournaments.ToListAsync();
+		}
+		
+		public async Task<Tournament> FindByIdAsync(int tournamentId)
+		{
+			return await _db.Tournaments.FindAsync(tournamentId);
+		}
+
+		public void Update(Tournament tournament)
+		{
+			_db.Tournaments.Update(tournament);
+		}
+
+		public void Delete(Tournament tournament)
+		{
+			_db.Tournaments.Remove(tournament);
 		}
 
 		public async Task<bool> OrganizerOwnsTournament(int organizerId, int tournamentId)
 		{
-			var tournament = await _tournaments
+			var tournaments = await _db.Tournaments
 				.AsNoTracking()
-				.SingleOrDefaultAsync(x => 
-					x.Id == tournamentId && x.OrganizerId == organizerId);
+				.Where(t => t.OrganizerId == organizerId)
+				.ToListAsync();
 
-			if (tournament == null)
-				return false;
-
-			return tournament.OrganizerId == organizerId;
+			var tournament = tournaments?.Find(t => t.Id == tournamentId);
+			return tournament == null;
 		}
 	}
 }

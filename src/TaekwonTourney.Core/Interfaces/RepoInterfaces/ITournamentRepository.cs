@@ -1,10 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TaekwonTourney.Core.Models;
 
 namespace TaekwonTourney.Core.Interfaces.RepoInterfaces
 {
-	public interface ITournamentRepository : IBaseRepository<Tournament>
+	public interface ITournamentRepository
 	{
-		public Task<bool> OrganizerOwnsTournament(int organizerId, int tournamentId);
+		Task CreateAsync(Tournament tournament);
+		Task<IEnumerable<Tournament>> FindAllAsync();
+		Task<Tournament> FindByIdAsync(int tournamentId);
+		void Update(Tournament tournament);
+		void Delete(Tournament tournament);
+		Task<bool> OrganizerOwnsTournament(int organizerId, int tournamentId);
 	}
 }
