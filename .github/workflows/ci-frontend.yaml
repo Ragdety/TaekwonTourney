@@ -16,11 +16,12 @@ jobs:
           node-version: 14.x
           
       - name: Install dependencies
-        run: |
-          cd ../../tourney/
-          npm install
+        run: ls
+        #run: |
+        #  cd ../../tourney/
+        #  npm install
         
-      - name: Build
-        run: |
-          cd ../../tourney/
-          npm run build
+      #- name: Build
+      #  run: |
+      #    cd ../../tourney/
+      #    npm run build
