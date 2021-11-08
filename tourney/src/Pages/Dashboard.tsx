@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
-import identity from "../APICalls/identity";
+import user from "../APICalls/user";
 import DashBoardNavBar from '../Components/DashBoardNavBar';
 import { makeStyles } from '@mui/styles';
-import PreviousTournamentCards from '../Components/PreviousTournamentCards';
-import CurrentTournamentCards from '../Components/CurrentTournamentCards';
-import FutureTournamentCards from '../Components/FutureTournamentCards';
+//import PreviousTournamentCards from '../Components/PreviousTournamentCards';
+//import CurrentTournamentCards from '../Components/CurrentTournamentCards';
+//import FutureTournamentCards from '../Components/FutureTournamentCards';
 import { Link } from 'react-router-dom';
-
+import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 export default function Dashboard(){
 
     const [userName, setUserName] = useState('');
+    const [token, setToken] = useCookies(['jwt']);
     const useStyles = makeStyles((theme) => ({
         tr: {
           float: 'right',
@@ -36,11 +38,10 @@ export default function Dashboard(){
     useEffect(() => {
         (
             async () => {
-                    const res = await identity.post('/user', {
-                      Username: userName,
-                      UserRole: "Student",
+                    const res = await user.get('/me', {
                       //Need to add dropdown to support UserRoles: 
                       //["Organizer", "Student", "Instructor", "FamilyMember"]
+                      headers: {'Authorization': 'Bearer '+ Cookies.get('jwt')}
                     });
                 const content = await res.config.data.toString();
                 console.log(content);

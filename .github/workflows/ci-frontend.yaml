@@ -17,10 +17,12 @@ jobs:
           
       - name: Install dependencies
         run: |
-          cd ../../tourney/
+          ls
+          cd tourney/
           npm install
         
       - name: Build
         run: |
-          cd ../../tourney/
+          ls
+          cd tourney/
           npm run build
