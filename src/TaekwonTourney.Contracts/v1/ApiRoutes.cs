@@ -44,7 +44,7 @@ namespace TaekwonTourney.Contracts.v1
 
 		public static class Users
 		{
-			public const string UsersBase = "/users";
+			public const string UsersBase = Base + "/users";
 			
 			public const string Me = UsersBase + "/me";
 		}
