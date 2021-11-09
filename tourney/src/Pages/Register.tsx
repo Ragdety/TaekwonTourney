@@ -123,9 +123,9 @@ function Register() {
           console.log(errors);
           //Will set error states here:
           setErrors(errors);
-          // errors.forEach((er: any) => {
-          //   alert(er)
-          // });
+          errors.forEach((er: any) => {
+             <h1>{er}</h1>
+           });
         });
     console.log(res);
     setRedirect(true);

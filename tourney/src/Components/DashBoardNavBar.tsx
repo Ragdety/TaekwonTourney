@@ -10,6 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountProfile from './AccountProfile';
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
@@ -26,7 +27,7 @@ export default function DashBoardNavBar() {
       marignLeft: -20,
     },
     mobile: {
-      marginTop: 30, marginLeft: 10, maxWidth: 130,
+      marginTop: 35, marginLeft: 10, maxWidth: 140,
     }
   }));
 
@@ -127,6 +128,18 @@ export default function DashBoardNavBar() {
           </IconButton>
           <p>Profile</p>
       </MenuItem>
+      <MenuItem style={{marginLeft: -20}} /*onClick= *handleProfileMenuOpen*/>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+              <AccountCircle />
+          </IconButton>
+          <p>Log Out</p>
+      </MenuItem>
     </Menu>
   );
 
@@ -134,7 +147,7 @@ export default function DashBoardNavBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Link to="/" style={{textDecoration:'none', color:'white'}}>
+          <Link to="/Dashboard" style={{textDecoration:'none', color:'white'}}>
             <IconButton
               size="large"
               edge="start"
@@ -148,12 +161,12 @@ export default function DashBoardNavBar() {
           </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <Link to="/" style={{textDecoration:'none', color:'white'}}>
+          <Link to="/Dashboard" style={{textDecoration:'none', color:'white'}}>
             <Button size="large" aria-label="Home Page" style={{marginRight: '50px'}} color="inherit">
                   Home
             </Button>
           </Link>
-          <Link to="/About" style={{textDecoration:'none', color:'white'}}>
+          <Link to="/LoggedInAboutPage" style={{textDecoration:'none', color:'white'}}>
               <Button
                 size="large"
                 aria-label="show 17 new notifications"
@@ -163,19 +176,7 @@ export default function DashBoardNavBar() {
                   About
               </Button>
           </Link>
-          <Link to="/Profile" style={{textDecoration:'none', color:'white'}}>
-              <Button
-                size="large"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                /*onClick= *handleProfileMenuOpen*/
-                style={{marginRight: '-10px'}}
-                color="inherit"
-              >
-                  <AccountCircleIcon />
-              </Button>
-          </Link>
+          <AccountProfile />
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
