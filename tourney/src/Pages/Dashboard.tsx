@@ -44,15 +44,17 @@ export default function Dashboard(){
     useEffect(() => {
         (
             async () => {
-                    const res = await user.get('/me', {
-                      //Need to add dropdown to support UserRoles: 
-                      //["Organizer", "Student", "Instructor", "FamilyMember"]
-                      headers: {'Authorization': 'Bearer '+ Cookies.get('jwt')}
-                    });
-                const content = await res.config.data.toString();
-                console.log(content);
-                setUserName(content.Username);
-                console.log(content.Username);
+                await 
+                    user.get('/me')
+                    .then((res:any) => {
+                        const content = res.data.data;
+                        console.log(content);
+                        setUserName(content.userName);
+                        console.log(content.userName);
+                }).catch((error) => {
+                    console.log(error);
+                });
+                
             }
         )();
     });
