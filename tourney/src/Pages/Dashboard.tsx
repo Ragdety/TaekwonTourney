@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
 import user from "../APICalls/user";
+import tournaments from "../APICalls/tournaments";
 import DashBoardNavBar from '../Components/DashBoardNavBar';
 import { makeStyles } from '@mui/styles';
 //import PreviousTournamentCards from '../Components/PreviousTournamentCards';
 //import CurrentTournamentCards from '../Components/CurrentTournamentCards';
 //import FutureTournamentCards from '../Components/FutureTournamentCards';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 //import { useCookies } from 'react-cookie';
-import Cookies from 'js-cookie';
+//import Cookies from 'js-cookie';
 import FutureTournamentCards from '../Components/FutureTournamentCards';
 export default function Dashboard(){
 
@@ -50,11 +51,25 @@ export default function Dashboard(){
                         const content = res.data.data;
                         console.log(content);
                         setUserName(content.userName);
-                        console.log(content.userName);
                 }).catch((error) => {
                     console.log(error);
                 });
                 
+            }
+        )();
+    });
+
+    useEffect(() => {
+        (
+            async () => {
+                await 
+                    tournaments.get('/')
+                    .then((res:any) => {
+                        const content = res.data.data;
+                        console.log(content);
+                }).catch((error) => {
+                    console.log(error);
+                });
             }
         )();
     });

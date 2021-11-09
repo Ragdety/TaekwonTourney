@@ -31,7 +31,7 @@ export default function TourneyCreationPage(){
               fontSize: '18px',
               color: 'white',
               height: '31px',
-              width: '180px',
+              width: '80px',
               border: 'none',
               borderRadius: '6px',
               cursor: 'pointer',

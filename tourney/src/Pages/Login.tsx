@@ -114,7 +114,7 @@ function Login() {
           const errors = error.response.data;
           //Will set error states here:
           console.log(errors);
-          <h1>{errors}</h1>
+          setErrors(errors);
           // errors.forEach((er: any) => {
           //   alert(er)
           // });

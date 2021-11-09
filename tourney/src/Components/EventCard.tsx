@@ -10,7 +10,7 @@ export default function EventCards() {
   return (
     <Grid container textAlign="center" alignItems="center" justifyContent="center">
         <Card 
-            sx={{ display: 'flex' }} style={{width: '40%'}}>
+            sx={{ display: 'flex' }} style={{width: '50%'}}>
             <CardActionArea href="/EventCreationPage">
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
