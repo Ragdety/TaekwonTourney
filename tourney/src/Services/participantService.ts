@@ -62,7 +62,7 @@ const remove = (tournamentId: number, id: number) => {
         headers);
 };
 
-const TournamentService = {
+const ParticipantService = {
     getAll,
     get,
     create,
@@ -70,4 +70,4 @@ const TournamentService = {
     remove,
 };
 
-export default TournamentService;
+export default ParticipantService;
