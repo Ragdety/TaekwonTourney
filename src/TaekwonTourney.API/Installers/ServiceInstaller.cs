@@ -25,6 +25,8 @@ namespace TaekwonTourney.API.Installers
 				return new UriService(absoluteUri);
 			});
 			services.AddScoped<ITournamentService, TournamentService>();
+			services.AddScoped<IParticipantService, ParticipantService>();
+			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 		}
 	}
