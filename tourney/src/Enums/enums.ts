@@ -34,3 +34,9 @@ export enum UserRole {
     Student = "Student",
     FamilyMember = "FamilyMember"
 }
+
+export enum TourneyDate {
+    Previous,
+    Current,
+    Future
+}

@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { Grid, Typography } from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {Card, CardContent, Grid, Typography} from '@mui/material';
 import user from "../APICalls/user";
-import tournaments from "../APICalls/tournaments";
 import DashBoardNavBar from '../Components/DashBoardNavBar';
-import { makeStyles } from '@mui/styles';
-//import PreviousTournamentCards from '../Components/PreviousTournamentCards';
-//import CurrentTournamentCards from '../Components/CurrentTournamentCards';
-//import FutureTournamentCards from '../Components/FutureTournamentCards';
-//import { Link } from 'react-router-dom';
-//import { useCookies } from 'react-cookie';
-//import Cookies from 'js-cookie';
-import FutureTournamentCards from '../Components/FutureTournamentCards';
+import {makeStyles} from '@mui/styles';
+import PreviousTournamentCards from '../Components/PreviousTournamentCards';
+import CurrentTournamentCards from '../Components/CurrentTournamentCards';
 import {Redirect} from "react-router";
+import TournamentService from "../Services/tournamentService";
+import {useHistory} from 'react-router-dom';
+import Box from "@mui/material/Box";
+import {TourneyDate} from "../Enums/enums";
+
 export default function Dashboard(){
 
+    const initArr: any[] = [];
     const [userName, setUserName] = useState('');
     //const [token, setToken] = useCookies(['jwt']);
     const [clicked, setClicked] = useState(false);
     const [redirectHome, setRedirectHome] = useState(false);
+    const [allTournaments, setAllTournaments] = useState([]);
+    const [previousTourneys, setPreviousTourneys] = useState(initArr);
+    const [currentTourneys, setCurrentTourneys] = useState(initArr);
+    const [futureTourneys, setFutureTourneys] = useState(initArr);
+
+    const history = useHistory();
+    
     const useStyles = makeStyles((theme) => ({
         tr: {
           float: 'right',
@@ -38,8 +45,32 @@ export default function Dashboard(){
         },
       }));
 
-      function handleClick(){
-          setClicked(true);
+      function createTournament(){
+          history.push('/Create')
+      }
+      
+      const editTourney = (tourneyId: number) => {
+          history.push(`/EditTournament/?id=${tourneyId}`)
+      }
+      
+      const deleteTourney = (tourneyId: number) => {
+          history.push(`/DeleteTournament/?id=${tourneyId}`)
+      }
+      
+      const handleTourneyDate = (tourney: any) => {
+          const now = new Date();
+          const tourneyStartDate = new Date(tourney.startDate)
+          const tourneyEndDate = new Date(tourney.endDate)
+          
+          if(tourneyEndDate < now) {
+              return TourneyDate.Previous;
+          }
+          else if(now > tourneyStartDate && now < tourneyEndDate) {
+              return TourneyDate.Current;
+          }
+          else {
+              return TourneyDate.Future;
+          }
       }
       
       const classes = useStyles();
@@ -50,8 +81,8 @@ export default function Dashboard(){
                 await user.get('/me')
                     .then((res:any) => {
                         const content = res.data
-                        console.log('Response', res.data)
-                        console.log(content);
+                        //console.log('Response', res.data)
+                        //console.log(content);
                         setUserName(content.userName);
                     })
                     .catch((error) => {
@@ -68,17 +99,17 @@ export default function Dashboard(){
     useEffect(() => {
         (
             async () => {
-                await 
-                    tournaments.get('/')
-                    .then((res:any) => {
-                        const content = res.data.data;
-                        console.log(content);
-                }).catch((error) => {
-                    console.log(error);
-                });
+                await TournamentService.getAll()
+                    .then((res: any) => {
+                        const tourneys = res.data;
+                        setAllTournaments(tourneys);
+                    })
+                    .catch((error: any) => {
+                        console.log(error)
+                    });
             }
         )();
-    });
+    }, []);
     
     if(redirectHome) {
         return <Redirect to='/'/>;
@@ -92,32 +123,73 @@ export default function Dashboard(){
                     Hello {userName}!
                 </Typography>
                 <Grid>
-                    <Grid item xs={1}>
-                        <h2 style={{marginLeft: 10}}>Previous Tournaments</h2>
-                    </Grid>
                     <Grid item xs={11}>
-                        <button className={classes.tr} onClick={handleClick}>Create Tournament</button>
+                        <button className={classes.tr} onClick={createTournament}>Create Tournament</button>
                     </Grid>
                 </Grid>
             <div>
-                {/*<PreviousTournamentCards /> */}
-                <Typography variant="h6" style={{marginLeft: 20}}>
-                    N/A
-                </Typography>
-            </div>
-            <h2 style={{marginLeft: 10}}>Current Tournaments</h2>
-            <div>
-                {/*CurrentTournamentCards />*/}
-                <Typography variant="h6" style={{marginLeft: 20}}>
-                    N/A
-                </Typography>
-            </div>
-            <h2 style={{marginLeft: 10}}>Future Tournaments</h2>
-            <div>
-                {clicked ? <FutureTournamentCards /> : <Typography variant="h6" style={{marginLeft: 20}}>
-                    N/A
-                </Typography>}
-                {/*<FutureTournamentCards />*/}
+                {allTournaments && (
+                    allTournaments.map((tourney: any) => (
+                        <Card sx={{ display: 'flex'}} style={{width: '70%', marginLeft: 20}} >
+                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                <CardContent sx={{ flex: '1 0 auto' }}>
+                                    <Typography component="div" variant="h4">
+                                        {tourney.tournamentName}
+                                    </Typography>
+                                    <Typography component="div">
+                                        {tourney.tournamentType}
+                                    </Typography>
+                                    <Typography component="div">
+                                        Start Date: {tourney.startDate}
+                                    </Typography>
+                                    <Typography component="div">
+                                        End Date: {tourney.endDate}
+                                    </Typography>
+                                    <button onClick={() => editTourney(tourney.id)}>
+                                        Edit
+                                    </button>
+                                    <button onClick={() => deleteTourney(tourney.id)}>
+                                        Delete
+                                    </button>
+                                </CardContent>
+                            </Box>
+                        </Card>
+                    ))
+                )}
+                
+                {/*<Typography >Previous Tournaments</Typography>*/}
+                {/*{previousTourneys && previousTourneys.map((tourney: any) => (*/}
+                {/*    <PreviousTournamentCards/>*/}
+                {/*))}*/}
+                {/*{currentTourneys && currentTourneys.map((tourney: any) => (*/}
+                {/*    <CurrentTournamentCards/>*/}
+                {/*))}*/}
+                {/*{futureTourneys && futureTourneys.map((tourney: any) => (*/}
+                {/*    <Card sx={{ display: 'flex'}} style={{width: '70%', marginLeft: 20}} >*/}
+                {/*        <Box sx={{ display: 'flex', flexDirection: 'column' }}>*/}
+                {/*            <CardContent sx={{ flex: '1 0 auto' }}>*/}
+                {/*                <Typography component="div" variant="h4">*/}
+                {/*                    {tourney.tournamentName}*/}
+                {/*                </Typography>*/}
+                {/*                <Typography component="div">*/}
+                {/*                    {tourney.tournamentType}*/}
+                {/*                </Typography>*/}
+                {/*                <Typography component="div">*/}
+                {/*                    Start Date: {tourney.startDate}*/}
+                {/*                </Typography>*/}
+                {/*                <Typography component="div">*/}
+                {/*                    End Date: {tourney.endDate}*/}
+                {/*                </Typography>*/}
+                {/*                <button onClick={() => editTourney(tourney.id)}>*/}
+                {/*                    Edit*/}
+                {/*                </button>*/}
+                {/*                <button onClick={() => deleteTourney(tourney.id)}>*/}
+                {/*                    Delete*/}
+                {/*                </button>*/}
+                {/*            </CardContent>*/}
+                {/*        </Box>*/}
+                {/*    </Card>*/}
+                {/*))}*/}
             </div>
         </>
     )

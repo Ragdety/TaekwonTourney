@@ -63,10 +63,9 @@ namespace TaekwonTourney.API.Controllers.v1
                     Errors = authResponse.Errors
                 });
             }
-            
-            
-            _logger.LogInformation("Now: {0}", DateTime.UtcNow.ToLocalTime().ToString());
-            _logger.LogInformation("JWT is validTo: {0}", authResponse.ValidTo.ToString());
+
+            //_logger.LogInformation("Now: {0}", DateTime.UtcNow.ToLocalTime().ToString());
+            //_logger.LogInformation("JWT is validTo: {0}", authResponse.ValidTo.ToString());
             
             return Ok(new AuthSuccessResponse
             {

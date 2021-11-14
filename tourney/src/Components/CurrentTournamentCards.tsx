@@ -11,7 +11,7 @@ export default function CurrentTournamentCards() {
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h6">
-            Tournament Held On Date
+            There is a current Tournament
           </Typography>
         </CardContent>
       </Box>
