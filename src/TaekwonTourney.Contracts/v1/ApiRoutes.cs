@@ -47,6 +47,7 @@ namespace TaekwonTourney.Contracts.v1
 			public const string UsersBase = Base + "/users";
 			
 			public const string Me = UsersBase + "/me";
+			public const string UserProfile = UsersBase + "/";
 		}
 	}
 }

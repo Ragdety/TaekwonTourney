@@ -46,7 +46,8 @@ namespace TaekwonTourney.API.Controllers.v1
 			{
 				TournamentName = tournamentToAdd.TournamentName,
 				TournamentType = tournamentToAdd.TournamentType,
-				TournamentDate = tournamentToAdd.TournamentDate,
+				StartDate = tournamentToAdd.StartDate,
+				EndDate = tournamentToAdd.EndDate,
 				OrganizerId = int.Parse(HttpContext.GetUserId()),
 				Participants = null
 			};

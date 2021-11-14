@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
 import user from "../APICalls/user";
+import tournaments from "../APICalls/tournaments";
 import DashBoardNavBar from '../Components/DashBoardNavBar';
 import { makeStyles } from '@mui/styles';
 //import PreviousTournamentCards from '../Components/PreviousTournamentCards';
 //import CurrentTournamentCards from '../Components/CurrentTournamentCards';
 //import FutureTournamentCards from '../Components/FutureTournamentCards';
-import { Link } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import Cookies from 'js-cookie';
+//import { Link } from 'react-router-dom';
+//import { useCookies } from 'react-cookie';
+//import Cookies from 'js-cookie';
+import FutureTournamentCards from '../Components/FutureTournamentCards';
 export default function Dashboard(){
 
     const [userName, setUserName] = useState('');
-    const [token, setToken] = useCookies(['jwt']);
+    //const [token, setToken] = useCookies(['jwt']);
+    const [clicked, setClicked] = useState(false);
     const useStyles = makeStyles((theme) => ({
         tr: {
           float: 'right',
@@ -32,6 +35,10 @@ export default function Dashboard(){
             cursor: 'pointer',
         },
       }));
+
+      function handleClick(){
+          setClicked(true);
+      }
     
       const classes = useStyles();
     
@@ -41,14 +48,29 @@ export default function Dashboard(){
                 await 
                     user.get('/me')
                     .then((res:any) => {
-                        const content = res.data.data;
+                        const content = res.data
+                        console.log('Response', res.data)
                         console.log(content);
                         setUserName(content.userName);
-                        console.log(content.userName);
                 }).catch((error) => {
                     console.log(error);
                 });
                 
+            }
+        )();
+    });
+
+    useEffect(() => {
+        (
+            async () => {
+                await 
+                    tournaments.get('/')
+                    .then((res:any) => {
+                        const content = res.data.data;
+                        console.log(content);
+                }).catch((error) => {
+                    console.log(error);
+                });
             }
         )();
     });
@@ -65,9 +87,7 @@ export default function Dashboard(){
                         <h2 style={{marginLeft: 10}}>Previous Tournaments</h2>
                     </Grid>
                     <Grid item xs={11}>
-                        <Link to="/Create">
-                            <button className={classes.tr}>Create Tournament</button>
-                        </Link>
+                        <button className={classes.tr} onClick={handleClick}>Create Tournament</button>
                     </Grid>
                 </Grid>
             <div>
@@ -85,10 +105,10 @@ export default function Dashboard(){
             </div>
             <h2 style={{marginLeft: 10}}>Future Tournaments</h2>
             <div>
-                {/*<FutureTournamentCards />*/}
-                <Typography variant="h6" style={{marginLeft: 20}}>
+                {clicked ? <FutureTournamentCards /> : <Typography variant="h6" style={{marginLeft: 20}}>
                     N/A
-                </Typography>
+                </Typography>}
+                {/*<FutureTournamentCards />*/}
             </div>
         </>
     )

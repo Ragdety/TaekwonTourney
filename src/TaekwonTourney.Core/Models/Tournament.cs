@@ -9,7 +9,8 @@ namespace TaekwonTourney.Core.Models
 	{
 		public string TournamentName { get; set; }
 		public TournamentType TournamentType { get; set; }
-		public DateTime TournamentDate { get; set; }
+		public DateTime StartDate { get; set; }
+		public DateTime EndDate { get; set; }
 		public int OrganizerId { get; set; }
 		
 		[ForeignKey(nameof(OrganizerId))]

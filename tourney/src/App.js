@@ -5,6 +5,8 @@ import Register from './Pages/Register.tsx';
 import Dashboard from './Pages/Dashboard.tsx';
 import Profile from './Pages/Profile.tsx';
 import TourneyCreationPage from './Pages/TourneyCreationPage';
+import EventCreationPage from './Pages/EventCreationPage';
+import LoggedInAboutPage from './Pages/LoggedInAboutPage';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 export default function App() {
@@ -18,6 +20,8 @@ export default function App() {
         <Route exact path="/Dashboard" component={Dashboard} />
         <Route exact path="/Profile" component={Profile} />
         <Route exact path="/Create" component={TourneyCreationPage} />
+        <Route exact path="/EventCreationPage" component={EventCreationPage} />
+        <Route exact path="/LoggedInAboutPage" component={LoggedInAboutPage} />
       </Switch>
     </BrowserRouter>
   );

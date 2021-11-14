@@ -7,6 +7,7 @@ namespace TaekwonTourney.Core.DomainObjects.DomainModels
     {
         public string TournamentName { get; set; }
         public TournamentType TournamentType { get; set; }
-        public DateTime TournamentDate { get; set; }
+        public DateTime StartDate { get; set; }
+		public DateTime EndDate { get; set; }
     }
 }
