@@ -107,6 +107,7 @@ function Login() {
           const jsonObject = JSON.stringify(res.data);
           const token = JSON.parse(jsonObject).token;
           handleCookies(token);
+          setRedirect(true);
           
         })
         .catch(error => {
@@ -115,11 +116,7 @@ function Login() {
           //Will set error states here:
           console.log(errors);
           setErrors(errors);
-          // errors.forEach((er: any) => {
-          //   alert(er)
-          // });
         });
-    setRedirect(true);
   }
 
   if(redirect){
@@ -138,7 +135,7 @@ function Login() {
             required
             onChange={(e) => handleChange(e, 'email')}
           />
-         {emailError && <p className={classes.p2} style={{color: 'red'}}>{emailError}</p>}
+         {/*{emailError && <p className={classes.p2} style={{color: 'red'}}>{emailError}</p>}*/}
           <label className={classes.label}>Enter Password </label>
           <input 
             type="password"
@@ -148,9 +145,13 @@ function Login() {
             onChange={(e) => handleChange(e, 'password')}
           />
           <p className={classes.p2}></p>
-          {passwordError && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{passwordError}</p>}
+          {/*{passwordError && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{passwordError}</p>}*/}
         <button className={classes.submitButton} type="submit">Log In</button>
-        {errors && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{errors}</p>}
+          {errors.map(e =>
+          {
+              <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{e}</p>
+          })}
+        {/*{errors && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{errors}</p>}*/}
       </form>
       <p className={classes.p4}>Don't have an account? 
          <Link to="/Register" style={{textDecoration:'none', color:'blue'}}> 

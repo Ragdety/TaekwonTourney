@@ -48,7 +48,8 @@ export default function Dashboard(){
                 await 
                     user.get('/me')
                     .then((res:any) => {
-                        const content = res.data.data;
+                        const content = res.data
+                        console.log('Response', res.data)
                         console.log(content);
                         setUserName(content.userName);
                 }).catch((error) => {

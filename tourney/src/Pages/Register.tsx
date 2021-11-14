@@ -114,10 +114,13 @@ function Register() {
       Username: username,
       Email: email,
       Password: password,
-      UserRole: "Student",
+      UserRole: "Organizer",
       //Need to add dropdown to support UserRoles: 
       //["Organizer", "Student", "Instructor", "FamilyMember"]
     })
+        .then(res => {
+          setRedirect(true);
+        })
         .catch(error => {
           const errors = error.response.data;
           console.log(errors);
@@ -128,7 +131,6 @@ function Register() {
            });
         });
     console.log(res);
-    setRedirect(true);
   }
 
   if(redirect){
@@ -149,7 +151,7 @@ function Register() {
             required
             onChange={(e) => handleChange(e, 'firstName')}
            />
-          {firstNameError && <p className={classes.p2} style={{color: 'red'}}>{firstNameError}</p>}
+          {/*{firstNameError && <p className={classes.p2} style={{color: 'red'}}>{firstNameError}</p>}*/}
 
           <label className={classes.label}>Last Name </label>
           <input
@@ -160,7 +162,7 @@ function Register() {
             required
             onChange={(e) => handleChange(e, 'lastName')}
           />
-          {lastNameError && <p className={classes.p2} style={{color: 'red'}}>{lastNameError}</p>}
+          {/*{lastNameError && <p className={classes.p2} style={{color: 'red'}}>{lastNameError}</p>}*/}
 
           <label className={classes.label}>Email </label>
           <input 
@@ -182,7 +184,7 @@ function Register() {
             required
             onChange={(e) => handleChange(e, 'username')}
           />
-         {usernameError && <p className={classes.p2} style={{color: 'red'}}>{usernameError}</p>}
+         {/*{usernameError && <p className={classes.p2} style={{color: 'red'}}>{usernameError}</p>}*/}
 
           <label className={classes.label}>Create Password </label>
           <input
@@ -193,8 +195,8 @@ function Register() {
             required
             onChange={(e) => handleChange(e, 'password')}
           />
-          <p className={classes.p2}></p>
-          {passwordError && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{passwordError}</p>}
+          {/*<p className={classes.p2}></p>*/}
+          {/*{passwordError && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{passwordError}</p>}*/}
 
           <label className={classes.label} style={{marginTop: 15}}>Confirm Password </label>
           <input 
