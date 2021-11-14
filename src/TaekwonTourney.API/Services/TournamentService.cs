@@ -60,7 +60,8 @@ namespace TaekwonTourney.API.Services
                 return new TournamentResponse("Tournament not found.");
 
             existingTournament.TournamentName = tournament.TournamentName;
-            existingTournament.TournamentDate = tournament.TournamentDate;
+            //existingTournament.StartDate = Tournament.StartDate;
+            //existingTournament.EndDate = Tournament.EndDate;
             existingTournament.TournamentType = tournament.TournamentType;
 
             try
