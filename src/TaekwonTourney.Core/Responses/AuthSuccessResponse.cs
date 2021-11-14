@@ -1,8 +1,11 @@
-﻿namespace TaekwonTourney.Core.Responses
+﻿using System;
+
+namespace TaekwonTourney.Core.Responses
 {
     public class AuthSuccessResponse
     {
-        //Might add more properties here
         public string Token { get; set; }
+        public DateTime ValidFrom { get; set; }
+        public DateTime ValidTo { get; set; }
     }
 }
