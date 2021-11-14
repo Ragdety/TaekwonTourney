@@ -8,8 +8,8 @@ export interface ITournament {
     Id: number,
     TournamentName: string,
     TournamentType: TournamentType,
-    StartDate: Date,
-    EndDate: Date,
+    StartDate: Date | null,
+    EndDate: Date | null,
     OrganizerId: number
 }
 
@@ -17,7 +17,7 @@ export interface IParticipant {
     Id: number,
     FirstName: string,
     LastName: string,
-    DateOfBirth: Date,
+    DateOfBirth: Date | null,
     BeltLevel: BeltLevel,
     BlackBeltLevel: BlackBeltLevel,
     IsBlackBelt: boolean,

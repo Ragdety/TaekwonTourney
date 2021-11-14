@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles';
 import {TournamentType} from '../Enums/enums'
 import {ITournamentCreate} from "../Models/creationModels";
 import TournamentService from "../Services/tournamentService";
-import {ITournament} from "../Models/retrivalModels";
+import {Redirect} from "react-router";
 
 export default function TourneyCreationPage(){
     // const [clicked, setClicked] = useState(false);
@@ -43,27 +43,40 @@ export default function TourneyCreationPage(){
     
     const classes = useStyles();
     
-    const initialTournamentState = {
-        Id: 0,
+    const initialTournamentState: ITournamentCreate = {
         TournamentName: "",
         TournamentType: TournamentType.Breaking,
         StartDate: new Date(),
         EndDate: new Date(),
-        OrganizerId: 1,
-        Organizer: null,
-        Participants: null
     };
-    const [tourney, setTourney] = useState<ITournament>(initialTournamentState);
+    const err: any = []
+    
+    const [tourney, setTourney] = useState<ITournamentCreate>(initialTournamentState);
     const [submitted, setSubmitted] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
+    const [errors, setErrors] = useState(err);
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setTourney({ ...tourney, [name]: value });
+        console.log(tourney);
     };
+
+    const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = event.target;
+        setTourney({ ...tourney, [name]: value });
+        console.log(tourney);
+    };
+    
+    const handleError = (e: any) => {
+        console.log(e);
+        err.push(e)
+        setErrors(err);
+    }
 
     const saveTourney = () => {
         let data: ITournamentCreate = {
-            Name: tourney.TournamentName,
+            TournamentName: tourney.TournamentName,
             TournamentType: tourney.TournamentType,
             StartDate: tourney.StartDate,
             EndDate: tourney.EndDate
@@ -72,55 +85,75 @@ export default function TourneyCreationPage(){
         try {
             TournamentService.create(data)
                 .then((response: any) => {
-                    setTourney({
-                        Id: response.data.Id,
-                        TournamentName: response.data.TournamentName,
-                        TournamentType: response.data.TournamentType,
-                        StartDate: response.data.StartDate,
-                        EndDate: response.data.EndDate,
-                        OrganizerId: response.data.OrganizerId
-                    }); 
                     setSubmitted(true);
                     console.log(response.data);
                 })
-                .catch((e: Error) => {
-                    console.log(e);
+                .catch((e: any) => {
+                    console.log('Error', e);
+                    handleError(e);
+                    setError(true);
+                    console.log(errors);
                 });
         } catch (e) {
-            console.log(e);
-            //Will set error states here
+            console.log('Error', e);
+            handleError(e);
+            setError(true);
         }
-    };
-    
+    }
+
+    if(submitted) {
+        return <Redirect to='/Dashboard' />;
+    }
+
     return(
         <div>
             <DashBoardNavBar />
-            <div className={classes.tr}>
+            <form className={classes.tr} onSubmit={(event => event.preventDefault())}>
                 <h1>Name Your Tournament</h1>
-                <input className={classes.inputWidth}/>
+                <input className={classes.inputWidth} 
+                       onChange={(e: any) => setTourney({ ...tourney, TournamentName: e.target.value }) } 
+                       value={tourney.TournamentName} 
+                       id="tournamentName" 
+                       required/>
+                
                 <h1>Tournament Type</h1>
-                {/*<select value={tourneyType} onChange={handleChange}>*/}
-                {/*    {TourneyTypes.map((type:any) => (*/}
-                {/*        <option value={type}>*/}
-                {/*            {type}*/}
-                {/*        </option>*/}
-                {/*    ))}*/}
-                {/*</select>*/}
+                <select onChange={(e: any) => setTourney({ ...tourney, TournamentType: e.target.value }) }
+                        required>
+                    <option value={TournamentType.Breaking}>Breaking</option>
+                    <option value={TournamentType.Forms}>Forms</option>
+                    <option value={TournamentType.Sparring}>Sparring</option>
+                </select>
                 {/*<h3>Tournament Name: </h3>*/}
                 {/*{clicked ? <EventCard /> : null}*/}
+                
                 <h1>Scheduled Date(s) of Tournament</h1>
                 <div>
                     {/*We want these side by side please, remove this comment after*/}
                     <h3>Start Date: </h3>
-                    <input className={classes.inputWidth}/>
+                    <input className={classes.inputWidth}
+                           onChange={(e: any) => setTourney({ ...tourney, StartDate: e.target.value })}
+                           type={"date"}
+                           id="startDate"
+                           required/>
+                    
                     <h3>End Date: </h3>
-                    <input className={classes.inputWidth}/>
+                    <input className={classes.inputWidth}
+                           onChange={(e: any) => setTourney({ ...tourney, EndDate: e.target.value }) }
+                           type={"date"}
+                           id="endDate"
+                           required/>
                 </div>
-                <Stack spacing={2} direction="row" className={classes.center}>
-                    <h1>Add Participants: </h1>
-                    <button className={classes.plusButton} /*onClick={handleClick}*/>Plus</button>
-                </Stack>
-            </div>
+                {/*Will add this when user clicks edit tournament*/}
+                {/*<Stack spacing={2} direction="row" className={classes.center}>*/}
+                {/*    <h1>Add Participants: </h1>*/}
+                {/*    <button className={classes.plusButton} onClick={handleClick}>Plus</button>*/}
+                {/*</Stack>*/}
+                <button onClick={saveTourney} type={"submit"} className="btn btn-success">
+                    Create tournament
+                </button>
+                {/*For now this way of handling errors. TODO: Will fix this later*/}
+                { error && <p style={{color: 'red', marginTop: 2}}>An error ocurred...</p>}
+            </form>
         </div>
     );
 }

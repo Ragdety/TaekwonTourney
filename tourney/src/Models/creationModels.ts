@@ -1,16 +1,16 @@
 ﻿import {BeltLevel, BlackBeltLevel, TournamentType} from '../Enums/enums';
 
 export interface ITournamentCreate {
-    Name: string,
+    TournamentName: string,
     TournamentType: TournamentType,
-    StartDate: Date,
-    EndDate: Date
+    StartDate: Date | null,
+    EndDate: Date | null
 }
 
 export interface IParticipantsCreate {
     FirstName: string,
     LastName: string,
-    DateOfBirth: Date,
+    DateOfBirth: Date | null,
     BeltLevel: BeltLevel,
     BlackBeltLevel: BlackBeltLevel
 }
