@@ -11,11 +11,13 @@ import { makeStyles } from '@mui/styles';
 //import { useCookies } from 'react-cookie';
 //import Cookies from 'js-cookie';
 import FutureTournamentCards from '../Components/FutureTournamentCards';
+import {Redirect} from "react-router";
 export default function Dashboard(){
 
     const [userName, setUserName] = useState('');
     //const [token, setToken] = useCookies(['jwt']);
     const [clicked, setClicked] = useState(false);
+    const [redirectHome, setRedirectHome] = useState(false);
     const useStyles = makeStyles((theme) => ({
         tr: {
           float: 'right',
@@ -39,26 +41,29 @@ export default function Dashboard(){
       function handleClick(){
           setClicked(true);
       }
-    
+      
       const classes = useStyles();
-    
-    useEffect(() => {
+      
+      useEffect(() => {
         (
             async () => {
-                await 
-                    user.get('/me')
+                await user.get('/me')
                     .then((res:any) => {
                         const content = res.data
                         console.log('Response', res.data)
                         console.log(content);
                         setUserName(content.userName);
-                }).catch((error) => {
-                    console.log(error);
-                });
-                
-            }
-        )();
-    });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        if (error.response) {
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                        }
+                        setRedirectHome(true)
+                    });
+            })();
+      });
 
     useEffect(() => {
         (
@@ -74,6 +79,10 @@ export default function Dashboard(){
             }
         )();
     });
+    
+    if(redirectHome) {
+        return <Redirect to='/'/>;
+    }
 
     return(
         <>
