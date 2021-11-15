@@ -124,7 +124,7 @@ namespace TaekwonTourney.API.Repositories
                     new Claim("lastName", newUser.LastName),
                     new Claim("id", newUser.Id.ToString()),
                 }),
-                Expires = DateTime.UtcNow.AddHours(2),
+                Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials =
                     new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -134,7 +134,9 @@ namespace TaekwonTourney.API.Repositories
             return new AuthenticationResult
             {
                 Success = true,
-                Token = tokenHandler.WriteToken(token)
+                Token = tokenHandler.WriteToken(token),
+                ValidFrom = token.ValidFrom.ToLocalTime(),
+                ValidTo = token.ValidTo.ToLocalTime()
             };
         }
     }

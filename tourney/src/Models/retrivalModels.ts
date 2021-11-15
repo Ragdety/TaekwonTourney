@@ -1,7 +1,8 @@
 ﻿import {
     TournamentType,
     BeltLevel, 
-    BlackBeltLevel
+    BlackBeltLevel,
+    UserRole
 } from '../Enums/enums';
 
 export interface ITournament {
@@ -22,4 +23,13 @@ export interface IParticipant {
     BlackBeltLevel: BlackBeltLevel,
     IsBlackBelt: boolean,
     TournamentId: number
+}
+
+export interface IUser {
+    Id: number,
+    FirstName: string,
+    LastName: string,
+    Email: string,
+    UserName: string,
+    UserRole: UserRole
 }

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using TaekwonTourney.Contracts.v1;
 using TaekwonTourney.Core.DomainObjects.DomainModels;
 using TaekwonTourney.Core.Interfaces.RepoInterfaces;
@@ -11,10 +13,14 @@ namespace TaekwonTourney.API.Controllers.v1
     public class IdentityController : Controller
     {
         private readonly IIdentityRepository _identityRepository;
-        
-        public IdentityController(IIdentityRepository identityRepository)
+        private readonly ILogger<IdentityController> _logger;
+
+        public IdentityController(
+            IIdentityRepository identityRepository, 
+            ILogger<IdentityController> logger)
         {
             _identityRepository = identityRepository;
+            _logger = logger;
         }
 
         [HttpPost(ApiRoutes.Identity.Register)]
@@ -40,7 +46,8 @@ namespace TaekwonTourney.API.Controllers.v1
             
             return Ok(new AuthSuccessResponse
             {
-                Token = authResponse.Token
+                Token = authResponse.Token,
+                ValidTo = authResponse.ValidTo
             });
         }
         
@@ -56,10 +63,15 @@ namespace TaekwonTourney.API.Controllers.v1
                     Errors = authResponse.Errors
                 });
             }
+
+            //_logger.LogInformation("Now: {0}", DateTime.UtcNow.ToLocalTime().ToString());
+            //_logger.LogInformation("JWT is validTo: {0}", authResponse.ValidTo.ToString());
             
             return Ok(new AuthSuccessResponse
             {
-                Token = authResponse.Token
+                Token = authResponse.Token,
+                ValidFrom = authResponse.ValidFrom,
+                ValidTo = authResponse.ValidTo
             });
         }
     }

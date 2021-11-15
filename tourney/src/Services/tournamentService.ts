@@ -25,7 +25,7 @@ const getAll = () => {
 
 const get = (id: number) => {
     checkJwt();
-    return api.get<ITournament>(
+    return api.get<any>(
         routes.Tournaments.get.replace('{tournamentId}', id.toString()), 
         headers);
 };

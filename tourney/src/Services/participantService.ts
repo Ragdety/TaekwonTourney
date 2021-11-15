@@ -37,7 +37,7 @@ const get = (tournamentId: number, id: number) => {
 const create = (tournamentId: number, data: IParticipantsCreate) => {
     checkJwt();
     return api.post<IParticipantsCreate>(
-        routes.Tournaments.create
+        routes.Participants.create
             .replace('{tournamentId}', tournamentId.toString()),
         data,
         headers);
@@ -46,7 +46,7 @@ const create = (tournamentId: number, data: IParticipantsCreate) => {
 const update = (tournamentId: number, id: number, data: IParticipantsCreate) => {
     checkJwt();
     return api.put<any>(
-        routes.Tournaments.update
+        routes.Participants.update
             .replace('{tournamentId}', tournamentId.toString())
             .replace('{participantId}', id.toString()),
         data,
@@ -56,7 +56,7 @@ const update = (tournamentId: number, id: number, data: IParticipantsCreate) => 
 const remove = (tournamentId: number, id: number) => {
     checkJwt();
     return api.delete<any>(
-        routes.Tournaments.remove
+        routes.Participants.remove
             .replace('{tournamentId}', tournamentId.toString())
             .replace('{participantId}', id.toString()),
         headers);

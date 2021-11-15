@@ -8,6 +8,7 @@ import TourneyCreationPage from './Pages/TourneyCreationPage';
 import EventCreationPage from './Pages/EventCreationPage';
 import LoggedInAboutPage from './Pages/LoggedInAboutPage';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import TourneyEditPage from "./Pages/TourneyEditPage";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route exact path="/Dashboard" component={Dashboard} />
         <Route exact path="/Profile" component={Profile} />
         <Route exact path="/Create" component={TourneyCreationPage} />
+        <Route exact path="/EditTournament/:tournamentId" component={TourneyEditPage} />
         <Route exact path="/EventCreationPage" component={EventCreationPage} />
         <Route exact path="/LoggedInAboutPage" component={LoggedInAboutPage} />
       </Switch>

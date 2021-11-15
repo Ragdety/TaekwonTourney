@@ -88,10 +88,25 @@ function Login() {
     }
   }
 
-  const handleCookies = (token: any) => {
-    //let expires = new Date()
-    //expires.setTime(expires.getTime() + (response.data.expires_in * 1000))
-    setCookie('jwt', token);
+  const handleCookies = (res: any) => {
+      const jsonObject = JSON.stringify(res.data);
+      const token = JSON.parse(jsonObject).token;
+      const validTo = JSON.parse(jsonObject).validTo;
+      
+      const expires = new Date(validTo.toString());
+      console.log(expires)
+      //const now = new Date();
+
+      //let diffInMilliSeconds = Math.abs(expires.getTime() - now.getTime()) / 1000;
+
+      //const expiresIn = Math.floor(diffInMilliSeconds / 60) % 60;
+      //diffInMilliSeconds -= expiresIn * 60;
+      
+      //console.log(`Token expires in ${expiresIn} minutes`);
+      //expires.setTime(expires.getTime() + (validTo * 1000))
+      setCookie('jwt', token, {
+          expires: expires
+      });
  };
 
   const login = async (e: { preventDefault: () => void; }) => {
@@ -104,11 +119,10 @@ function Login() {
     })
        .then(res => {
           console.log(res);
-          const jsonObject = JSON.stringify(res.data);
-          const token = JSON.parse(jsonObject).token;
-          handleCookies(token);
-          setRedirect(true);
-          
+          handleCookies(res);
+        })
+        .then(res => {
+            setRedirect(true);
         })
         .catch(error => {
           console.log(error);
@@ -127,11 +141,11 @@ function Login() {
     <div className={classes.container}>
       <form className={classes.form} id="signup" onSubmit={login}>
         <h1 className={classes.h1}>Log In</h1>
-          <label className={classes.label}>Email </label>
+          <label className={classes.label}>Username or Email </label>
           <input 
             type="text"
             className={classnames(classes.formInput, {'is-invalid' : emailError, 'is-valid' : !emailError && email.length})} 
-            placeholder="Enter Your Email Address"
+            placeholder="Enter Your Username or Email Address"
             required
             onChange={(e) => handleChange(e, 'email')}
           />

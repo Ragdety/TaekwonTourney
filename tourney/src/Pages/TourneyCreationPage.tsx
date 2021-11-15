@@ -55,18 +55,6 @@ export default function TourneyCreationPage(){
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [errors, setErrors] = useState(err);
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setTourney({ ...tourney, [name]: value });
-        console.log(tourney);
-    };
-
-    const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = event.target;
-        setTourney({ ...tourney, [name]: value });
-        console.log(tourney);
-    };
     
     const handleError = (e: any) => {
         console.log(e);
@@ -74,7 +62,8 @@ export default function TourneyCreationPage(){
         setErrors(err);
     }
 
-    const saveTourney = () => {
+    const saveTourney = (event: any) => {
+        event.preventDefault();
         let data: ITournamentCreate = {
             TournamentName: tourney.TournamentName,
             TournamentType: tourney.TournamentType,
@@ -108,7 +97,8 @@ export default function TourneyCreationPage(){
     return(
         <div>
             <DashBoardNavBar />
-            <form className={classes.tr} onSubmit={(event => event.preventDefault())}>
+            <form className={classes.tr} 
+                  onSubmit={(event => saveTourney(event))}>
                 <h1>Name Your Tournament</h1>
                 <input className={classes.inputWidth} 
                        onChange={(e: any) => setTourney({ ...tourney, TournamentName: e.target.value }) } 
@@ -148,7 +138,7 @@ export default function TourneyCreationPage(){
                 {/*    <h1>Add Participants: </h1>*/}
                 {/*    <button className={classes.plusButton} onClick={handleClick}>Plus</button>*/}
                 {/*</Stack>*/}
-                <button onClick={saveTourney} type={"submit"} className="btn btn-success">
+                <button /*onClick={saveTourney}*/ type={"submit"} className="btn btn-success">
                     Create tournament
                 </button>
                 {/*For now this way of handling errors. TODO: Will fix this later*/}

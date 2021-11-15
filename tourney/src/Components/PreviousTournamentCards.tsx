@@ -11,7 +11,7 @@ export default function PreviousTournamentCards() {
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h6">
-            Tournament Name Held On Date
+            There is a past tournament
           </Typography>
         </CardContent>
       </Box>
