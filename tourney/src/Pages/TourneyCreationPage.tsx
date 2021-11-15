@@ -55,18 +55,6 @@ export default function TourneyCreationPage(){
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [errors, setErrors] = useState(err);
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setTourney({ ...tourney, [name]: value });
-        console.log(tourney);
-    };
-
-    const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const { name, value } = event.target;
-        setTourney({ ...tourney, [name]: value });
-        console.log(tourney);
-    };
     
     const handleError = (e: any) => {
         console.log(e);

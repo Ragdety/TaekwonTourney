@@ -50,11 +50,11 @@ export default function Dashboard(){
       }
       
       const editTourney = (tourneyId: number) => {
-          history.push(`/EditTournament/?id=${tourneyId}`)
+          history.push(`/EditTournament/${tourneyId}`)
       }
       
       const deleteTourney = (tourneyId: number) => {
-          history.push(`/DeleteTournament/?id=${tourneyId}`)
+          history.push(`/DeleteTournament/${tourneyId}`)
       }
       
       const handleTourneyDate = (tourney: any) => {
