@@ -45,7 +45,7 @@ export default function TourneyEditPage(){
     const classes = useStyles();
     
     const { tournamentId }: any = useParams();
-    const err: any = []
+    const initArrayState: any = []
 
     const [tournamentName, setTournamentName] = useState('');
     const [tournamentType, setTournamentType] = useState<TournamentType>(TournamentType.Breaking);
@@ -53,10 +53,10 @@ export default function TourneyEditPage(){
     const [endDate, setEndDate] = useState('');
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
-    const [errors, setErrors] = useState(err);
+    const [errors, setErrors] = useState(initArrayState);
     
     const [participants, setParticipants] = useState([]);
-    const [participant, setParticipant] = useState<IParticipantsCreate>(err);
+    const [participant, setParticipant] = useState<IParticipantsCreate>(initArrayState);
     
     const formatDate = (year: number, month: number, day: number) => {
         return `${year}-${month}-${day}`;
@@ -86,7 +86,7 @@ export default function TourneyEditPage(){
     useEffect(() => {
         const fetchParticipants = async() => {
             try {
-                const res: any = await ParticipantService.getAll(tournamentId)
+                await ParticipantService.getAll(tournamentId)
                     .then((res: any) => {
                         const parts = res.data;
                         //console.log(parts)
@@ -95,7 +95,6 @@ export default function TourneyEditPage(){
                     .then(() => {
                         console.log(participants);
                     });
-                
             } catch (e) {
                 console.error(e);
                 setError(true);
@@ -130,7 +129,7 @@ export default function TourneyEditPage(){
     }
     
     const addParticipant = (event: any) => {
-        event.preventDefault();
+        //event.preventDefault();
         
         try {
             ParticipantService.create(tournamentId, participant)
