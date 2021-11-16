@@ -8,7 +8,7 @@ namespace TaekwonTourney.Core.Interfaces.ServiceInterfaces
 {
     public interface ITournamentService
     {
-        Task<IEnumerable<Tournament>> ListAsync();
+        Task<IEnumerable<Tournament>> ListAsync(int userId);
         Task<Tournament> FindByIdAsync(int id);
         Task<TournamentResponse> CreateAsync(Tournament tournament);
         Task<TournamentResponse> UpdateAsync(int id, TournamentCreationModel tournament);

@@ -9,6 +9,7 @@ import EventCreationPage from './Pages/EventCreationPage';
 import LoggedInAboutPage from './Pages/LoggedInAboutPage';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import TourneyEditPage from "./Pages/TourneyEditPage";
+import Logout from "./Pages/Logout";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/About" component={About} />
         <Route exact path="/Login" component={Login} />
+        <Route exact path="/Logout" component={Logout} />
         <Route exact path="/Register" component={Register} />
         <Route exact path="/Dashboard" component={Dashboard} />
         <Route exact path="/Profile" component={Profile} />

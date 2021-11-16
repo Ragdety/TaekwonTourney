@@ -147,7 +147,7 @@ export default function DashBoardNavBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Link to="/Dashboard" style={{textDecoration:'none', color:'white'}}>
+          <Link to="/" style={{textDecoration:'none', color:'white'}}>
             <IconButton
               size="large"
               edge="start"
@@ -161,10 +161,15 @@ export default function DashBoardNavBar() {
           </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <Link to="/Dashboard" style={{textDecoration:'none', color:'white'}}>
+          <Link to="/" style={{textDecoration:'none', color:'white'}}>
             <Button size="large" aria-label="Home Page" style={{marginRight: '50px'}} color="inherit">
                   Home
             </Button>
+          </Link>
+          <Link to="/Dashboard" style={{textDecoration:'none', color:'white'}}>
+              <Button size="large" aria-label="Home Page" style={{marginRight: '50px'}} color="inherit">
+                  Dashboard
+              </Button>
           </Link>
           <Link to="/LoggedInAboutPage" style={{textDecoration:'none', color:'white'}}>
               <Button
@@ -174,6 +179,18 @@ export default function DashBoardNavBar() {
                 color="inherit"
               >
                   About
+              </Button>
+          </Link>
+          <Link to="/Logout" style={{textDecoration:'none', color:'white'}}>
+              <Button
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  /*onClick= *handleProfileMenuOpen*/
+                  color="inherit"
+              >
+                  Logout
               </Button>
           </Link>
           <AccountProfile />

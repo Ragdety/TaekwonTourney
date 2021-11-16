@@ -151,6 +151,11 @@ export default function NavBar() {
                   Home
             </Button>
           </Link>
+          <Link to="/Dashboard" style={{textDecoration:'none', color:'white'}}>
+              <Button size="large" aria-label="Home Page" style={{marginRight: '50px'}} color="inherit">
+                  Dashboard
+              </Button>
+          </Link>
           <Link to="/About" style={{textDecoration:'none', color:'white'}}>
               <Button
                 size="large"

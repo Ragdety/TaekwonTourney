@@ -12,7 +12,7 @@ using TaekwonTourney.Core.Responses;
 namespace TaekwonTourney.API.Controllers.v1
 {
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-	public class TournamentController : Controller
+	public class TournamentController : ApiController
 	{
 		//Will use the repo in controller to get what we need
 		private readonly ITournamentService _tournamentService;
@@ -25,8 +25,9 @@ namespace TaekwonTourney.API.Controllers.v1
 		}
 
 		[HttpGet(ApiRoutes.Tournaments.GetAll)]
+		[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 		public async Task<IActionResult> GetAll() =>
-			Ok(await _tournamentService.ListAsync());   
+			Ok(await _tournamentService.ListAsync(int.Parse(UserId)));   
 		
 
 		[HttpGet(ApiRoutes.Tournaments.Get)]
