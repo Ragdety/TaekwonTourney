@@ -25,9 +25,9 @@ namespace TaekwonTourney.API.Services
             _logger = logger;
         }
         
-        public async Task<IEnumerable<Tournament>> ListAsync()
+        public async Task<IEnumerable<Tournament>> ListAsync(int userId)
         {
-            return await _tournamentRepository.FindAllAsync();
+            return await _tournamentRepository.FindAllAsync(userId);
         }
 
         public async Task<Tournament> FindByIdAsync(int id)

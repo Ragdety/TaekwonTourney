@@ -7,7 +7,7 @@ namespace TaekwonTourney.Core.Interfaces.RepoInterfaces
 	public interface ITournamentRepository
 	{
 		Task CreateAsync(Tournament tournament);
-		Task<IEnumerable<Tournament>> FindAllAsync();
+		Task<IEnumerable<Tournament>> FindAllAsync(int userId);
 		Task<Tournament> FindByIdAsync(int tournamentId);
 		void Update(Tournament tournament);
 		void Delete(Tournament tournament);

@@ -70,6 +70,7 @@ function Register() {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [redirect, setRedirect] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [error, setError] = useState(false);
 
   const handleChange = (e: any, name: any) => {
     const user: any = {};
@@ -125,10 +126,7 @@ function Register() {
           const errors = error.response.data;
           console.log(errors);
           //Will set error states here:
-          setErrors(errors);
-          errors.forEach((er: any) => {
-             <h1>{er}</h1>
-           });
+          setError(true);
         });
     console.log(res);
   }
@@ -210,7 +208,7 @@ function Register() {
          {confirmPasswordError && <p className={classes.p2} style={{color: 'red'}}>{confirmPasswordError}</p>}
 
         <button className={classes.submitButton} type="submit" /*onClick={register}*/>Register</button>
-        {errors && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{errors}</p>}
+        {error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}
       </form>
       <p className={classes.p4}>Already have an account? 
          <Link to="/Login" style={{textDecoration:'none', color:'blue'}}> 

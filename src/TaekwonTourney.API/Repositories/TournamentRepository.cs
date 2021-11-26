@@ -22,9 +22,11 @@ namespace TaekwonTourney.API.Repositories
 			await _db.Tournaments.AddAsync(tournament);
 		}
 		
-		public async Task<IEnumerable<Tournament>> FindAllAsync()
+		public async Task<IEnumerable<Tournament>> FindAllAsync(int userId)
 		{
-			return await _db.Tournaments.ToListAsync();
+			return await _db.Tournaments
+				.Where(x => x.OrganizerId == userId)
+				.ToListAsync();
 		}
 		
 		public async Task<Tournament> FindByIdAsync(int tournamentId)
