@@ -14,6 +14,7 @@ import AccountProfile from './AccountProfile';
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 interface MyTheme {
   background: string;
@@ -32,6 +33,7 @@ export default function DashBoardNavBar() {
   }));
 
   const classes = useStyles();
+  const history = useHistory();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -58,6 +60,22 @@ export default function DashBoardNavBar() {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  function handleHome(){
+      history.push('/Dashboard')
+  }
+
+  function handleAbout(){
+      history.push('/LoggedInAboutPage');
+  }
+
+  function handleProfile(){
+      history.push('/Profile');
+  }
+
+  function handleLogout(){
+      history.push('Logout');
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -100,13 +118,14 @@ export default function DashBoardNavBar() {
       onClose={handleMobileMenuClose}
     >
 
-      <MenuItem style={{marginLeft: -20}}>
+      <MenuItem style={{marginLeft: -20}} onClick={handleHome}>
           <IconButton size="large" aria-label="Home" color="inherit">
               <HomeIcon />
           </IconButton>
           <p>Home</p>
       </MenuItem>
-      <MenuItem style={{marginLeft: -20}}>
+
+      <MenuItem style={{marginLeft: -20}} onClick={handleAbout}>
           <IconButton
             size="large"
             aria-label="About"
@@ -116,7 +135,8 @@ export default function DashBoardNavBar() {
           </IconButton>
           <p>About</p>
       </MenuItem>
-      <MenuItem style={{marginLeft: -20}} /*onClick= *handleProfileMenuOpen*/>
+
+      <MenuItem style={{marginLeft: -20}} onClick={handleProfile}>
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -128,7 +148,8 @@ export default function DashBoardNavBar() {
           </IconButton>
           <p>Profile</p>
       </MenuItem>
-      <MenuItem style={{marginLeft: -20}} /*onClick= *handleProfileMenuOpen*/>
+
+      <MenuItem style={{marginLeft: -20}} onClick={handleLogout}>
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -140,6 +161,7 @@ export default function DashBoardNavBar() {
           </IconButton>
           <p>Log Out</p>
       </MenuItem>
+
     </Menu>
   );
 

@@ -12,6 +12,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 interface MyTheme {
   background: string;
@@ -25,7 +26,7 @@ export default function NavBar() {
       marignLeft: -20,
     },
     mobile: {
-      marginTop: 30, marginLeft: 10, maxWidth: 130,
+      marginTop: 35, marginLeft: 10, maxWidth: 160,
     }
   }));
 
@@ -43,6 +44,23 @@ export default function NavBar() {
     setAnchorEl(event.currentTarget);
   };
   */
+const history = useHistory();
+
+function handleHome(){
+  history.push('/');
+}
+
+function handleLogin(){
+  history.push('/Login');
+}
+
+function handleAbout(){
+  history.push('/About');
+}
+
+function handleDashboard(){
+  history.push('/Dashboard');
+}
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -98,13 +116,13 @@ export default function NavBar() {
       onClose={handleMobileMenuClose}
     >
 
-      <MenuItem style={{marginLeft: -20}}>
+      <MenuItem style={{marginLeft: -20}}  onClick={handleHome}>
           <IconButton size="large" aria-label="Home" color="inherit">
               <HomeIcon />
           </IconButton>
           <p>Home</p>
       </MenuItem>
-      <MenuItem style={{marginLeft: -20}}>
+      <MenuItem style={{marginLeft: -20}} onClick={handleAbout}>
           <IconButton
             size="large"
             aria-label="About"
@@ -114,7 +132,19 @@ export default function NavBar() {
           </IconButton>
           <p>About</p>
       </MenuItem>
-      <MenuItem style={{marginLeft: -20}} /*onClick= *handleProfileMenuOpen*/>
+      <MenuItem style={{marginLeft: -20}} onClick={handleDashboard}/*onClick= *handleProfileMenuOpen*/>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+              <AccountCircle />
+          </IconButton>
+          <p>Dashboard</p>
+      </MenuItem>
+      <MenuItem style={{marginLeft: -20}} onClick={handleLogin}/*onClick= *handleProfileMenuOpen*/>
           <IconButton
             size="large"
             aria-label="account of current user"

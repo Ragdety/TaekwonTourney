@@ -13,6 +13,8 @@ import {TourneyDate} from "../Enums/enums";
 import api from "../Api/api";
 import apiRoutes from "../Contracts/apiRoutes";
 import Cookies from "js-cookie";
+import Button from '@mui/material/Button';
+import moment from 'moment';
 
 export default function Dashboard(){
 
@@ -33,7 +35,7 @@ export default function Dashboard(){
     const useStyles = makeStyles((theme) => ({
         tr: {
           float: 'right',
-          marginTop: -80,
+          marginTop: -90,
           marginRight: -22,
           backgroundColor: '#4aedc4',
             '&: hover':{
@@ -43,7 +45,7 @@ export default function Dashboard(){
             fontSize: '18px',
             color: 'white',
             height: '35px',
-            width: '180px',
+            width: '168px',
             border: 'none',
             borderRadius: '6px',
             cursor: 'pointer',
@@ -182,8 +184,8 @@ export default function Dashboard(){
     return(
         <>
             <DashBoardNavBar />
-            <h1>Dashboard</h1>
-                <Typography variant="h6">
+            <h2 style={{fontSize: 28}}>Dashboard</h2>
+                <Typography variant="h5">
                     Hello {userName}!
                 </Typography>
                 <Grid>
@@ -194,27 +196,27 @@ export default function Dashboard(){
             <div>
                 {allTournaments && (
                     allTournaments.map((tourney: any) => (
-                        <Card sx={{ display: 'flex'}} style={{width: '70%', marginLeft: 20}} >
+                        <Card sx={{ display: 'flex'}} style={{width: '60%', marginLeft: 20, marginBottom: 20}} >
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }}>
-                                    <Typography component="div" variant="h4">
+                                    <Typography component="div" variant="h5">
                                         {tourney.tournamentName}
                                     </Typography>
                                     <Typography component="div">
                                         {tourney.tournamentType}
                                     </Typography>
                                     <Typography component="div">
-                                        Start Date: {tourney.startDate}
+                                        Start Date: {moment(tourney.startDate).format('MMMM/DD/YYYY')}
                                     </Typography>
                                     <Typography component="div">
-                                        End Date: {tourney.endDate}
+                                        End Date: {moment(tourney.endDate).format('MMMM/DD/YYYY')}
                                     </Typography>
-                                    <button onClick={() => editTourney(tourney.id)}>
+                                    <Button color="primary" onClick={() => editTourney(tourney.id)}>
                                         Edit
-                                    </button>
-                                    <button onClick={() => deleteTourney(tourney.id)}>
+                                    </Button>
+                                    <Button color="primary" onClick={() => deleteTourney(tourney.id)}>
                                         Delete
-                                    </button>
+                                    </Button>
                                 </CardContent>
                             </Box>
                         </Card>

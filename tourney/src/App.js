@@ -1,5 +1,6 @@
 import Home from './Pages/Home.tsx';
 import About from './Pages/About.tsx';
+import MeetTheTeam from './Pages/MeetTheTeam';
 import Login from './Pages/Login.tsx';
 import Register from './Pages/Register.tsx';
 import Dashboard from './Pages/Dashboard.tsx';
@@ -17,6 +18,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/About" component={About} />
+        <Route exact path="/MeetTheTeam" component={MeetTheTeam} />
         <Route exact path="/Login" component={Login} />
         <Route exact path="/Logout" component={Logout} />
         <Route exact path="/Register" component={Register} />

@@ -7,10 +7,27 @@ import TournamentService from "../Services/tournamentService";
 import {Redirect} from "react-router";
 import {useParams} from "react-router-dom";
 import ParticipantService from "../Services/participantService";
-import {Card} from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Button from '@mui/material/Button';
+import moment from 'moment';
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import { TextField } from '@mui/material';
 
 export default function TourneyEditPage(){
     const useStyles = makeStyles((theme) => ({
+        content: {
+            justifyContent: 'center',
+            textAlign: 'center',
+            alignItems: 'center',
+        },
         tr: {
             display: 'grid',
             textAlign: 'center',
@@ -57,6 +74,15 @@ export default function TourneyEditPage(){
     
     const [participants, setParticipants] = useState([]);
     const [participant, setParticipant] = useState<IParticipantsCreate>(initArrayState);
+
+    const [expanded, setExpanded] = React.useState<string | false>(false);
+
+    const handleChange = (panel: string) => (
+        event: React.SyntheticEvent,
+        isExpanded: boolean
+    ) => {
+        setExpanded(isExpanded ? panel : false);
+    };
     
     const formatDate = (year: number, month: number, day: number) => {
         return `${year}-${month}-${day}`;
@@ -159,16 +185,18 @@ export default function TourneyEditPage(){
                        onChange={(e) => {setTournamentName(e.target.value)}}
                        value={tournamentName}
                        id="tournamentName"
-                       required/>
+                       required style={{height: 40, fontSize: 17, textAlign: 'center'}}/>
 
                 <h1>Tournament Type</h1>
-                <select onChange={(e: any) => {setTournamentType(e.target.value)}}
+                <div style={{textAlign: 'center'}}>
+                <select style={{width: '50%', textAlign: 'center', height: 50, fontSize: 20}} onChange={(e: any) => {setTournamentType(e.target.value)}}
                         value={tournamentType}
                         required>
-                    <option value={TournamentType.Breaking}>Breaking</option>
-                    <option value={TournamentType.Forms}>Forms</option>
-                    <option value={TournamentType.Sparring}>Sparring</option>
+                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Breaking}>Breaking</option>
+                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Forms}>Forms</option>
+                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Sparring}>Sparring</option>
                 </select>
+                </div>
                 {/*<h3>Tournament Name: </h3>*/}
                 {/*{clicked ? <EventCard /> : null}*/}
 
@@ -181,7 +209,8 @@ export default function TourneyEditPage(){
                            type={"date"}
                            id="startDate"
                            required 
-                           value={startDate}/>
+                           value={startDate}
+                           style={{width: '42%', fontSize: 15}}/>
 
                     <h3>End Date: </h3>
                     <input className={classes.inputWidth}
@@ -189,81 +218,145 @@ export default function TourneyEditPage(){
                            type={"date"}
                            id="endDate"
                            required 
-                           value={endDate}/>
+                           value={endDate}
+                           style={{width: '42%', fontSize: 15, marginBottom: 20}}/>
                 </div>
                 {/*Will add this when user clicks edit tournament*/}
                 {/*<Stack spacing={2} direction="row" className={classes.center}>*/}
                 {/*    <h1>Add Participants: </h1>*/}
                 {/*    <button className={classes.plusButton} onClick={handleClick}>Plus</button>*/}
                 {/*</Stack>*/}
-                <button type={"submit"} className="btn btn-success">
-                    Update tournament
-                </button>
+                <div style={{textAlign: 'center'}}>
+                    <Button color="primary" style={{backgroundColor: '#4aedc4', color: '#0e4686'}} type={"submit"} className="btn btn-success">
+                        Update tournament
+                    </Button>
+                </div>
                 {/*For now this way of handling errors. TODO: Will fix this later*/}
                 { error && <p style={{color: 'red', marginTop: 2}}>An error ocurred...</p>}
             </form>
             
             <div>
-                <h1>Add Participant</h1>
+                <h1 style={{textAlign: 'center'}}>Add Participant</h1>
                 <form onSubmit={addParticipant}>
+                    <h3 style={{textAlign: 'center'}}>First Name</h3>
                     <input className={classes.inputWidth}
                            onChange={(e: any) => setParticipant({ ...participant, FirstName: e.target.value }) }
                            id="firstName"
                            placeholder={'First Name'}
-                           required/>
+                           required
+                           style={{width: '45%', marginBottom: 20}}
+                           />
+                    <h3 style={{textAlign: 'center'}}>Last Name</h3>
                     <input className={classes.inputWidth}
                            onChange={(e: any) => setParticipant({ ...participant, LastName: e.target.value }) }
                            id="lastName"
                            placeholder={'Last Name'}
-                           required/>
+                           required
+                           style={{width: '45%', marginBottom: 20}}/>
+                    <h3 style={{textAlign: 'center'}}>Date Of Birth</h3>
                     <input className={classes.inputWidth}
                            onChange={(e: any) => setParticipant({ ...participant, DateOfBirth: e.target.value }) }
                            id="dateOfBirth"
                            type={'date'}
-                           required/>
-                    <select onChange={(e: any) => setParticipant({ ...participant, BeltLevel: e.target.value }) }
-                            required 
-                            id="beltLevel">
-                        <option value={BeltLevel.White}>White</option>
-                        <option value={BeltLevel.Yellow}>Yellow</option>
-                        <option value={BeltLevel.SeniorYellow}>SeniorYellow</option>
-                        <option value={BeltLevel.Green}>Green</option>
-                        <option value={BeltLevel.SeniorGreen}>SeniorGreen</option>
-                        <option value={BeltLevel.Blue}>Blue</option>
-                        <option value={BeltLevel.SeniorBlue}>SeniorBlue</option>
-                        <option value={BeltLevel.Red}>Red</option>
-                        <option value={BeltLevel.SeniorRed}>SeniorRed</option>
-                        <option value={BeltLevel.BoDan}>BoDan</option>
-                        <option value={BeltLevel.BlackBelt}>BlackBelt</option>
-                    </select>
-                    
-                    <select onChange={(e: any) => setParticipant({ ...participant, BlackBeltLevel: e.target.value }) }
-                            id="beltLevel">
-                        <option value={''} selected></option>
-                        <option value={BlackBeltLevel.FirstDan}>FirstDan</option>
-                        <option value={BlackBeltLevel.SecondDan}>SecondDan</option>
-                        <option value={BlackBeltLevel.ThirdDan}>ThirdDan</option>
-                        <option value={BlackBeltLevel.FourthDan}>FourthDan</option>
-                        <option value={BlackBeltLevel.FifthDan}>FifthDan</option>
-                        <option value={BlackBeltLevel.SixthDan}>SixthDan</option>
-                        <option value={BlackBeltLevel.SeventhDan}>SeventhDan</option>
-                    </select>
-                    <button type="submit">
-                        Add Participant
-                    </button>
+                           required
+                           style={{width: '42%', fontSize: 15, marginBottom: 20}}/>
+                    <h3 style={{textAlign: 'center'}}>Belt Level</h3>
+                    <Grid textAlign="center">
+                        <Grid item direction="column">
+                            <select onChange={(e: any) => setParticipant({ ...participant, BeltLevel: e.target.value }) }
+                                    required 
+                                    id="beltLevel"
+                                    style={{fontSize: 20, textAlign: 'center', marginBottom: 20, width: '30%'}}>
+                                <option value={BeltLevel.White}>White</option>
+                                <option value={BeltLevel.Yellow}>Yellow</option>
+                                <option value={BeltLevel.SeniorYellow}>SeniorYellow</option>
+                                <option value={BeltLevel.Green}>Green</option>
+                                <option value={BeltLevel.SeniorGreen}>SeniorGreen</option>
+                                <option value={BeltLevel.Blue}>Blue</option>
+                                <option value={BeltLevel.SeniorBlue}>SeniorBlue</option>
+                                <option value={BeltLevel.Red}>Red</option>
+                                <option value={BeltLevel.SeniorRed}>SeniorRed</option>
+                                <option value={BeltLevel.BoDan}>BoDan</option>
+                                <option value={BeltLevel.BlackBelt}>BlackBelt</option>
+                            </select>
+                        </Grid>
+
+                        <Grid item direction="column">
+                            <select onChange={(e: any) => setParticipant({ ...participant, BlackBeltLevel: e.target.value }) }
+                                    id="beltLevel" style={{fontSize: 20, textAlign: 'center', marginBottom: 20, width: '30%'}}>
+                                <option value={''} selected></option>
+                                <option value={BlackBeltLevel.FirstDan}>FirstDan</option>
+                                <option value={BlackBeltLevel.SecondDan}>SecondDan</option>
+                                <option value={BlackBeltLevel.ThirdDan}>ThirdDan</option>
+                                <option value={BlackBeltLevel.FourthDan}>FourthDan</option>
+                                <option value={BlackBeltLevel.FifthDan}>FifthDan</option>
+                                <option value={BlackBeltLevel.SixthDan}>SixthDan</option>
+                                <option value={BlackBeltLevel.SeventhDan}>SeventhDan</option>
+                            </select>
+                        </Grid>
+
+                        <Grid item direction="column">
+                            <Button color="primary" style={{backgroundColor: '#4aedc4', color: '#0e4686', marginLeft: 10, marginTop: -10}} type={"submit"} className="btn btn-success">
+                                Add Participant
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </form>
                 <div style={{marginBottom: 2}}>
                     {/*<h1>Participants</h1>*/}
-                    {participants && participants.map((p: any) => (
-                        <Card key={p.id}
-                              sx={{ display: 'block'}} style={{width: '70%', marginLeft: 20}} >
-                            <p>{p.firstName}</p>
-                            <p>{p.lastName}</p>
-                            <p>{p.dateOfBirth}</p>
-                            <p>{p.beltLevel}</p>
-                            {p.isBlackBelt && <p>{p.blackBeltLevel}</p>}
-                        </Card>
-                    ))}
+                            <Card style={{marginLeft: 20, marginTop: 10}} sx={{ maxWidth: 280 }}>
+                                <CardHeader
+                                    title="Top 8 Live Rankings"
+                                    style={{textAlign: 'center'}}
+                                />
+                                    <CardContent>
+                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>1. Name Points: </Typography>
+                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>2. Name Points: </Typography>
+                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>3. Name Points: </Typography>
+                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>4. Name Points: </Typography>
+                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>5. Name Points: </Typography>
+                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>6. Name Points: </Typography>
+                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>7. Name Points: </Typography>
+                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>8. Name Points: </Typography>
+                                    </CardContent>
+                            </Card>
+                    <Grid container direction="column" justifyContent="center" alignSelf="center" alignContent="center" alignItems="center" textAlign="center" textOverflow="hidden">
+                        {participants && participants.map((p: any) => (
+                            <>
+                                <Grid item direction="column" xs={8}>
+                                    <Accordion
+                                        expanded={expanded === "panel1"}
+                                        onChange={handleChange("panel1")}
+                                        key={p.id}
+                                        className={classes.content}
+                                        style={{marginTop: 20, marginBottom: 20 }}
+                                    >
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel4bh-content"
+                                            id="panel4bh-header"
+                                        >
+                                                <Typography sx={{ flexShrink: 0, overflow: 'hidden' }}>{p.firstName}  {p.lastName}</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Stack spacing={1} direction="row">
+                                                <p>Date Of Birth:</p>
+                                                <p style={{ marginTop: 16 }}>{moment(p.dateOfBirth).format('MMMM-DD-YYYY')}</p>
+                                            </Stack>
+                                            <Stack spacing={0.5} direction="row">
+                                                <p>Belt Level:</p>
+                                                <p style={{ marginTop: 16 }}>{p.beltLevel}</p>
+                                            </Stack>
+                                            <Stack spacing={1} direction="row">
+                                                Points: <TextField size="small" style={{width: '60%', marginLeft: 10, marginTop: -10}}/>
+                                            </Stack>
+                                            <Button style={{float: 'left', color:"red", fontSize: 10}}>Delete Participant</Button>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                </Grid> 
+                            </>
+                        ))}
+                    </Grid>
                 </div>
             </div>
         </div>
