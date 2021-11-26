@@ -122,7 +122,7 @@ function Login() {
           handleCookies(res);
         })
         .then(res => {
-            //setRedirect(true);
+            setRedirect(true);
         })
         .catch(error => {
           console.log(error);
