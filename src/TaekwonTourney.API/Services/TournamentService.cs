@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using TaekwonTourney.Core.DomainObjects.DomainModels;
+using TaekwonTourney.Core.DomainObjects.DomainModels.Filters;
 using TaekwonTourney.Core.Interfaces.RepoInterfaces;
 using TaekwonTourney.Core.Interfaces.ServiceInterfaces;
 using TaekwonTourney.Core.Models;
@@ -25,9 +26,9 @@ namespace TaekwonTourney.API.Services
             _logger = logger;
         }
         
-        public async Task<IEnumerable<Tournament>> ListAsync()
+        public async Task<IEnumerable<Tournament>> ListAsync(int userId, GetAllTournamentsFilter filter = null)
         {
-            return await _tournamentRepository.FindAllAsync();
+            return await _tournamentRepository.FindAllAsync(userId, filter);
         }
 
         public async Task<Tournament> FindByIdAsync(int id)

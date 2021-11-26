@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TaekwonTourney.Core.DomainObjects.DomainModels;
+using TaekwonTourney.Core.DomainObjects.DomainModels.Filters;
 using TaekwonTourney.Core.Models;
 using TaekwonTourney.Core.Responses;
 
@@ -8,7 +9,7 @@ namespace TaekwonTourney.Core.Interfaces.ServiceInterfaces
 {
     public interface ITournamentService
     {
-        Task<IEnumerable<Tournament>> ListAsync();
+        Task<IEnumerable<Tournament>> ListAsync(int userId, GetAllTournamentsFilter filter = null);
         Task<Tournament> FindByIdAsync(int id);
         Task<TournamentResponse> CreateAsync(Tournament tournament);
         Task<TournamentResponse> UpdateAsync(int id, TournamentCreationModel tournament);

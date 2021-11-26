@@ -1,10 +1,13 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaekwonTourney.API.Extensions;
 using TaekwonTourney.Contracts.v1;
+using TaekwonTourney.Contracts.v1.Queries;
 using TaekwonTourney.Core.DomainObjects.DomainModels;
+using TaekwonTourney.Core.DomainObjects.DomainModels.Filters;
 using TaekwonTourney.Core.Interfaces.ServiceInterfaces;
 using TaekwonTourney.Core.Models;
 using TaekwonTourney.Core.Responses;
@@ -12,22 +15,28 @@ using TaekwonTourney.Core.Responses;
 namespace TaekwonTourney.API.Controllers.v1
 {
 	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-	public class TournamentController : Controller
+	public class TournamentController : ApiController
 	{
-		//Will use the repo in controller to get what we need
 		private readonly ITournamentService _tournamentService;
 		private readonly IUriService _uriService;
+		private readonly IMapper _mapper;
 
-		public TournamentController(ITournamentService tournamentService, IUriService uriService)
+		public TournamentController(
+			ITournamentService tournamentService, 
+			IUriService uriService, 
+			IMapper mapper)
 		{
 			_tournamentService = tournamentService;
 			_uriService = uriService;
+			_mapper = mapper;
 		}
 
 		[HttpGet(ApiRoutes.Tournaments.GetAll)]
-		public async Task<IActionResult> GetAll() =>
-			Ok(await _tournamentService.ListAsync());   
-		
+		public async Task<IActionResult> GetAll([FromQuery] GetAllTournamentsQuery query)
+		{
+			var filter = _mapper.Map<GetAllTournamentsFilter>(query);
+			return Ok(await _tournamentService.ListAsync(int.Parse(UserId), filter));
+		}
 
 		[HttpGet(ApiRoutes.Tournaments.Get)]
 		public async Task<IActionResult> Get([FromRoute] int tournamentId)
