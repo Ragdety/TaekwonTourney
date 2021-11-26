@@ -4,10 +4,15 @@ import {makeStyles} from '@mui/styles';
 import {BeltLevel, BlackBeltLevel, TournamentType} from '../Enums/enums'
 import {IParticipantsCreate} from "../Models/creationModels";
 import TournamentService from "../Services/tournamentService";
-import {Redirect} from "react-router";
+import {Redirect, Route} from "react-router";
 import {useParams} from "react-router-dom";
 import ParticipantService from "../Services/participantService";
 import {Card} from "@mui/material";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import { Grid, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 export default function TourneyEditPage(){
     const useStyles = makeStyles((theme) => ({
@@ -57,6 +62,11 @@ export default function TourneyEditPage(){
     
     const [participants, setParticipants] = useState([]);
     const [participant, setParticipant] = useState<IParticipantsCreate>(initArrayState);
+    const history = useHistory();
+
+    function goBack(){
+        history.push('/Dashboard');
+    }
     
     const formatDate = (year: number, month: number, day: number) => {
         return `${year}-${month}-${day}`;
@@ -154,7 +164,15 @@ export default function TourneyEditPage(){
             <DashBoardNavBar />
             <form className={classes.tr}
                   onSubmit={(event => editTourney(event))}>
-                <h1>Name Your Tournament</h1>
+                    <Stack spacing = {1} direction = "row">
+                            <IconButton aria-label = "Go-Back" onClick={goBack} style={{float: 'left', fontSize: 20}}>
+                                <ArrowBackIcon style={{float: 'left', height: 50, width: 50}}/>
+                            </IconButton>
+                            <Typography variant= "h5" style={{float: 'left', marginTop: 18}}>
+                                Go Back
+                            </Typography>
+                    </Stack>
+                    <h1>Name Your Tournament</h1>
                 <input className={classes.inputWidth}
                        onChange={(e) => {setTournamentName(e.target.value)}}
                        value={tournamentName}

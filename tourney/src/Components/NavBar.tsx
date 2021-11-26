@@ -141,7 +141,7 @@ export default function NavBar() {
               aria-label="open drawer"
               sx={{ mr: 2 }}
             >
-              Taekwon Tourney
+              TaekwonTourney
             </IconButton>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
