@@ -72,7 +72,7 @@ export default function HomeCard() {
           </Grid>
           <Grid item>
             <Card sx={{ maxWidth: 345 }}>
-              <CardActionArea href="/Login">
+              <CardActionArea href="/MeetTheTeam">
                 <CardHeader title="Meet The Team" />
                   <CardMedia
                       component="img"
