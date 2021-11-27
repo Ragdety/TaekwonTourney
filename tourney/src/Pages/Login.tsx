@@ -68,6 +68,7 @@ function Login() {
   const [passwordError] = useState('');
   const [redirect, setRedirect] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [error, setError] = useState(false);
 
   const handleChange = (e: any, name: any) => {
     const user: any = {};
@@ -129,12 +130,12 @@ function Login() {
           const errors = error.response.data;
           //Will set error states here:
           console.log(errors);
-          setErrors(errors);
+          setError(true);
         });
   }
 
   if(redirect){
-    return <Redirect to='/Dashboard' />;
+    return <Redirect to='/' />;
   }
 
   return (
@@ -161,10 +162,8 @@ function Login() {
           <p className={classes.p2}></p>
           {/*{passwordError && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{passwordError}</p>}*/}
         <button className={classes.submitButton} type="submit">Log In</button>
-          {errors.map(e =>
-          {
-              <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{e}</p>
-          })}
+
+          {error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}
         {/*{errors && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{errors}</p>}*/}
       </form>
       <p className={classes.p4}>Don't have an account? 

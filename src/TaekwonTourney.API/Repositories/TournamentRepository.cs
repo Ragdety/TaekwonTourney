@@ -24,7 +24,7 @@ namespace TaekwonTourney.API.Repositories
 		{
 			await _db.Tournaments.AddAsync(tournament);
 		}
-		
+
 		public async Task<IEnumerable<Tournament>> FindAllAsync(int userId, GetAllTournamentsFilter filter = null)
 		{
 			var queryable = _db.Tournaments.AsQueryable();
@@ -41,10 +41,10 @@ namespace TaekwonTourney.API.Repositories
 					_ => queryable.Where(t => DateTime.Now < t.StartDate)
 				};
 			}
-			
+
 			return await queryable.ToListAsync();
-		}
-		
+		}	
+
 		public async Task<Tournament> FindByIdAsync(int tournamentId)
 		{
 			return await _db.Tournaments.FindAsync(tournamentId);

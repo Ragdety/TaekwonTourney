@@ -74,5 +74,10 @@ namespace TaekwonTourney.API.Controllers.v1
                 ValidTo = authResponse.ValidTo
             });
         }
+
+        // public Task<IActionResult> Logout()
+        // {
+        //     HttpContext.
+        // }
     }
 }

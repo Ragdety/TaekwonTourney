@@ -10,6 +10,11 @@ import TournamentService from "../Services/tournamentService";
 import {useHistory} from 'react-router-dom';
 import Box from "@mui/material/Box";
 import {TourneyDate} from "../Enums/enums";
+import api from "../Api/api";
+import apiRoutes from "../Contracts/apiRoutes";
+import Cookies from "js-cookie";
+import Button from '@mui/material/Button';
+import moment from 'moment';
 
 export default function Dashboard(){
 
@@ -22,13 +27,15 @@ export default function Dashboard(){
     const [previousTourneys, setPreviousTourneys] = useState(initArr);
     const [currentTourneys, setCurrentTourneys] = useState(initArr);
     const [futureTourneys, setFutureTourneys] = useState(initArr);
+    const [error, setError] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     const history = useHistory();
     
     const useStyles = makeStyles((theme) => ({
         tr: {
           float: 'right',
-          marginTop: -80,
+          marginTop: -90,
           marginRight: -22,
           backgroundColor: '#4aedc4',
             '&: hover':{
@@ -38,7 +45,7 @@ export default function Dashboard(){
             fontSize: '18px',
             color: 'white',
             height: '35px',
-            width: '180px',
+            width: '168px',
             border: 'none',
             borderRadius: '6px',
             cursor: 'pointer',
@@ -52,9 +59,23 @@ export default function Dashboard(){
       const editTourney = (tourneyId: number) => {
           history.push(`/EditTournament/${tourneyId}`)
       }
+
+      function refreshPage() {
+        window.location.reload();
+      }
       
-      const deleteTourney = (tourneyId: number) => {
-          history.push(`/DeleteTournament/${tourneyId}`)
+      const deleteTourney = async (tourneyId: number) => {
+          try {
+              await TournamentService.remove(tourneyId)
+                  .then(() => {
+                      refreshPage();
+                  })
+                  .catch((e:any) => {
+                      setError(true)
+              })
+          } catch (e) {
+              setError(true)
+          }
       }
       
       const handleTourneyDate = (tourney: any) => {
@@ -75,51 +96,96 @@ export default function Dashboard(){
       
       const classes = useStyles();
       
-      useEffect(() => {
-        (
-            async () => {
-                await user.get('/me')
-                    .then((res:any) => {
-                        const content = res.data
-                        //console.log('Response', res.data)
-                        //console.log(content);
-                        setUserName(content.userName);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        if (error.response) {
-                            console.log(error.response.data);
-                            console.log(error.response.status);
-                        }
-                        setRedirectHome(true)
-                    });
-            })();
-      });
+      // useEffect(() => {
+      //   (
+      //       async () => {
+      //           try {
+      //               await api.get(apiRoutes.Users.getMe, {
+      //                   headers: {
+      //                       Authorization: `Bearer ${ Cookies.get('jwt') }`
+      //                   }
+      //               })
+      //                   .then((res:any) => {
+      //                       const content = res.data
+      //                       //console.log('Response', res.data)
+      //                       //console.log(content);
+      //                       setUserName(content.userName);
+      //                   })
+      //                   .catch((error) => {
+      //                       console.log(error);
+      //                       if (error.response) {
+      //                           console.log(error.response.data);
+      //                           console.log(error.response.status);
+      //                       }
+      //                       setError(true);
+      //                       //setRedirectHome(true)
+      //                   });
+      //           }
+      //           catch(e) {
+      //               setError(true);
+      //           }
+      //       })();
+      // });
 
     useEffect(() => {
         (
             async () => {
-                await TournamentService.getAll()
-                    .then((res: any) => {
-                        const tourneys = res.data;
-                        setAllTournaments(tourneys);
+                try {
+                    await api.get(apiRoutes.Users.getMe, {
+                        headers: {
+                            Authorization: `Bearer ${ Cookies.get('jwt') }`
+                        }
                     })
-                    .catch((error: any) => {
-                        console.log(error)
-                    });
+                        .then((res:any) => {
+                            const content = res.data
+                            //console.log('Response', res.data)
+                            //console.log(content);
+                            setUserName(content.userName);
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            if (error.response) {
+                                console.log(error.response.data);
+                                console.log(error.response.status);
+                            }
+                            setError(true);
+                            //setRedirectHome(true)
+                        });
+                }
+                catch(e) {
+                    setError(true);
+                }
+                
+                try {
+                    await TournamentService.getAll()
+                        .then((res: any) => {
+                            const tourneys = res.data;
+                            setAllTournaments(tourneys);
+                        })
+                        .catch((error: any) => {
+                            console.log(error)
+                            setError(true);
+                        });
+                }
+                catch (e) {
+                    setError(true);
+                }
             }
         )();
-    }, []);
+    }, [allTournaments]);
     
     if(redirectHome) {
         return <Redirect to='/'/>;
+    }
+    else if(refresh) {
+        return <Redirect to='/Dashboard'/>;
     }
 
     return(
         <>
             <DashBoardNavBar />
-            <h1>Dashboard</h1>
-                <Typography variant="h6">
+            <h2 style={{fontSize: 28}}>Dashboard</h2>
+                <Typography variant="h5">
                     Hello {userName}!
                 </Typography>
                 <Grid>
@@ -130,32 +196,34 @@ export default function Dashboard(){
             <div>
                 {allTournaments && (
                     allTournaments.map((tourney: any) => (
-                        <Card sx={{ display: 'flex'}} style={{width: '70%', marginLeft: 20}} >
+                        <Card sx={{ display: 'flex'}} style={{width: '60%', marginLeft: 20, marginBottom: 20}} >
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }}>
-                                    <Typography component="div" variant="h4">
+                                    <Typography component="div" variant="h5">
                                         {tourney.tournamentName}
                                     </Typography>
                                     <Typography component="div">
                                         {tourney.tournamentType}
                                     </Typography>
                                     <Typography component="div">
-                                        Start Date: {tourney.startDate}
+                                        Start Date: {moment(tourney.startDate).format('MMMM/DD/YYYY')}
                                     </Typography>
                                     <Typography component="div">
-                                        End Date: {tourney.endDate}
+                                        End Date: {moment(tourney.endDate).format('MMMM/DD/YYYY')}
                                     </Typography>
-                                    <button onClick={() => editTourney(tourney.id)}>
+                                    <Button color="primary" onClick={() => editTourney(tourney.id)}>
                                         Edit
-                                    </button>
-                                    <button onClick={() => deleteTourney(tourney.id)}>
+                                    </Button>
+                                    <Button color="primary" onClick={() => deleteTourney(tourney.id)}>
                                         Delete
-                                    </button>
+                                    </Button>
                                 </CardContent>
                             </Box>
                         </Card>
                     ))
                 )}
+
+                {error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}
                 
                 {/*<Typography >Previous Tournaments</Typography>*/}
                 {/*{previousTourneys && previousTourneys.map((tourney: any) => (*/}
