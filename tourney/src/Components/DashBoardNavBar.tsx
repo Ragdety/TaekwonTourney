@@ -178,7 +178,7 @@ export default function DashBoardNavBar() {
               sx={{ mr: 2 }}
               style={{float: 'right'}}
             >
-              Taekwon Tourney
+              TaekwonTourney
             </IconButton>
           </Link>
           <Box sx={{ flexGrow: 1 }} />

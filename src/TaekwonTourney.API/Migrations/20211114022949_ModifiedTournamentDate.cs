@@ -7,10 +7,6 @@ namespace TaekwonTourney.API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Something",
-                table: "Users");
-
             migrationBuilder.RenameColumn(
                 name: "TournamentDate",
                 table: "Tournaments",
@@ -34,12 +30,6 @@ namespace TaekwonTourney.API.Migrations
                 name: "StartDate",
                 table: "Tournaments",
                 newName: "TournamentDate");
-
-            migrationBuilder.AddColumn<string>(
-                name: "Something",
-                table: "Users",
-                type: "nvarchar(max)",
-                nullable: true);
         }
     }
 }
