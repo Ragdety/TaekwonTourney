@@ -21,6 +21,8 @@ function About(){
                     <li>Tournament history</li>
                 </ul>
 
+                <p>We hope you enjoy our application!</p>
+
                 
 
             </div>

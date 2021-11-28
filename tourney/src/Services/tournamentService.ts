@@ -3,6 +3,7 @@ import {ITournamentCreate} from "../Models/creationModels";
 import {ITournament} from "../Models/retrivalModels";
 import Cookies from "js-cookie";
 import routes from '../Contracts/apiRoutes'
+import {TourneyTime} from "../Enums/enums";
 
 const checkJwt = () => {
     let jwt = Cookies.get('jwt');
@@ -21,6 +22,22 @@ const headers = {
 const getAll = () => {
     checkJwt();
     return api.get<Array<ITournament>>(routes.Tournaments.getAll, headers);
+};
+
+const getByDateEnum = (time: TourneyTime) => {
+    checkJwt();
+    if(time == TourneyTime.Past) {
+        return api.get<Array<ITournament>>(routes.Tournaments.getAll + '/?TournamentTime=Past', headers);
+    }
+    else if(time == TourneyTime.Current) {
+        return api.get<Array<ITournament>>(routes.Tournaments.getAll + '/?TournamentTime=Current', headers);
+    }
+    else if(time == TourneyTime.Future) {
+        return api.get<Array<ITournament>>(routes.Tournaments.getAll + '/?TournamentTime=Future', headers);
+    }
+    else {
+        return getAll();
+    }
 };
 
 const get = (id: number) => {
@@ -55,6 +72,7 @@ const remove = (id: number) => {
 
 const TournamentService = {
     getAll,
+    getByDateEnum,
     get,
     create,
     update,
