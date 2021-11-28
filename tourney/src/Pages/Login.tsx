@@ -131,12 +131,16 @@ function Login() {
           //Will set error states here:
           console.log(errors);
           setError(true);
+          setErrors(errors);
         });
   }
 
   if(redirect){
     return <Redirect to='/' />;
   }
+  const stringedErrors =  JSON.stringify(errors);
+  const parsed = JSON.parse(stringedErrors);
+  let values = Object.values(parsed);
 
   return (
     <div className={classes.container}>
@@ -163,7 +167,7 @@ function Login() {
           {/*{passwordError && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{passwordError}</p>}*/}
         <button className={classes.submitButton} type="submit">Log In</button>
 
-          {error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}
+          {error && <p style={{color: 'red', marginTop: 5}}>{values}</p>}
         {/*{errors && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{errors}</p>}*/}
       </form>
       <p className={classes.p4}>Don't have an account? 
