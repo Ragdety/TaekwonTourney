@@ -3,18 +3,18 @@ import {Card, CardContent, Grid, Typography} from '@mui/material';
 import user from "../APICalls/user";
 import DashBoardNavBar from '../Components/DashBoardNavBar';
 import {makeStyles} from '@mui/styles';
-import PreviousTournamentCards from '../Components/PreviousTournamentCards';
-import CurrentTournamentCards from '../Components/CurrentTournamentCards';
+import {PastTournamentCards} from '../Components/PastTournamentCards';
 import {Redirect} from "react-router";
 import TournamentService from "../Services/tournamentService";
 import {useHistory} from 'react-router-dom';
 import Box from "@mui/material/Box";
-import {TourneyDate} from "../Enums/enums";
+import {TourneyTime} from "../Enums/enums";
 import api from "../Api/api";
 import apiRoutes from "../Contracts/apiRoutes";
 import Cookies from "js-cookie";
 import Button from '@mui/material/Button';
 import moment from 'moment';
+import {FutureTournamentCards} from "../Components/FutureTournamentCards";
 
 export default function Dashboard(){
 
@@ -24,7 +24,7 @@ export default function Dashboard(){
     const [clicked, setClicked] = useState(false);
     const [redirectHome, setRedirectHome] = useState(false);
     const [allTournaments, setAllTournaments] = useState([]);
-    const [previousTourneys, setPreviousTourneys] = useState(initArr);
+    const [pastTourneys, setPastTourneys] = useState(initArr);
     const [currentTourneys, setCurrentTourneys] = useState(initArr);
     const [futureTourneys, setFutureTourneys] = useState(initArr);
     const [error, setError] = useState(false);
@@ -78,54 +78,7 @@ export default function Dashboard(){
           }
       }
       
-      const handleTourneyDate = (tourney: any) => {
-          const now = new Date();
-          const tourneyStartDate = new Date(tourney.startDate)
-          const tourneyEndDate = new Date(tourney.endDate)
-          
-          if(tourneyEndDate < now) {
-              return TourneyDate.Previous;
-          }
-          else if(now > tourneyStartDate && now < tourneyEndDate) {
-              return TourneyDate.Current;
-          }
-          else {
-              return TourneyDate.Future;
-          }
-      }
-      
       const classes = useStyles();
-      
-      // useEffect(() => {
-      //   (
-      //       async () => {
-      //           try {
-      //               await api.get(apiRoutes.Users.getMe, {
-      //                   headers: {
-      //                       Authorization: `Bearer ${ Cookies.get('jwt') }`
-      //                   }
-      //               })
-      //                   .then((res:any) => {
-      //                       const content = res.data
-      //                       //console.log('Response', res.data)
-      //                       //console.log(content);
-      //                       setUserName(content.userName);
-      //                   })
-      //                   .catch((error) => {
-      //                       console.log(error);
-      //                       if (error.response) {
-      //                           console.log(error.response.data);
-      //                           console.log(error.response.status);
-      //                       }
-      //                       setError(true);
-      //                       //setRedirectHome(true)
-      //                   });
-      //           }
-      //           catch(e) {
-      //               setError(true);
-      //           }
-      //       })();
-      // });
 
     useEffect(() => {
         (
@@ -173,7 +126,73 @@ export default function Dashboard(){
             }
         )();
     }, [allTournaments]);
-    
+
+
+    useEffect(() => {
+        (
+            async () => {
+                try {
+                    await TournamentService.getByDateEnum(TourneyTime.Past)
+                        .then((res: any) => {
+                            const tourneys = res.data;
+                            setPastTourneys(tourneys);
+                        })
+                        .catch((error: any) => {
+                            console.log(error);
+                            setError(true);
+                        });
+                }
+                catch (e) {
+                    console.log(e);
+                    setError(true);
+                }
+            }
+        )();
+    }, [pastTourneys]);
+
+    useEffect(() => {
+        (
+            async () => {
+                try {
+                    await TournamentService.getByDateEnum(TourneyTime.Current)
+                        .then((res: any) => {
+                            const tourneys = res.data;
+                            setCurrentTourneys(tourneys);
+                        })
+                        .catch((error: any) => {
+                            console.log(error);
+                            setError(true);
+                        });
+                }
+                catch (e) {
+                    console.log(e);
+                    setError(true);
+                }
+            }
+        )();
+    }, [currentTourneys]);
+
+    useEffect(() => {
+        (
+            async () => {
+                try {
+                    await TournamentService.getByDateEnum(TourneyTime.Future)
+                        .then((res: any) => {
+                            const tourneys = res.data;
+                            setFutureTourneys(tourneys);
+                        })
+                        .catch((error: any) => {
+                            console.log(error);
+                            setError(true);
+                        });
+                }
+                catch (e) {
+                    console.log(e);
+                    setError(true);
+                }
+            }
+        )();
+    }, [futureTourneys]);
     
     
     if(redirectHome) {
@@ -196,8 +215,16 @@ export default function Dashboard(){
                     </Grid>
                 </Grid>
             <div>
-                {allTournaments && (
-                    allTournaments.map((tourney: any) => (
+                <h2>Past Tournaments</h2>
+                {pastTourneys.length > 0 ? (
+                    pastTourneys.map((tourney: any) => (
+                        <PastTournamentCards tourney={tourney}/>
+                    ))
+                ): <div>No past tournaments</div>}
+
+                <h2>Current Tournaments</h2>
+                {currentTourneys.length > 0 ? (
+                    currentTourneys.map((tourney: any) => (
                         <Card sx={{ display: 'flex'}} style={{width: '60%', marginLeft: 20, marginBottom: 20}} >
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }}>
@@ -223,43 +250,16 @@ export default function Dashboard(){
                             </Box>
                         </Card>
                     ))
-                )}
+                ): <div>No current tournaments</div>}
+
+                <h2>Future Tournaments</h2>
+                {futureTourneys.length > 0 ? (
+                    futureTourneys.map((tourney: any) => (
+                        <FutureTournamentCards tourney={tourney}/>
+                    ))
+                ): <div>No future tournaments</div>}
 
                 {error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}
-                
-                {/*<Typography >Previous Tournaments</Typography>*/}
-                {/*{previousTourneys && previousTourneys.map((tourney: any) => (*/}
-                {/*    <PreviousTournamentCards/>*/}
-                {/*))}*/}
-                {/*{currentTourneys && currentTourneys.map((tourney: any) => (*/}
-                {/*    <CurrentTournamentCards/>*/}
-                {/*))}*/}
-                {/*{futureTourneys && futureTourneys.map((tourney: any) => (*/}
-                {/*    <Card sx={{ display: 'flex'}} style={{width: '70%', marginLeft: 20}} >*/}
-                {/*        <Box sx={{ display: 'flex', flexDirection: 'column' }}>*/}
-                {/*            <CardContent sx={{ flex: '1 0 auto' }}>*/}
-                {/*                <Typography component="div" variant="h4">*/}
-                {/*                    {tourney.tournamentName}*/}
-                {/*                </Typography>*/}
-                {/*                <Typography component="div">*/}
-                {/*                    {tourney.tournamentType}*/}
-                {/*                </Typography>*/}
-                {/*                <Typography component="div">*/}
-                {/*                    Start Date: {tourney.startDate}*/}
-                {/*                </Typography>*/}
-                {/*                <Typography component="div">*/}
-                {/*                    End Date: {tourney.endDate}*/}
-                {/*                </Typography>*/}
-                {/*                <button onClick={() => editTourney(tourney.id)}>*/}
-                {/*                    Edit*/}
-                {/*                </button>*/}
-                {/*                <button onClick={() => deleteTourney(tourney.id)}>*/}
-                {/*                    Delete*/}
-                {/*                </button>*/}
-                {/*            </CardContent>*/}
-                {/*        </Box>*/}
-                {/*    </Card>*/}
-                {/*))}*/}
             </div>
         </>
     )
