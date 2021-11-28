@@ -174,6 +174,8 @@ export default function Dashboard(){
         )();
     }, [allTournaments]);
     
+    
+    
     if(redirectHome) {
         return <Redirect to='/'/>;
     }
