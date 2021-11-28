@@ -3,8 +3,7 @@ import {Card, CardContent, Grid, Typography} from '@mui/material';
 import user from "../APICalls/user";
 import DashBoardNavBar from '../Components/DashBoardNavBar';
 import {makeStyles} from '@mui/styles';
-import PreviousTournamentCards from '../Components/PreviousTournamentCards';
-import CurrentTournamentCards from '../Components/CurrentTournamentCards';
+import {PastTournamentCards} from '../Components/PastTournamentCards';
 import {Redirect} from "react-router";
 import TournamentService from "../Services/tournamentService";
 import {useHistory} from 'react-router-dom';
@@ -15,6 +14,7 @@ import apiRoutes from "../Contracts/apiRoutes";
 import Cookies from "js-cookie";
 import Button from '@mui/material/Button';
 import moment from 'moment';
+import {FutureTournamentCards} from "../Components/FutureTournamentCards";
 
 export default function Dashboard(){
 
@@ -215,65 +215,17 @@ export default function Dashboard(){
                     </Grid>
                 </Grid>
             <div>
-                {/*{allTournaments && (*/}
-                {/*    allTournaments.map((tourney: any) => (*/}
-                {/*        <Card sx={{ display: 'flex'}} style={{width: '60%', marginLeft: 20, marginBottom: 20}} >*/}
-                {/*            <Box sx={{ display: 'flex', flexDirection: 'column' }}>*/}
-                {/*                <CardContent sx={{ flex: '1 0 auto' }}>*/}
-                {/*                    <Typography component="div" variant="h5">*/}
-                {/*                        {tourney.tournamentName}*/}
-                {/*                    </Typography>*/}
-                {/*                    <Typography component="div">*/}
-                {/*                        {tourney.tournamentType}*/}
-                {/*                    </Typography>*/}
-                {/*                    <Typography component="div">*/}
-                {/*                        Start Date: {moment(tourney.startDate).format('MMMM/DD/YYYY')}*/}
-                {/*                    </Typography>*/}
-                {/*                    <Typography component="div">*/}
-                {/*                        End Date: {moment(tourney.endDate).format('MMMM/DD/YYYY')}*/}
-                {/*                    </Typography>*/}
-                {/*                    <Button color="primary" onClick={() => editTourney(tourney.id)}>*/}
-                {/*                        Edit*/}
-                {/*                    </Button>*/}
-                {/*                    <Button color="primary" onClick={() => deleteTourney(tourney.id)}>*/}
-                {/*                        Delete*/}
-                {/*                    </Button>*/}
-                {/*                </CardContent>*/}
-                {/*            </Box>*/}
-                {/*        </Card>*/}
-                {/*    ))*/}
-                {/*)}*/}
-
                 <h2>Past Tournaments</h2>
                 {pastTourneys.length > 0 ? (
                     pastTourneys.map((tourney: any) => (
-                        <Card sx={{ display: 'flex'}} style={{width: '60%', marginLeft: 20, marginBottom: 20}} >
-                            
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <CardContent sx={{ flex: '1 0 auto' }}>
-                                    <Typography component="div" variant="h5">
-                                        {tourney.tournamentName}
-                                    </Typography>
-                                    <Typography component="div">
-                                        {tourney.tournamentType}
-                                    </Typography>
-                                    <Typography component="div">
-                                        Start Date: {moment(tourney.startDate).format('MMMM/DD/YYYY')}
-                                    </Typography>
-                                    <Typography component="div">
-                                        End Date: {moment(tourney.endDate).format('MMMM/DD/YYYY')}
-                                    </Typography>
-                                </CardContent>
-                            </Box>
-                        </Card>
+                        <PastTournamentCards tourney={tourney}/>
                     ))
-                ): <div>No past tournament data</div>}
+                ): <div>No past tournaments</div>}
 
                 <h2>Current Tournaments</h2>
                 {currentTourneys.length > 0 ? (
                     currentTourneys.map((tourney: any) => (
                         <Card sx={{ display: 'flex'}} style={{width: '60%', marginLeft: 20, marginBottom: 20}} >
-
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }}>
                                     <Typography component="div" variant="h5">
@@ -303,63 +255,11 @@ export default function Dashboard(){
                 <h2>Future Tournaments</h2>
                 {futureTourneys.length > 0 ? (
                     futureTourneys.map((tourney: any) => (
-                        <Card sx={{ display: 'flex'}} style={{width: '60%', marginLeft: 20, marginBottom: 20}} >
-
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                <CardContent sx={{ flex: '1 0 auto' }}>
-                                    <Typography component="div" variant="h5">
-                                        {tourney.tournamentName}
-                                    </Typography>
-                                    <Typography component="div">
-                                        {tourney.tournamentType}
-                                    </Typography>
-                                    <Typography component="div">
-                                        Start Date: {moment(tourney.startDate).format('MMMM/DD/YYYY')}
-                                    </Typography>
-                                    <Typography component="div">
-                                        End Date: {moment(tourney.endDate).format('MMMM/DD/YYYY')}
-                                    </Typography>
-                                </CardContent>
-                            </Box>
-                        </Card>
+                        <FutureTournamentCards tourney={tourney}/>
                     ))
                 ): <div>No future tournaments</div>}
 
                 {error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}
-                
-                {/*<Typography >Previous Tournaments</Typography>*/}
-                {/*{previousTourneys && previousTourneys.map((tourney: any) => (*/}
-                {/*    <PreviousTournamentCards/>*/}
-                {/*))}*/}
-                {/*{currentTourneys && currentTourneys.map((tourney: any) => (*/}
-                {/*    <CurrentTournamentCards/>*/}
-                {/*))}*/}
-                {/*{futureTourneys && futureTourneys.map((tourney: any) => (*/}
-                {/*    <Card sx={{ display: 'flex'}} style={{width: '70%', marginLeft: 20}} >*/}
-                {/*        <Box sx={{ display: 'flex', flexDirection: 'column' }}>*/}
-                {/*            <CardContent sx={{ flex: '1 0 auto' }}>*/}
-                {/*                <Typography component="div" variant="h4">*/}
-                {/*                    {tourney.tournamentName}*/}
-                {/*                </Typography>*/}
-                {/*                <Typography component="div">*/}
-                {/*                    {tourney.tournamentType}*/}
-                {/*                </Typography>*/}
-                {/*                <Typography component="div">*/}
-                {/*                    Start Date: {tourney.startDate}*/}
-                {/*                </Typography>*/}
-                {/*                <Typography component="div">*/}
-                {/*                    End Date: {tourney.endDate}*/}
-                {/*                </Typography>*/}
-                {/*                <button onClick={() => editTourney(tourney.id)}>*/}
-                {/*                    Edit*/}
-                {/*                </button>*/}
-                {/*                <button onClick={() => deleteTourney(tourney.id)}>*/}
-                {/*                    Delete*/}
-                {/*                </button>*/}
-                {/*            </CardContent>*/}
-                {/*        </Box>*/}
-                {/*    </Card>*/}
-                {/*))}*/}
             </div>
         </>
     )

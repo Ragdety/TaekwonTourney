@@ -3,21 +3,27 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import moment from "moment";
 
-export default function FutureTournamentCards() {
-
+export const FutureTournamentCards = ({tourney}: any) => {
   return (
-      <Card sx={{ display: 'flex'}} style={{width: '70%', marginLeft: 20}} >
-        <CardActionArea href="/Create">
+      <Card sx={{ display: 'flex'}} style={{width: '60%', marginLeft: 20, marginBottom: 20}} >
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <CardContent sx={{ flex: '1 0 auto' }}>
-                <Typography component="div" variant="h6">
-                  Tournament Held On Date
-                </Typography>
+                  <Typography component="div" variant="h5">
+                      {tourney.tournamentName}
+                  </Typography>
+                  <Typography component="div">
+                      {tourney.tournamentType}
+                  </Typography>
+                  <Typography component="div">
+                      Start Date: {moment(tourney.startDate).format('MMMM/DD/YYYY')}
+                  </Typography>
+                  <Typography component="div">
+                      End Date: {moment(tourney.endDate).format('MMMM/DD/YYYY')}
+                  </Typography>
               </CardContent>
           </Box>
-        </CardActionArea>
       </Card>
   );
 }
