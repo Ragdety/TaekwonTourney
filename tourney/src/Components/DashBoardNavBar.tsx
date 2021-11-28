@@ -210,7 +210,7 @@ export default function DashBoardNavBar() {
                   aria-controls={menuId}
                   aria-haspopup="true"
                   /*onClick= *handleProfileMenuOpen*/
-                  color="inherit"
+                  color="inherit" 
               >
                   Logout
               </Button>
