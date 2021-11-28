@@ -17,11 +17,8 @@ import moment from 'moment';
 import {FutureTournamentCards} from "../Components/FutureTournamentCards";
 
 export default function Dashboard(){
-
     const initArr: any[] = [];
     const [userName, setUserName] = useState('');
-    //const [token, setToken] = useCookies(['jwt']);
-    const [clicked, setClicked] = useState(false);
     const [redirectHome, setRedirectHome] = useState(false);
     const [allTournaments, setAllTournaments] = useState([]);
     const [pastTourneys, setPastTourneys] = useState(initArr);
@@ -68,7 +65,7 @@ export default function Dashboard(){
           try {
               await TournamentService.remove(tourneyId)
                   .then(() => {
-                      refreshPage();
+                      
                   })
                   .catch((e:any) => {
                       setError(true)
@@ -138,13 +135,15 @@ export default function Dashboard(){
                             setPastTourneys(tourneys);
                         })
                         .catch((error: any) => {
-                            console.log(error);
+                            console.log('API LEVEL ERROR', error);
                             setError(true);
                         });
                 }
                 catch (e) {
-                    console.log(e);
+                    console.log('AUTH ERROR: ', e);
+                    alert("You've been logged out, you will be redirected to home page");
                     setError(true);
+                    setRedirectHome(true);
                 }
             }
         )();
@@ -165,8 +164,10 @@ export default function Dashboard(){
                         });
                 }
                 catch (e) {
-                    console.log(e);
+                    console.log('AUTH ERROR: ', e);
+                    alert("You've been logged out, you will be redirected to home page");
                     setError(true);
+                    setRedirectHome(true);
                 }
             }
         )();
@@ -187,8 +188,10 @@ export default function Dashboard(){
                         });
                 }
                 catch (e) {
-                    console.log(e);
+                    console.log('AUTH ERROR: ', e);
+                    alert("You've been logged out, you will be redirected to home page");
                     setError(true);
+                    setRedirectHome(true);
                 }
             }
         )();
@@ -225,7 +228,7 @@ export default function Dashboard(){
                 <h2>Current Tournaments</h2>
                 {currentTourneys.length > 0 ? (
                     currentTourneys.map((tourney: any) => (
-                        <Card sx={{ display: 'flex'}} style={{width: '60%', marginLeft: 20, marginBottom: 20}} >
+                        <Card sx={{ display: 'flex'}} style={{width: '20%', marginLeft: 20, marginBottom: 20}} >
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }}>
                                     <Typography component="div" variant="h5">
