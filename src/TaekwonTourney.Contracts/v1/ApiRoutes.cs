@@ -49,5 +49,24 @@ namespace TaekwonTourney.Contracts.v1
 			public const string Me = UsersBase + "/me";
 			public const string UserProfile = UsersBase + "/";
 		}
+		
+		public static class Matches
+		{
+			public const string MatchesBase = 
+				Tournaments.TournamentBase + "/{tournamentId}" + "/matches";
+			
+			//public const string GetTournamentMatches = MatchesBase;
+			//public const string GetTournamentMatch = MatchesBase + "/{matchId}";
+			public const string CreateTournamentMatch = MatchesBase;
+		}
+		
+		public static class Rankings
+		{
+			public const string RankingsBase = 
+				Tournaments.TournamentBase + "/{tournamentId}" + "/rankings";
+			
+			public const string GetTournamentRankings = RankingsBase;
+			public const string CreateTournamentRankings = RankingsBase;
+		}
 	}
 }

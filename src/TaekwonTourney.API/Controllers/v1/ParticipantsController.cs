@@ -70,12 +70,8 @@ namespace TaekwonTourney.API.Controllers.v1
         [HttpGet(ApiRoutes.TournamentParticipants.GetAllTournamentParticipants)]
         public async Task<IActionResult> GetAllTournamentParticipants([FromRoute] int tournamentId)
         {
-            var participants = 
+            var participants =
                 await _participantService.FindAllParticipantsAsync(tournamentId);
-            if(participants == null)
-               return NotFound(new ParticipantResponse(
-                   $"No participants found within tournament with ID: {tournamentId}"));
-               
             return Ok(participants);
         }
         

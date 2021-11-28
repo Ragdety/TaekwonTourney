@@ -15,7 +15,12 @@ namespace TaekwonTourney.API.Installers
 			services.AddControllers()
 				//To parse enums as strings 
 				.AddJsonOptions(options => 
-					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));;
+					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+			
+			services.AddControllersWithViews()
+				.AddNewtonsoftJson(options =>
+					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+				);
 		}
 	}
 }
