@@ -27,9 +27,7 @@ import { TextField } from '@mui/material';
 export default function TourneyEditPage(){
     const useStyles = makeStyles((theme) => ({
         content: {
-            justifyContent: 'center',
-            textAlign: 'center',
-            alignItems: 'center',
+            float: 'right',
         },
         tr: {
             display: 'grid',
@@ -212,14 +210,16 @@ export default function TourneyEditPage(){
                             </Typography>
                     </Stack>
                     <h1>Name Your Tournament</h1>
-                <input className={classes.inputWidth}
-                       onChange={(e) => {setTournamentName(e.target.value)}}
-                       value={tournamentName}
-                       id="tournamentName"
-                       required style={{height: 40, fontSize: 17, textAlign: 'center'}}/>
-
+                    <div>
+                        <input
+                        onChange={(e) => {setTournamentName(e.target.value)}}
+                        value={tournamentName}
+                        id="tournamentName"
+                        required 
+                        style={{height: 40, fontSize: 17, textAlign: 'center', width: '65%'}}/>
+                    </div>
                 <h1>Tournament Type</h1>
-                <div style={{textAlign: 'center'}}>
+                <div>
                 <select style={{width: '50%', textAlign: 'center', height: 50, fontSize: 20}} onChange={(e: any) => {setTournamentType(e.target.value)}}
                         value={tournamentType}
                         required>
@@ -292,12 +292,11 @@ export default function TourneyEditPage(){
                            required
                            style={{width: '42%', fontSize: 15, marginBottom: 20}}/>
                     <h3 style={{textAlign: 'center'}}>Belt Level</h3>
-                    <Grid textAlign="center">
-                        <Grid item direction="column">
+                    <div style={{textAlign: 'center', display: 'grid'}}>
                             <select onChange={(e: any) => setParticipant({ ...participant, BeltLevel: e.target.value }) }
                                     required 
                                     id="beltLevel"
-                                    style={{fontSize: 20, textAlign: 'center', marginBottom: 20, width: '30%'}}>
+                                    style={{fontSize: 20, marginLeft: 10, width: '50%', margin: '0 auto', textAlign: 'center'}}>
                                 <option value={BeltLevel.White}>White</option>
                                 <option value={BeltLevel.Yellow}>Yellow</option>
                                 <option value={BeltLevel.SeniorYellow}>SeniorYellow</option>
@@ -310,11 +309,9 @@ export default function TourneyEditPage(){
                                 <option value={BeltLevel.BoDan}>BoDan</option>
                                 <option value={BeltLevel.BlackBelt}>BlackBelt</option>
                             </select>
-                        </Grid>
-
-                        <Grid item direction="column">
+                            <br></br>
                             <select onChange={(e: any) => setParticipant({ ...participant, BlackBeltLevel: e.target.value }) }
-                                    id="beltLevel" style={{fontSize: 20, textAlign: 'center', marginBottom: 20, width: '30%'}}>
+                                    id="beltLevel" style={{fontSize: 20, marginBottom: 20, width: '50%', margin: '0 auto'}}>
                                 <option value={''} selected></option>
                                 <option value={BlackBeltLevel.FirstDan}>FirstDan</option>
                                 <option value={BlackBeltLevel.SecondDan}>SecondDan</option>
@@ -324,36 +321,32 @@ export default function TourneyEditPage(){
                                 <option value={BlackBeltLevel.SixthDan}>SixthDan</option>
                                 <option value={BlackBeltLevel.SeventhDan}>SeventhDan</option>
                             </select>
-                        </Grid>
-
-                        <Grid item direction="column">
-                            <Button color="primary" style={{backgroundColor: '#4aedc4', color: '#0e4686', marginLeft: 10, marginTop: -10}} type={"submit"} className="btn btn-success">
+                            <br></br>
+                            <Button color="primary" style={{backgroundColor: '#4aedc4', color: '#0e4686', marginLeft: 10, marginTop: -10, width: 150, margin: '0 auto', marginBottom: 10}} type={"submit"} className="btn btn-success">
                                 Add Participant
                             </Button>
-                        </Grid>
-                    </Grid>
+                    </div>
                 </form>
                 <div style={{marginBottom: 2}}>
-                    {/*<h1>Participants</h1>*/}
-                    <Grid container direction="column" justifyContent="center" alignSelf="center" alignContent="center" alignItems="center" textAlign="center" textOverflow="hidden">
-                        {participants && participants.map((p: any) => (
-                            <>
-                                <Grid item direction="column" xs={8}>
-                                    <Accordion
-                                        expanded={expanded === "panel1"}
-                                        onChange={handleChange("panel1")}
-                                        key={p.id}
-                                        className={classes.content}
-                                        style={{marginTop: 20, marginBottom: 20 }}
-                                    >
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel4bh-content"
-                                            id="panel4bh-header"
+                    <Grid textOverflow="hidden">
+                        <Grid item container direction="column" justifyContent="end" alignSelf="end" alignContent="end" alignItems="end" textAlign="center" style={{marginLeft: -5}}>
+                            {participants && participants.map((p: any) => (
+                                <>
+                                        <Accordion
+                                            expanded={expanded === "panel1"}
+                                            onChange={handleChange("panel1")}
+                                            key={p.id}
+                                            className={classes.content}
+                                            style={{marginTop: 10, marginBottom: 10}}
                                         >
-                                                <Typography sx={{ flexShrink: 0, overflow: 'hidden' }}>{p.firstName}  {p.lastName}</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
+                                            <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-controls="panel4bh-content"
+                                                id="panel4bh-header"
+                                            >
+                                                <Typography sx={{ width: '300%' }}>{p.firstName}  {p.lastName}</Typography>
+                                            </AccordionSummary>
+                                            <AccordionDetails>
                                             <Stack spacing={1} direction="row">
                                                 <p>Date Of Birth:</p>
                                                 <p style={{ marginTop: 16 }}>{moment(p.dateOfBirth).format('MMMM-DD-YYYY')}</p>
@@ -368,10 +361,10 @@ export default function TourneyEditPage(){
                                             </Button>
                                         </AccordionDetails>
                                     </Accordion>
-                                </Grid> 
-                            </>
-                        ))}
-                    </Grid>
+                                </>
+                            ))}
+                        </Grid>
+                    </Grid> 
                 </div>
             </div>
         </div>

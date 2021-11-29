@@ -36,19 +36,24 @@ const BreakingRankings = () => {
         fetchRankings();
     }, [rankings]);
     
+    const goBack = () => {
+        history.push('/Dashboard');
+    }
+    
     return (
       <div>
+          <button onClick={goBack}>Go Back</button>
           <Card style={{marginLeft: 20, marginTop: 10}}>
               <CardHeader
                   title="Live (not yet) Rankings"
                   style={{textAlign: 'center'}}
               />
               <CardContent>
-                  {rankings && rankings.map((r: any) => (
+                  {rankings.length > 0 ? rankings.map((r: any) => (
                       <Typography style={{marginBottom: 10, fontSize: 20}}>
                           {r.participantFirstName} {r.participantLastName} - Broken: {r.participantScore}
                       </Typography>
-                  ))}
+                  )): <div>No rankings yet...</div>}
               </CardContent>
           </Card>
           {error && <p style={{color: "red"}}>An error occurred...</p>}

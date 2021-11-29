@@ -127,7 +127,7 @@ const BreakingTourneyJudgePage = () => {
         <div>
             <button onClick={handleGoBack}>Go Back</button>
             <h1>Breaking Tournament Judge Page</h1>
-            {participants && participants.map((p: any) => (
+            {participants.length > 0 ? participants.map((p: any) => (
                 <>
                     <Grid item direction="column" xs={8}>
                         <Accordion
@@ -161,7 +161,7 @@ const BreakingTourneyJudgePage = () => {
                         </Accordion>
                     </Grid>
                 </>
-            ))}
+            )): <div>No Participants Yet...</div>}
         </div>
     );
 }
