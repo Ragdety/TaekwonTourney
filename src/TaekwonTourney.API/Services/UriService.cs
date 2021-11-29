@@ -23,5 +23,18 @@ namespace TaekwonTourney.API.Services
                                                  .Replace("{participantId}", participantId)
                                                  .Replace("{tournamentId}", tournamentId));
         }
+
+        public Uri GetMatchUri(string matchId, string tournamentId)
+        {
+            throw new NotImplementedException();
+            // return new Uri(_baseUri + ApiRoutes.Matches.GetTournamentMatch
+            //     .Replace("{tournamentId}", tournamentId)
+            //     .Replace("{matchId}", matchId));
+        }
+
+        public Uri GetRankingsUri(string rankingsId, string tournamentId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

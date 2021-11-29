@@ -14,3 +14,8 @@ export interface IParticipantsCreate {
     BeltLevel: BeltLevel,
     BlackBeltLevel: BlackBeltLevel
 }
+
+export interface IBreakingMatchesCreate {
+    participantScore: number,
+    participantId: number
+}

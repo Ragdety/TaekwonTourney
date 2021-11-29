@@ -35,8 +35,9 @@ export enum UserRole {
     FamilyMember = "FamilyMember"
 }
 
-export enum TourneyDate {
-    Previous,
-    Current,
-    Future
+export enum TourneyTime {
+    All = "All",
+    Past = "Past",
+    Current = "Current",
+    Future = "Future"
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaekwonTourney.API.Database;
 
 namespace TaekwonTourney.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211127204730_AddMatchesRankings")]
+    partial class AddMatchesRankings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -156,19 +158,15 @@ namespace TaekwonTourney.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ParticipantFirstName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ParticipantId")
                         .HasColumnType("int");
-
-                    b.Property<string>("ParticipantLastName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ParticipantScore")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParticipantId");
 
                     b.ToTable("BreakingMatches");
                 });
@@ -379,6 +377,17 @@ namespace TaekwonTourney.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TaekwonTourney.Core.Models.BreakingMatch", b =>
+                {
+                    b.HasOne("TaekwonTourney.Core.Models.Participant", "Participant")
+                        .WithMany()
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Participant");
                 });
 
             modelBuilder.Entity("TaekwonTourney.Core.Models.BreakingRankings", b =>

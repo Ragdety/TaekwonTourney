@@ -20,6 +20,8 @@ namespace TaekwonTourney.API.Installers
 			services.AddScoped<IParticipantRepository, ParticipantRepository>();
 			services.AddScoped<IIdentityRepository, IdentityRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IBreakingMatchRepository, BreakingMatchRepository>();
+			services.AddScoped<IBreakingRankingsRepository, BreakingRankingsRepository>();
 		}
 	}
 }
