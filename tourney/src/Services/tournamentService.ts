@@ -15,8 +15,16 @@ const checkJwt = () => {
 
 const headers = {
     headers: {
-        Authorization: `Bearer ${ Cookies.get('jwt') }`
+        Authorization: `Bearer ${Cookies.get('jwt')}`
     }
+}
+
+const getHeaders = (cookieJWT: any) => {
+    return {
+        headers: {
+            Authorization: `Bearer ${cookieJWT}`
+        }
+    };
 }
 
 const getAll = () => {
@@ -24,16 +32,16 @@ const getAll = () => {
     return api.get<Array<ITournament>>(routes.Tournaments.getAll, headers);
 };
 
-const getByDateEnum = (time: TourneyTime) => {
+const getByDateEnum = (time: TourneyTime, cookieJWT: any) => {
     checkJwt();
     if(time == TourneyTime.Past) {
-        return api.get<Array<ITournament>>(routes.Tournaments.getAll + '/?TournamentTime=Past', headers);
+        return api.get<Array<ITournament>>(routes.Tournaments.getAll + '/?TournamentTime=Past', getHeaders(cookieJWT));
     }
     else if(time == TourneyTime.Current) {
-        return api.get<Array<ITournament>>(routes.Tournaments.getAll + '/?TournamentTime=Current', headers);
+        return api.get<Array<ITournament>>(routes.Tournaments.getAll + '/?TournamentTime=Current', getHeaders(cookieJWT));
     }
     else if(time == TourneyTime.Future) {
-        return api.get<Array<ITournament>>(routes.Tournaments.getAll + '/?TournamentTime=Future', headers);
+        return api.get<Array<ITournament>>(routes.Tournaments.getAll + '/?TournamentTime=Future', getHeaders(cookieJWT));
     }
     else {
         return getAll();

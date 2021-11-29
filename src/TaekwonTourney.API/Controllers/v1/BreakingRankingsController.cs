@@ -19,6 +19,7 @@ namespace TaekwonTourney.API.Controllers.v1
             _breakingRankingsService = breakingRankingsService;
         }
         
+        [AllowAnonymous]
         [HttpGet(ApiRoutes.Rankings.GetTournamentRankings)]
         public async Task<IActionResult> GetBreakingRankings([FromRoute] int tournamentId)
         {

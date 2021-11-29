@@ -16,13 +16,16 @@ namespace TaekwonTourney.API.Controllers.v1
     {
         private readonly IBreakingMatchService _breakingMatchService;
         private readonly IUriService _uriService;
+        private readonly IParticipantService _participantService;
         
         public BreakingMatchController(
             IBreakingMatchService breakingMatchService, 
-            IUriService uriService)
+            IUriService uriService, 
+            IParticipantService participantService)
         {
             _breakingMatchService = breakingMatchService;
             _uriService = uriService;
+            _participantService = participantService;
         }
 
         [HttpPost(ApiRoutes.Matches.CreateTournamentMatch)]
@@ -30,15 +33,21 @@ namespace TaekwonTourney.API.Controllers.v1
             [FromBody] BreakingMatchCreationModel matchToAdd,
             [FromRoute] int tournamentId)
         {
+            var participant = 
+                await _participantService.FindTournamentParticipantAsync(
+                    matchToAdd.ParticipantId, tournamentId);
+            
             var match = new BreakingMatch
             {
                 ParticipantScore = matchToAdd.ParticipantScore,
+                ParticipantFirstName = participant.FirstName,
+                ParticipantLastName = participant.LastName,
                 ParticipantId = matchToAdd.ParticipantId
             };
             
             var response = await _breakingMatchService.CreateAsync(tournamentId, match);
             if (!response.Success)
-                return NotFound(response.Message);
+                return NotFound(response);
 
             return Ok(match);
             
@@ -58,14 +67,13 @@ namespace TaekwonTourney.API.Controllers.v1
         //     // return Ok(match);
         // }
         //
-        // [HttpGet(ApiRoutes.Matches.GetTournamentMatches)]
-        // public async Task<IActionResult> GetAllMatches(
-        //     [FromRoute] int tourneyId)
-        // {
-        //     throw new NotImplementedException();
-        //     //var matches = 
-        //     //    await _breakingMatchService.GetAllFromTourneyAsync(tourneyId);
-        //    // return Ok(matches);
-        // }
+        
+        [HttpGet(ApiRoutes.Matches.GetTournamentMatches)]
+        public async Task<IActionResult> GetAllMatches([FromRoute] int tournamentId)
+        { 
+            var matches = 
+                await _breakingMatchService.GetAllFromTourneyAsync(tournamentId); 
+            return Ok(matches);
+        }
     }
 }

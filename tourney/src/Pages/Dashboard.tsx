@@ -75,6 +75,14 @@ export default function Dashboard(){
           }
       }
       
+      const handleTourneyJudging = (tourneyId: number) => {
+          history.push(`/JudgeBreakingTournament/${tourneyId}`)
+      }
+      
+      const handleRankings = (tourneyId: number) => {
+          history.push(`/BreakingRankings/${tourneyId}`)
+      }
+      
       const classes = useStyles();
 
     useEffect(() => {
@@ -106,20 +114,20 @@ export default function Dashboard(){
                     setError(true);
                 }
                 
-                try {
-                    await TournamentService.getAll()
-                        .then((res: any) => {
-                            const tourneys = res.data;
-                            setAllTournaments(tourneys);
-                        })
-                        .catch((error: any) => {
-                            console.log(error)
-                            setError(true);
-                        });
-                }
-                catch (e) {
-                    setError(true);
-                }
+                // try {
+                //     await TournamentService.getAll()
+                //         .then((res: any) => {
+                //             const tourneys = res.data;
+                //             setAllTournaments(tourneys);
+                //         })
+                //         .catch((error: any) => {
+                //             console.log(error)
+                //             setError(true);
+                //         });
+                // }
+                // catch (e) {
+                //     setError(true);
+                // }
             }
         )();
     }, [allTournaments]);
@@ -129,7 +137,7 @@ export default function Dashboard(){
         (
             async () => {
                 try {
-                    await TournamentService.getByDateEnum(TourneyTime.Past)
+                    await TournamentService.getByDateEnum(TourneyTime.Past, Cookies.get('jwt'))
                         .then((res: any) => {
                             const tourneys = res.data;
                             setPastTourneys(tourneys);
@@ -153,7 +161,7 @@ export default function Dashboard(){
         (
             async () => {
                 try {
-                    await TournamentService.getByDateEnum(TourneyTime.Current)
+                    await TournamentService.getByDateEnum(TourneyTime.Current, Cookies.get('jwt'))
                         .then((res: any) => {
                             const tourneys = res.data;
                             setCurrentTourneys(tourneys);
@@ -165,9 +173,6 @@ export default function Dashboard(){
                 }
                 catch (e) {
                     console.log('AUTH ERROR: ', e);
-                    alert("You've been logged out, you will be redirected to home page");
-                    setError(true);
-                    setRedirectHome(true);
                 }
             }
         )();
@@ -177,7 +182,7 @@ export default function Dashboard(){
         (
             async () => {
                 try {
-                    await TournamentService.getByDateEnum(TourneyTime.Future)
+                    await TournamentService.getByDateEnum(TourneyTime.Future, Cookies.get('jwt'))
                         .then((res: any) => {
                             const tourneys = res.data;
                             setFutureTourneys(tourneys);
@@ -189,9 +194,6 @@ export default function Dashboard(){
                 }
                 catch (e) {
                     console.log('AUTH ERROR: ', e);
-                    alert("You've been logged out, you will be redirected to home page");
-                    setError(true);
-                    setRedirectHome(true);
                 }
             }
         )();
@@ -245,6 +247,12 @@ export default function Dashboard(){
                                     </Typography>
                                     <Button color="primary" onClick={() => editTourney(tourney.id)}>
                                         Edit
+                                    </Button>
+                                    <Button color="primary" onClick={() => handleTourneyJudging(tourney.id)}>
+                                        Judge
+                                    </Button>
+                                    <Button color="primary" onClick={() => handleRankings(tourney.id)}>
+                                        Rankings
                                     </Button>
                                     <Button color="primary" onClick={() => deleteTourney(tourney.id)}>
                                         Delete

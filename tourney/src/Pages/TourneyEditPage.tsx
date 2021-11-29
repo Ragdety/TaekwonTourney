@@ -178,6 +178,21 @@ export default function TourneyEditPage(){
             setError(true)
         }
     }
+    
+    const deleteParticipant = (participantId: number) => {
+        try {
+            ParticipantService.remove(tournamentId, participantId)
+                .then((res: any) => {
+                    console.log(res);
+                })
+                .catch((error: any) => {
+                    setError(true)
+                });
+        }
+        catch(e) {
+            setError(true)
+        }
+    }
 
     if(submitted) {
         return <Redirect to='/Dashboard' />;
@@ -320,22 +335,6 @@ export default function TourneyEditPage(){
                 </form>
                 <div style={{marginBottom: 2}}>
                     {/*<h1>Participants</h1>*/}
-                            <Card style={{marginLeft: 20, marginTop: 10}} sx={{ maxWidth: 280 }}>
-                                <CardHeader
-                                    title="Top 8 Live Rankings"
-                                    style={{textAlign: 'center'}}
-                                />
-                                    <CardContent>
-                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>1. Name Points: </Typography>
-                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>2. Name Points: </Typography>
-                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>3. Name Points: </Typography>
-                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>4. Name Points: </Typography>
-                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>5. Name Points: </Typography>
-                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>6. Name Points: </Typography>
-                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>7. Name Points: </Typography>
-                                        <Typography style={{marginBottom: 10, fontSize: 20, fontWeight: 'bold'}}>8. Name Points: </Typography>
-                                    </CardContent>
-                            </Card>
                     <Grid container direction="column" justifyContent="center" alignSelf="center" alignContent="center" alignItems="center" textAlign="center" textOverflow="hidden">
                         {participants && participants.map((p: any) => (
                             <>
@@ -363,10 +362,10 @@ export default function TourneyEditPage(){
                                                 <p>Belt Level:</p>
                                                 <p style={{ marginTop: 16 }}>{p.beltLevel}</p>
                                             </Stack>
-                                            <Stack spacing={1} direction="row">
-                                                Points: <TextField size="small" style={{width: '60%', marginLeft: 10, marginTop: -10}}/>
-                                            </Stack>
-                                            <Button style={{float: 'left', color:"red", fontSize: 10}}>Delete Participant</Button>
+                                            <Button style={{float: 'left', color:"red", fontSize: 10}} 
+                                                    onClick={() => deleteParticipant(p.id)}>
+                                                Delete Participant
+                                            </Button>
                                         </AccordionDetails>
                                     </Accordion>
                                 </Grid> 

@@ -2,7 +2,9 @@
     Identity: '/identity',
     Tournaments: '/tournaments',
     Participants: '/tournaments/{tournamentId}/participants',
-    Users: '/users'
+    Users: '/users',
+    Matches: '/tournaments/{tournamentId}/matches',
+    Rankings: '/tournaments/{tournamentId}/rankings'
 }
 
 const routes = {
@@ -26,6 +28,17 @@ const routes = {
         getMe: bases.Users + '/me',
         getByUser: bases.Users + '/?username={username}',
         getById: bases.Users + '/?id={id}'
+    },
+    Matches: {
+        Breaking: {
+            getAll: bases.Matches,
+            create: bases.Matches
+        }
+    },
+    Rankings: {
+        Breaking: {
+            getAll: bases.Rankings
+        }
     }
 }
 

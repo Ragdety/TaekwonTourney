@@ -1,7 +1,7 @@
-﻿using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Converters;
 
 namespace TaekwonTourney.API.Installers
 {
@@ -13,14 +13,12 @@ namespace TaekwonTourney.API.Installers
 			IWebHostEnvironment environment)
 		{
 			services.AddControllers()
-				//To parse enums as strings 
-				.AddJsonOptions(options => 
-					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-			
-			services.AddControllersWithViews()
 				.AddNewtonsoftJson(options =>
-					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-				);
+					{
+						options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; 
+						options.SerializerSettings.Converters.Add(new StringEnumConverter()); 
+					}
+			);
 		}
 	}
 }
