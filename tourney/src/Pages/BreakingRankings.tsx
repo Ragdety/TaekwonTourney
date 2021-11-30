@@ -6,35 +6,80 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import {Card} from "@mui/material";
+import * as signalR from "@microsoft/signalr";
+import MatchesService from "../Services/matchesService";
+import {HubConnection} from "@microsoft/signalr";
 
 const BreakingRankings = () => {
     const history = useHistory();
     const { tournamentId }: any = useParams();
     const [rankings, setRankings] = useState([]);
+    const [matches, setMatches] = useState([]);
+    const [connection, setConnection] = useState<HubConnection | null>(null);
     const [redirectHome, setRedirectHome] = useState(false);
     const [error, setError] = useState(false);
+    
+    const loadMatches = (tournamentId: number) => {
+        MatchesService.getAll(tournamentId)
+            .then((res: any) => {
+                setMatches(res.data);
+                setError(false);
+            })
+            .catch((err: any) => {
+                console.log(err);
+                alert('An error occured updating rankings');
+                setError(true);
+            });
+    }
 
     useEffect(() => {
-        const fetchRankings = async () => {
-            try {
-                RankingsService.getAll(tournamentId)
-                    .then((res: any) => {
-                        console.log(res.data.breakingMatches);
-                        setRankings(res.data.breakingMatches);
-                    })
-                    .catch((error: any) => {
-                        console.log(error);
+        const connection =
+            new signalR.HubConnectionBuilder()
+                .withUrl("https://localhost:5001/matchesHub", {
+                    skipNegotiation: true,
+                    transport: signalR.HttpTransportType.WebSockets
+                })
+                .withAutomaticReconnect()
+                .build();
+
+        setConnection(connection);
+    }, []);
+
+    useEffect(() => {
+        if (connection) {
+            connection.start()
+                .then((result: any) => {
+                    console.log('Connected!');
+                    loadMatches(tournamentId);
+                    connection.on("RefreshMatch",  (match) => {
+                        loadMatches(tournamentId);
                     });
-            } catch (e) {
-                console.log('AUTH ERROR: ', e);
-                setError(true);
-                // alert("You've been logged out, you will be redirected to home page");
-                // setError(true);
-                // setRedirectHome(true);
-            }
+                })
+                .catch((e: any) => console.log('Connection failed: ', e));
         }
-        fetchRankings();
-    }, [rankings]);
+    }, [connection]);
+
+    // useEffect(() => {
+    //     const fetchRankings = async () => {
+    //         try {
+    //             RankingsService.getAll(tournamentId)
+    //                 .then((res: any) => {
+    //                     console.log(res.data.breakingMatches);  
+    //                     setRankings(res.data.breakingMatches);
+    //                 })
+    //                 .catch((error: any) => {
+    //                     console.log(error);
+    //                 });
+    //         } catch (e) {
+    //             console.log('AUTH ERROR: ', e);
+    //             setError(true);
+    //             // alert("You've been logged out, you will be redirected to home page");
+    //             // setError(true);
+    //             // setRedirectHome(true);
+    //         }
+    //     }
+    //     fetchRankings();
+    // }, [rankings]);
     
     const goBack = () => {
         history.push('/Dashboard');
@@ -49,9 +94,9 @@ const BreakingRankings = () => {
                   style={{textAlign: 'center'}}
               />
               <CardContent>
-                  {rankings.length > 0 ? rankings.map((r: any) => (
+                  {matches.length > 0 ? matches.map((m: any) => (
                       <Typography style={{marginBottom: 10, fontSize: 20}}>
-                          {r.participantFirstName} {r.participantLastName} - Broken: {r.participantScore}
+                          {m.participantFirstName} {m.participantLastName} - Broken: {m.participantScore}
                       </Typography>
                   )): <div>No rankings yet...</div>}
               </CardContent>

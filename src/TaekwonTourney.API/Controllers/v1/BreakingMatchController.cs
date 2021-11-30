@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using TaekwonTourney.API.Hubs;
 using TaekwonTourney.Contracts.v1;
 using TaekwonTourney.Core.DomainObjects.DomainModels;
 using TaekwonTourney.Core.Interfaces.ServiceInterfaces;
@@ -17,15 +19,18 @@ namespace TaekwonTourney.API.Controllers.v1
         private readonly IBreakingMatchService _breakingMatchService;
         private readonly IUriService _uriService;
         private readonly IParticipantService _participantService;
+        private readonly IHubContext<MatchesHub> _hub;
         
         public BreakingMatchController(
             IBreakingMatchService breakingMatchService, 
             IUriService uriService, 
-            IParticipantService participantService)
+            IParticipantService participantService, 
+            IHubContext<MatchesHub> hub)
         {
             _breakingMatchService = breakingMatchService;
             _uriService = uriService;
             _participantService = participantService;
+            _hub = hub;
         }
 
         [HttpPost(ApiRoutes.Matches.CreateTournamentMatch)]
@@ -68,6 +73,7 @@ namespace TaekwonTourney.API.Controllers.v1
         // }
         //
         
+        [AllowAnonymous]
         [HttpGet(ApiRoutes.Matches.GetTournamentMatches)]
         public async Task<IActionResult> GetAllMatches([FromRoute] int tournamentId)
         { 

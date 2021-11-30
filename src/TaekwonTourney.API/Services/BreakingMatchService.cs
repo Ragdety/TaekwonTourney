@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using TaekwonTourney.Core.DomainObjects.DomainModels;
@@ -73,7 +74,12 @@ namespace TaekwonTourney.API.Services
 
         public async Task<IList<BreakingMatch>> GetAllFromTourneyAsync(int tourneyId)
         {
-            return await _breakingMatchRepository.GetAllFromTourneyAsync(tourneyId);
+            //All matches (no order)
+            var matches = await _breakingMatchRepository.GetAllFromTourneyAsync(tourneyId);
+            
+            //Ordered matches (this is basically rankings endpoint)
+            var orderedMatches = matches.OrderByDescending(m => m.ParticipantScore);
+            return orderedMatches.ToList();
         }
 
         public void UpdateScore(int matchId, BreakingMatchUpdateModel match)

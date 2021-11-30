@@ -19,7 +19,7 @@ const headers = {
 
 const getAll = (tournamentId: number) => {
     checkJwt();
-    return api.get(routes.Matches.Breaking.create.replace(
+    return api.get(routes.Matches.Breaking.getAll.replace(
         '{tournamentId}', tournamentId.toString()), headers);
 };
 
