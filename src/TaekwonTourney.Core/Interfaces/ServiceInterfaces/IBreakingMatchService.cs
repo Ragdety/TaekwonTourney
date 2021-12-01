@@ -11,6 +11,6 @@ namespace TaekwonTourney.Core.Interfaces.ServiceInterfaces
         Task<BreakingMatchResponse> CreateAsync(int tourneyId, BreakingMatch match);
         Task<BreakingMatch> GetAsync(int tourneyId, int matchId);
         Task<IList<BreakingMatch>> GetAllFromTourneyAsync(int tourneyId);
-        void UpdateScore(int matchId, BreakingMatchUpdateModel match);
+        Task<BreakingMatchResponse> UpdateScore(int matchId, BreakingMatchUpdateModel match);
     }
 }

@@ -81,5 +81,23 @@ namespace TaekwonTourney.API.Controllers.v1
                 await _breakingMatchService.GetAllFromTourneyAsync(tournamentId); 
             return Ok(matches);
         }
+
+        [AllowAnonymous]
+        [HttpPut(ApiRoutes.Matches.UpdateTournamentMatch)]
+        public async Task<IActionResult> UpdateMatch(
+            [FromRoute] int matchId,
+            [FromRoute]BreakingMatchUpdateModel match)
+        { 
+            var response = await _breakingMatchService.UpdateScore(matchId, match);
+
+            if(response.Success)
+            {
+               await _hub.Clients.All.SendAsync("RefreshMatch");
+               return Ok(response.BreakingMatch);
+            }
+            return NotFound(response);   
+
+        }
+
     }
 }

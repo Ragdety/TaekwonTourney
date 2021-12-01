@@ -69,7 +69,7 @@ namespace TaekwonTourney.API.Services
 
         public async Task<BreakingMatch> GetAsync(int tourneyId, int matchId)
         {
-            return await _breakingMatchRepository.GetAsync(tourneyId, matchId);
+            return await _breakingMatchRepository.GetAsync(matchId);
         }
 
         public async Task<IList<BreakingMatch>> GetAllFromTourneyAsync(int tourneyId)
@@ -82,9 +82,29 @@ namespace TaekwonTourney.API.Services
             return orderedMatches.ToList();
         }
 
-        public void UpdateScore(int matchId, BreakingMatchUpdateModel match)
+
+        public async Task<BreakingMatchResponse> UpdateScore(int matchId, BreakingMatchUpdateModel match)
         {
-            throw new NotImplementedException();
+            var existingMatch = await _breakingMatchRepository.GetAsync(matchId);
+
+           if(existingMatch == null)
+              return new BreakingMatchResponse("Match not found.");
+
+            existingMatch.ParticipantScore = match.ParticipantScore;
+
+           try
+           {
+              _breakingMatchRepository.UpdateScore(existingMatch);
+              await _unitOfWork.CompleteAsync();
+              return new BreakingMatchResponse(existingMatch);
+            }
+            catch (Exception ex)
+            {
+               _logger.LogError(ex.Message);
+               _logger.LogError(ex.StackTrace);
+              return new BreakingMatchResponse($"An error occured when updating the score: {ex.Message}");
+            }
+          
         }
     }
 }
