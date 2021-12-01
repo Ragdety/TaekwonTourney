@@ -3,5 +3,6 @@
     public class BreakingMatchUpdateModel
     {
         public int ParticipantScore { get; set; }
+
     }
 }
