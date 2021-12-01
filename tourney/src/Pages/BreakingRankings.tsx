@@ -5,10 +5,12 @@ import RankingsService from "../Services/rankingsService";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import {Card} from "@mui/material";
+import {Card, IconButton, Stack} from "@mui/material";
 import * as signalR from "@microsoft/signalr";
 import MatchesService from "../Services/matchesService";
 import {HubConnection} from "@microsoft/signalr";
+import Grid from "@material-ui/core/Grid";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const BreakingRankings = () => {
     const history = useHistory();
@@ -87,20 +89,31 @@ const BreakingRankings = () => {
     
     return (
       <div>
-          <button onClick={goBack}>Go Back</button>
-          <Card style={{marginLeft: 20, marginTop: 10}}>
-              <CardHeader
-                  title="Live (not yet) Rankings"
-                  style={{textAlign: 'center'}}
-              />
-              <CardContent>
-                  {matches.length > 0 ? matches.map((m: any) => (
-                      <Typography style={{marginBottom: 10, fontSize: 20}}>
-                          {m.participantFirstName} {m.participantLastName} - Broken: {m.participantScore}
-                      </Typography>
-                  )): <div>No rankings yet...</div>}
-              </CardContent>
-          </Card>
+            <Stack spacing = {1} direction = "row">
+                <IconButton aria-label = "Go-Back" onClick={goBack} style={{float: 'left', fontSize: 20}}>
+                    <ArrowBackIcon style={{float: 'left', height: 50, width: 50}}/>
+                </IconButton>
+                <Typography variant= "h5" style={{float: 'left', marginTop: 18}}>
+                    Go Back
+                </Typography>
+            </Stack>
+            <Grid>
+                <Grid container spacing={0} direction="column" alignItems="center" justify="center">
+                    <Card style={{marginLeft: 20, marginTop: 10, width: '50%', textAlign: 'center'}}>
+                        <CardHeader
+                            title="Live (not yet) Rankings"
+                            style={{textAlign: 'center'}}
+                        />
+                        <CardContent>
+                            {matches.length > 0 ? matches.map((m: any) => (
+                                <Typography style={{marginBottom: 10, fontSize: 20}}>
+                                    {m.participantFirstName} {m.participantLastName} - Broken: {m.participantScore}
+                                </Typography>
+                            )): <div>No rankings yet...</div>}
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
           {error && <p style={{color: "red"}}>An error occurred...</p>}
       </div>  
     );

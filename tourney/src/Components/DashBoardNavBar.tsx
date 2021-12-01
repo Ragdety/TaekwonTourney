@@ -9,8 +9,6 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AccountProfile from './AccountProfile';
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
@@ -42,12 +40,6 @@ export default function DashBoardNavBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  /*
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  */
-
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -67,10 +59,6 @@ export default function DashBoardNavBar() {
 
   function handleAbout(){
       history.push('/LoggedInAboutPage');
-  }
-
-  function handleProfile(){
-      history.push('/Profile');
   }
 
   function handleLogout(){
@@ -94,8 +82,6 @@ export default function DashBoardNavBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
 
@@ -134,19 +120,6 @@ export default function DashBoardNavBar() {
               <InfoIcon />
           </IconButton>
           <p>About</p>
-      </MenuItem>
-
-      <MenuItem style={{marginLeft: -20}} onClick={handleProfile}>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="inherit"
-          >
-              <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
       </MenuItem>
 
       <MenuItem style={{marginLeft: -20}} onClick={handleLogout}>
@@ -209,13 +182,11 @@ export default function DashBoardNavBar() {
                   aria-label="account of current user"
                   aria-controls={menuId}
                   aria-haspopup="true"
-                  /*onClick= *handleProfileMenuOpen*/
                   color="inherit" 
               >
                   Logout
               </Button>
           </Link>
-          <AccountProfile />
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton

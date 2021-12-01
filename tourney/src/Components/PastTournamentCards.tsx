@@ -7,9 +7,9 @@ import moment from "moment";
 
 export const PastTournamentCards = ({tourney}: any) => {
     return (
-        <Card sx={{ display: 'flex'}} style={{width: '20%', marginLeft: 20, marginBottom: 20}} >
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <CardContent sx={{ flex: '1 0 auto' }}>
+        <Card style={{width: '50%', marginLeft: 20, marginBottom: 20}} >
+            <Box>
+                <CardContent>
                     <Typography component="div" variant="h5">
                         {tourney.tournamentName}
                     </Typography>

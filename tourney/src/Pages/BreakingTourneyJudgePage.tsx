@@ -13,6 +13,9 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Grid from '@mui/material/Grid';
 import {IBreakingMatchesCreate} from "../Models/creationModels";
+import IconButton from "@mui/material/IconButton";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Button from "@mui/material/Button";
 
 const BreakingTourneyJudgePage = () => {
     const { tournamentId }: any = useParams();
@@ -125,40 +128,52 @@ const BreakingTourneyJudgePage = () => {
     
     return(
         <div>
-            <button onClick={handleGoBack}>Go Back</button>
+            <Stack spacing = {1} direction = "row">
+                <IconButton aria-label = "Go-Back" onClick={handleGoBack} style={{float: 'left', fontSize: 20}}>
+                    <ArrowBackIcon style={{float: 'left', height: 50, width: 50}}/>
+                </IconButton>
+                <Typography variant= "h5" style={{float: 'left', marginTop: 18}}>
+                    Go Back
+                </Typography>
+            </Stack>
             <h1>Breaking Tournament Judge Page</h1>
             {participants.length > 0 ? participants.map((p: any) => (
                 <>
-                    <Grid item direction="column" xs={8}>
-                        <Accordion
-                            key={p.id}
-                            className={classes.content}
-                            style={{marginTop: 20, marginBottom: 20 }}
-                        >
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel4bh-content"
-                                id="panel4bh-header"
+                    <Grid textOverflow="hidden">
+                        <Grid item direction="column" alignItems="center" justifyContent="center" alignSelf="center" alignContent="center" xs={12}>
+                            <Accordion
+                                key={p.id}
+                                className={classes.content}
+                                style={{marginTop: 20, marginBottom: 20, width: '50%', marginLeft: 10 }}
                             >
-                                <Typography sx={{ flexShrink: 0, overflow: 'hidden' }}>{p.firstName}  {p.lastName}</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Stack spacing={1} direction="row">
-                                    <p>Date Of Birth:</p>
-                                    <p style={{ marginTop: 16 }}>{moment(p.dateOfBirth).format('MMMM-DD-YYYY')}</p>
-                                </Stack>
-                                <Stack spacing={0.5} direction="row">
-                                    <p>Belt Level:</p>
-                                    <p style={{ marginTop: 16 }}>{p.beltLevel}</p>
-                                </Stack>
-                                <Stack spacing={0.5} direction="row">
-                                    <p>Enter points:</p> 
-                                    <input type={"number"} 
-                                           onChange={(e: any) => setPoints(e.target.value)}/>
-                                    <button onClick={() => handlePoints(p.id)}>Enter</button>
-                                </Stack>
-                            </AccordionDetails>
-                        </Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel4bh-content"
+                                    id="panel4bh-header"
+                                >
+                                    <Typography sx={{ overflow: 'hidden' }}>{p.firstName}  {p.lastName}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Stack spacing={1} direction="row">
+                                        <p>Date Of Birth:</p>
+                                        <p style={{ marginTop: 16 }}>{moment(p.dateOfBirth).format('MMMM-DD-YYYY')}</p>
+                                    </Stack>
+                                    <Stack spacing={0.5} direction="row">
+                                        <p>Belt Level:</p>
+                                        <p style={{ marginTop: 16 }}>{p.beltLevel}</p>
+                                    </Stack>
+                                    <Stack spacing={0.5} direction="row">
+                                        <p>Enter points:</p> 
+                                        <input type={"number"} 
+                                            onChange={(e: any) => setPoints(e.target.value)}
+                                            style={{width: '50%', height: 20, marginTop: 15}}/>
+                                    </Stack>
+                                    <Button color="primary" style={{backgroundColor: '#4aedc4', color: '#0e4686', width: 100, textAlign: 'center', marginTop: 10}} onClick={() => handlePoints(p.id)} className="btn btn-success">
+                                        Enter
+                                    </Button>
+                                </AccordionDetails>
+                            </Accordion>
+                        </Grid>
                     </Grid>
                 </>
             )): <div>No Participants Yet...</div>}
