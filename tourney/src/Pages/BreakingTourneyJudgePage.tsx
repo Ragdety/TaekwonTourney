@@ -13,6 +13,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Grid from '@mui/material/Grid';
 import {IBreakingMatchesCreate} from "../Models/creationModels";
+import {IBreakingMatchesUpdate} from "../Models/updateModels";
 
 const BreakingTourneyJudgePage = () => {
     const { tournamentId }: any = useParams();
@@ -90,6 +91,9 @@ const BreakingTourneyJudgePage = () => {
                         participantScore: points,
                         participantId: participantId
                     }
+                    const updatedMatch: IBreakingMatchesUpdate = {
+                        participantScore: points
+                    }
                     console.log('MATCH: ', match);
                     MatchesService.create(tournamentId, match)
                         .then((res: any) => {
@@ -99,7 +103,10 @@ const BreakingTourneyJudgePage = () => {
                         .catch((error: any) => {
                             console.log('MATCH API ERROR', error);
                             const message = error.response.data.message;
-                            alert(message);
+                            //let update = confirm(message + '. Do you want to update their points?');
+                            //if(update) {
+                                
+                            //}
                             setPoints(0);
                         });
                 })

@@ -55,12 +55,12 @@ const get = (id: number) => {
         headers);
 };
 
-const create = (data: ITournamentCreate) => {
+const create = (data: ITournamentCreate, cookieJWT: any) => {
     checkJwt();
     return api.post<ITournamentCreate>(
         routes.Tournaments.create, 
-        data, 
-        headers);
+        data,
+        getHeaders(cookieJWT));
 };
 
 const update = (id: number, data: ITournamentCreate) => {

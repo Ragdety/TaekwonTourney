@@ -58,28 +58,6 @@ const BreakingRankings = () => {
                 .catch((e: any) => console.log('Connection failed: ', e));
         }
     }, [connection]);
-
-    // useEffect(() => {
-    //     const fetchRankings = async () => {
-    //         try {
-    //             RankingsService.getAll(tournamentId)
-    //                 .then((res: any) => {
-    //                     console.log(res.data.breakingMatches);  
-    //                     setRankings(res.data.breakingMatches);
-    //                 })
-    //                 .catch((error: any) => {
-    //                     console.log(error);
-    //                 });
-    //         } catch (e) {
-    //             console.log('AUTH ERROR: ', e);
-    //             setError(true);
-    //             // alert("You've been logged out, you will be redirected to home page");
-    //             // setError(true);
-    //             // setRedirectHome(true);
-    //         }
-    //     }
-    //     fetchRankings();
-    // }, [rankings]);
     
     const goBack = () => {
         history.push('/Dashboard');
