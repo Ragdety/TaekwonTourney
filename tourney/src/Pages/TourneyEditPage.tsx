@@ -19,7 +19,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Grid from '@mui/material/Grid';
-import Cookies from 'js-cookie';
 
 export default function TourneyEditPage(){
     const useStyles = makeStyles((theme) => ({
@@ -112,7 +111,7 @@ export default function TourneyEditPage(){
     useEffect(() => {
         const fetchParticipants = async() => {
             try {
-                await ParticipantService.getAll(tournamentId, Cookies.get('jwt'))
+                await ParticipantService.getAll(tournamentId)
                     .then((res: any) => {
                         const parts = res.data;
                         //console.log(parts)
@@ -231,18 +230,21 @@ export default function TourneyEditPage(){
                         style={{height: 40, fontSize: 17, textAlign: 'center', width: '65%'}}/>
                     </div>
                 <h1>Tournament Type</h1>
-                <div style={{display: 'grid', placeItems: 'center'}}>
-                    <select style={{width: '50%', textAlign: 'center', height: 50, fontSize: 20, margin: 'auto', display: 'block', marginRight: 'auto', marginLeft: 'auto'}} onChange={(e: any) => {setTournamentType(e.target.value)}}
-                            value={tournamentType}
-                            required>
-                        <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Breaking}>Breaking</option>
-                        <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Forms}>Forms</option>
-                        <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Sparring}>Sparring</option>
-                    </select>
+                <div>
+                <select style={{width: '50%', textAlign: 'center', height: 50, fontSize: 20}} onChange={(e: any) => {setTournamentType(e.target.value)}}
+                        value={tournamentType}
+                        required>
+                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Breaking}>Breaking</option>
+                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Forms}>Forms</option>
+                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Sparring}>Sparring</option>
+                </select>
                 </div>
+                {/*<h3>Tournament Name: </h3>*/}
+                {/*{clicked ? <EventCard /> : null}*/}
 
                 <h1>Scheduled Date(s) of Tournament</h1>
                 <div>
+                    {/*We want these side by side please, remove this comment after*/}
                     <h3>Start Date: </h3>
                     <input className={classes.inputWidth}
                            onChange={(e) => {setStartDate(e.target.value)}}
