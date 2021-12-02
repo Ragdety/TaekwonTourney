@@ -79,7 +79,7 @@ const BreakingRankings = () => {
                 <Grid container spacing={0} direction="column" alignItems="center" justify="center">
                     <Card style={{marginLeft: 20, marginTop: 10, width: '50%', textAlign: 'center'}}>
                         <CardHeader
-                            title="Live (not yet) Rankings"
+                            title="Live Rankings"
                             style={{textAlign: 'center'}}
                         />
                         <CardContent>
