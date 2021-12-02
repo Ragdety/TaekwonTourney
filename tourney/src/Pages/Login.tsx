@@ -128,7 +128,6 @@ function Login() {
         .catch(error => {
           console.log(error);
           const errors = error.response.data;
-          //Will set error states here:
           console.log(errors);
           setError(true);
           setErrors(errors);
@@ -136,7 +135,7 @@ function Login() {
   }
 
   if(redirect){
-    return <Redirect to='/' />;
+    return <Redirect to='/Dashboard' />;
   }
   const stringedErrors =  JSON.stringify(errors);
   const parsed = JSON.parse(stringedErrors);
@@ -168,7 +167,6 @@ function Login() {
         <button className={classes.submitButton} type="submit">Log In</button>
 
           {error && <p style={{color: 'red', marginTop: 5}}>{values}</p>}
-        {/*{errors && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{errors}</p>}*/}
       </form>
       <p className={classes.p4}>Don't have an account? 
          <Link to="/Register" style={{textDecoration:'none', color:'blue'}}> 
@@ -180,4 +178,3 @@ function Login() {
 }
 
 export default Login;
-

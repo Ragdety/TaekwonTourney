@@ -4,10 +4,9 @@ import {makeStyles} from '@mui/styles';
 import {BeltLevel, BlackBeltLevel, TournamentType} from '../Enums/enums'
 import {IParticipantsCreate} from "../Models/creationModels";
 import TournamentService from "../Services/tournamentService";
-import {Redirect, Route} from "react-router";
+import {Redirect} from "react-router";
 import {useParams} from "react-router-dom";
 import ParticipantService from "../Services/participantService";
-import {Card} from "@mui/material";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -20,9 +19,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Grid from '@mui/material/Grid';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import { TextField } from '@mui/material';
+import Cookies from 'js-cookie';
 
 export default function TourneyEditPage(){
     const useStyles = makeStyles((theme) => ({
@@ -81,14 +78,11 @@ export default function TourneyEditPage(){
         history.push('/Dashboard');
     }
 
-    const [expanded, setExpanded] = React.useState<string | false>(false);
+    const [expanded, setExpanded] = React.useState<boolean>(false);
 
-    const handleChange = (panel: string) => (
-        event: React.SyntheticEvent,
-        isExpanded: boolean
-    ) => {
-        setExpanded(isExpanded ? panel : false);
-    };
+    function handleChange() {
+        setExpanded(!expanded);
+    }
     
     const formatDate = (year: number, month: number, day: number) => {
         return `${year}-${month}-${day}`;
@@ -118,7 +112,7 @@ export default function TourneyEditPage(){
     useEffect(() => {
         const fetchParticipants = async() => {
             try {
-                await ParticipantService.getAll(tournamentId)
+                await ParticipantService.getAll(tournamentId, Cookies.get('jwt'))
                     .then((res: any) => {
                         const parts = res.data;
                         //console.log(parts)
@@ -137,7 +131,8 @@ export default function TourneyEditPage(){
 
     const handleError = (e: any) => {
         console.log(e);
-        setErrors([...errors, e]);
+        console.log(e.response.data)
+        setErrors(e.response.data);
     }
 
     const editTourney = async (event: any) => {
@@ -154,8 +149,12 @@ export default function TourneyEditPage(){
                 setSubmitted(true);
             }).catch((error: any) => {
                 setError(true);
+                console.log(error);
+                console.log(error.response.data);
+                setErrors(error.response.data);
             })
         } catch(e) {
+            console.log(e);
             setError(true);
         }
     }
@@ -169,11 +168,15 @@ export default function TourneyEditPage(){
                     console.log(res);
                 })
                 .catch((error: any) => {
-                    setError(true)
+                    setError(true);
+                    console.log(error);
+                    console.log(error.response.data);
+                    setErrors( error.response.data);
                 });
         }
         catch(e) {
-            setError(true)
+            console.log(e);
+            setError(true);
         }
     }
     
@@ -184,17 +187,25 @@ export default function TourneyEditPage(){
                     console.log(res);
                 })
                 .catch((error: any) => {
-                    setError(true)
+                    setError(true);
+                    console.log(error);
+                    console.log(error.response.data);
+                    setErrors(error.response.data);
                 });
         }
         catch(e) {
-            setError(true)
+            console.log(e);
+            setError(true);
         }
     }
 
     if(submitted) {
         return <Redirect to='/Dashboard' />;
     }
+
+    const stringedErrors =  JSON.stringify(errors);
+    const parsed = JSON.parse(stringedErrors);
+    let values = Object.values(parsed);
 
     return(
         <div>
@@ -215,25 +226,23 @@ export default function TourneyEditPage(){
                         onChange={(e) => {setTournamentName(e.target.value)}}
                         value={tournamentName}
                         id="tournamentName"
-                        required 
+                        required
+                        maxLength={50} 
                         style={{height: 40, fontSize: 17, textAlign: 'center', width: '65%'}}/>
                     </div>
                 <h1>Tournament Type</h1>
-                <div>
-                <select style={{width: '50%', textAlign: 'center', height: 50, fontSize: 20}} onChange={(e: any) => {setTournamentType(e.target.value)}}
-                        value={tournamentType}
-                        required>
-                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Breaking}>Breaking</option>
-                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Forms}>Forms</option>
-                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Sparring}>Sparring</option>
-                </select>
+                <div style={{display: 'grid', placeItems: 'center'}}>
+                    <select style={{width: '50%', textAlign: 'center', height: 50, fontSize: 20, margin: 'auto', display: 'block', marginRight: 'auto', marginLeft: 'auto'}} onChange={(e: any) => {setTournamentType(e.target.value)}}
+                            value={tournamentType}
+                            required>
+                        <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Breaking}>Breaking</option>
+                        <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Forms}>Forms</option>
+                        <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Sparring}>Sparring</option>
+                    </select>
                 </div>
-                {/*<h3>Tournament Name: </h3>*/}
-                {/*{clicked ? <EventCard /> : null}*/}
 
                 <h1>Scheduled Date(s) of Tournament</h1>
                 <div>
-                    {/*We want these side by side please, remove this comment after*/}
                     <h3>Start Date: </h3>
                     <input className={classes.inputWidth}
                            onChange={(e) => {setStartDate(e.target.value)}}
@@ -252,20 +261,14 @@ export default function TourneyEditPage(){
                            value={endDate}
                            style={{width: '42%', fontSize: 15, marginBottom: 20}}/>
                 </div>
-                {/*Will add this when user clicks edit tournament*/}
-                {/*<Stack spacing={2} direction="row" className={classes.center}>*/}
-                {/*    <h1>Add Participants: </h1>*/}
-                {/*    <button className={classes.plusButton} onClick={handleClick}>Plus</button>*/}
-                {/*</Stack>*/}
                 <div style={{textAlign: 'center'}}>
                     <Button color="primary" style={{backgroundColor: '#4aedc4', color: '#0e4686'}} type={"submit"} className="btn btn-success">
                         Update tournament
                     </Button>
                 </div>
                 {/*For now this way of handling errors. TODO: Will fix this later*/}
-                { error && <p style={{color: 'red', marginTop: 2}}>An error ocurred...</p>}
+                { error && <p style={{color: 'red', marginTop: 2}}>{values}</p>}
             </form>
-            
             <div>
                 <h1 style={{textAlign: 'center'}}>Add Participant</h1>
                 <form onSubmit={addParticipant}>
@@ -275,6 +278,7 @@ export default function TourneyEditPage(){
                            id="firstName"
                            placeholder={'First Name'}
                            required
+                           maxLength={15}
                            style={{width: '45%', marginBottom: 20}}
                            />
                     <h3 style={{textAlign: 'center'}}>Last Name</h3>
@@ -283,6 +287,7 @@ export default function TourneyEditPage(){
                            id="lastName"
                            placeholder={'Last Name'}
                            required
+                           maxLength={20}
                            style={{width: '45%', marginBottom: 20}}/>
                     <h3 style={{textAlign: 'center'}}>Date Of Birth</h3>
                     <input className={classes.inputWidth}
@@ -311,7 +316,7 @@ export default function TourneyEditPage(){
                             </select>
                             <br></br>
                             <select onChange={(e: any) => setParticipant({ ...participant, BlackBeltLevel: e.target.value }) }
-                                    id="beltLevel" style={{fontSize: 20, marginBottom: 20, width: '50%', margin: '0 auto'}}>
+                                    id="beltLevel" style={{fontSize: 20, marginBottom: 20, width: '50%', margin: '0 auto', textAlign: 'center'}}>
                                 <option value={''} selected></option>
                                 <option value={BlackBeltLevel.FirstDan}>FirstDan</option>
                                 <option value={BlackBeltLevel.SecondDan}>SecondDan</option>
@@ -333,11 +338,10 @@ export default function TourneyEditPage(){
                             {participants && participants.map((p: any) => (
                                 <>
                                         <Accordion
-                                            expanded={expanded === "panel1"}
-                                            onChange={handleChange("panel1")}
+                                            onChange={handleChange}
                                             key={p.id}
                                             className={classes.content}
-                                            style={{marginTop: 10, marginBottom: 10}}
+                                            style={{ width: '50%',  marginTop: 10, marginBottom: 10}}
                                         >
                                             <AccordionSummary
                                                 expandIcon={<ExpandMoreIcon />}

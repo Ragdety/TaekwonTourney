@@ -6,6 +6,7 @@ import {TournamentType} from '../Enums/enums'
 import {ITournamentCreate} from "../Models/creationModels";
 import TournamentService from "../Services/tournamentService";
 import {Redirect} from "react-router";
+import Cookies from "js-cookie";
 
 export default function TourneyCreationPage(){
     // const [clicked, setClicked] = useState(false);
@@ -72,7 +73,7 @@ export default function TourneyCreationPage(){
         };
 
         try {
-            TournamentService.create(data)
+            TournamentService.create(data, Cookies.get('jwt'))
                 .then((response: any) => {
                     setSubmitted(true);
                     console.log(response.data);

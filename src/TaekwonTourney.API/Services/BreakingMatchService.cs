@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using TaekwonTourney.Core.DomainObjects.DomainModels;
@@ -68,17 +69,45 @@ namespace TaekwonTourney.API.Services
 
         public async Task<BreakingMatch> GetAsync(int tourneyId, int matchId)
         {
-            return await _breakingMatchRepository.GetAsync(tourneyId, matchId);
+            return await _breakingMatchRepository.GetAsync(matchId);
         }
 
         public async Task<IList<BreakingMatch>> GetAllFromTourneyAsync(int tourneyId)
         {
-            return await _breakingMatchRepository.GetAllFromTourneyAsync(tourneyId);
+            //All matches (no order)
+            var matches = await _breakingMatchRepository.GetAllFromTourneyAsync(tourneyId);
+            
+            //Ordered matches (this is basically rankings endpoint)
+            var orderedMatches = matches.OrderByDescending(m => m.ParticipantScore);
+            return orderedMatches.ToList();
         }
 
-        public void UpdateScore(int matchId, BreakingMatchUpdateModel match)
+
+        public async Task<BreakingMatchResponse> UpdateScore(int tournamentId, int matchId, BreakingMatchUpdateModel match)
         {
-            throw new NotImplementedException();
+            var tourney = await _tournamentRepository.FindByIdAsync(tournamentId);
+            if (tourney == null)
+                return new BreakingMatchResponse($"Tournament with Id: {tournamentId} was not found");
+
+            var existingMatch = await _breakingMatchRepository.GetAsync(matchId);
+            
+            if(existingMatch == null) 
+                return new BreakingMatchResponse($"Match with Id {matchId} was not found.");
+            
+            existingMatch.ParticipantScore = match.ParticipantScore;
+            
+            try 
+            { 
+                _breakingMatchRepository.UpdateScore(existingMatch); 
+                await _unitOfWork.CompleteAsync(); 
+                return new BreakingMatchResponse(existingMatch); 
+            }
+            catch (Exception ex) 
+            { 
+                _logger.LogError(ex.Message); 
+                _logger.LogError(ex.StackTrace); 
+                return new BreakingMatchResponse($"An error occured when updating the score: {ex.Message}");
+            }
         }
     }
 }

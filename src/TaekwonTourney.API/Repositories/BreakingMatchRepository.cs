@@ -20,7 +20,7 @@ namespace TaekwonTourney.API.Repositories
             await _db.BreakingMatches.AddAsync(match);
         }
 
-        public async Task<BreakingMatch> GetAsync(int tourneyId, int matchId)
+        public async Task<BreakingMatch> GetAsync(int matchId)
         {
             return await _db.BreakingMatches.SingleOrDefaultAsync(m => m.Id == matchId);
         }

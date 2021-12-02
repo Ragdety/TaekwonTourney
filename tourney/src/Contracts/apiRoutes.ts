@@ -32,7 +32,8 @@ const routes = {
     Matches: {
         Breaking: {
             getAll: bases.Matches,
-            create: bases.Matches
+            create: bases.Matches,
+            update: bases.Matches + '/{matchId}'
         }
     },
     Rankings: {

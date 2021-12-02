@@ -148,6 +148,8 @@ function Register() {
             placeholder="Enter Your First Name"
             required
             onChange={(e) => handleChange(e, 'firstName')}
+            minLength={2}
+            maxLength={15}
            />
           {/*{firstNameError && <p className={classes.p2} style={{color: 'red'}}>{firstNameError}</p>}*/}
 
@@ -159,6 +161,8 @@ function Register() {
             placeholder="Enter Your Last Name"
             required
             onChange={(e) => handleChange(e, 'lastName')}
+            minLength={2}
+            maxLength={15}
           />
           {/*{lastNameError && <p className={classes.p2} style={{color: 'red'}}>{lastNameError}</p>}*/}
 
@@ -181,6 +185,7 @@ function Register() {
             placeholder="Enter Your Username"
             required
             onChange={(e) => handleChange(e, 'username')}
+            maxLength={20}
           />
          {/*{usernameError && <p className={classes.p2} style={{color: 'red'}}>{usernameError}</p>}*/}
 
@@ -192,6 +197,7 @@ function Register() {
             placeholder="Enter Password"
             required
             onChange={(e) => handleChange(e, 'password')}
+            maxLength={15}
           />
           {/*<p className={classes.p2}></p>*/}
           {/*{passwordError && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{passwordError}</p>}*/}

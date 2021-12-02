@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TaekwonTourney.API.Hubs;
 using TaekwonTourney.API.Installers;
 using TaekwonTourney.API.Options;
 
@@ -70,6 +71,7 @@ namespace TaekwonTourney.API
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+				endpoints.MapHub<MatchesHub>("/matchesHub");
 			});
 		}
 	}
