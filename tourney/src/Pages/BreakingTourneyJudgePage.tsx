@@ -17,10 +17,13 @@ import {IBreakingMatchesUpdate} from "../Models/updateModels";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Cookies from 'js-cookie';
+
 const BreakingTourneyJudgePage = () => {
     const { tournamentId }: any = useParams();
     const history = useHistory();
     const [participants, setParticipants] = useState([]);
+    const [matches, setMatches] = useState([]);
     const [error, setError] = useState(false);
     const [redirectHome, setRedirectHome] = useState(false);
     const [points, setPoints] = useState(0);
@@ -67,9 +70,12 @@ const BreakingTourneyJudgePage = () => {
     useEffect(() => {
         const fetchParticipants = async () => {
             try {
-                ParticipantService.getAll(tournamentId)
+                ParticipantService.getAll(tournamentId, Cookies.get('jwt'))
                     .then((res: any) => {
-                        setParticipants(res.data);
+                        const orderedParticipantsById =
+                            [].concat(res.data)
+                                .sort((a: any, b: any) => a.id < b.id ? 1 : -1);
+                        setParticipants(orderedParticipantsById);
                     })
                     .catch((error: any) => {
                         console.log(error);
@@ -82,10 +88,36 @@ const BreakingTourneyJudgePage = () => {
             }
         }
         fetchParticipants();
-    }, [participants])
+    }, [participants]);
+
+    useEffect(() => {
+        const fetchMatches = async () => {
+            try {
+                MatchesService.getAll(tournamentId)
+                    .then((res: any) => {
+                        const orderedMatchesByParticipant = 
+                            [].concat(res.data)
+                                .sort((a: any, b: any) => a.participantId < b.participantId ? 1 : -1);
+                        setMatches(orderedMatchesByParticipant);
+                    })
+                    .catch((error: any) => {
+                        console.log(error);
+                        setError(true);
+                    })
+            } catch (e) {
+                console.log('AUTH ERROR: ', e);
+                alert("You've been logged out, you will be redirected to home page");
+                setError(true);
+                setRedirectHome(true);
+            }
+        }
+        fetchMatches();
+    }, [matches]);
     
     const handlePoints = (participantId: number) => {
         try {
+            //Will need to redesign this strategy for other types of tournaments
+            
             ParticipantService.get(tournamentId, participantId)
                 .then((res: any) => {
                     const participant = res.data;
@@ -97,7 +129,7 @@ const BreakingTourneyJudgePage = () => {
                         participantScore: points
                     }
                     console.log('MATCH: ', match);
-                    MatchesService.create(tournamentId, match)
+                    MatchesService.create(tournamentId, match, Cookies.get('jwt'))
                         .then((res: any) => {
                             console.log('MATCH API RESULT:', res.data);
                             setPoints(0);
@@ -105,10 +137,21 @@ const BreakingTourneyJudgePage = () => {
                         .catch((error: any) => {
                             console.log('MATCH API ERROR', error);
                             const message = error.response.data.message;
-                            //let update = confirm(message + '. Do you want to update their points?');
-                            //if(update) {
-                                
-                            //}
+                            let update = window.confirm(message + '. Do you want to update their points?');
+                            if(update) {
+                                const match: any = matches.find((m: any) => m.participantId == participantId);
+                                MatchesService.update(tournamentId, match.id, updatedMatch, Cookies.get('jwt'))
+                                    .then((res: any) => {
+                                        
+                                    })
+                                    .catch((error: any) => {
+                                        console.log(error);
+                                        setError(true);
+                                    });
+                            }
+                            else {
+                                setPoints(0);
+                            }
                             setPoints(0);
                         });
                 })
@@ -157,7 +200,7 @@ const BreakingTourneyJudgePage = () => {
                                     aria-controls="panel4bh-content"
                                     id="panel4bh-header"
                                 >
-                                    <Typography sx={{ overflow: 'hidden' }}>{p.firstName}  {p.lastName}</Typography>
+                                    <Typography sx={{ overflow: 'hidden' }}>{p.firstName}  {p.lastName} {p.id}</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Stack spacing={1} direction="row">

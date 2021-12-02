@@ -3,6 +3,7 @@ import {IParticipantsCreate} from "../Models/creationModels";
 import {IParticipant} from "../Models/retrivalModels";
 import Cookies from "js-cookie";
 import routes from '../Contracts/apiRoutes'
+import helpers from "../Helpers/helpers";
 
 const checkJwt = () => {
     let jwt = Cookies.get('jwt');
@@ -18,11 +19,11 @@ const headers = {
     }
 }
 
-const getAll = (tournamentId: number) => {
+const getAll = (tournamentId: number, cookie: any) => {
     checkJwt();
     return api.get<Array<IParticipant>>(
         routes.Participants.getAll.replace('{tournamentId}', tournamentId.toString()),
-        headers);
+        helpers.getHeaders(cookie));
 };
 
 const get = (tournamentId: number, id: number) => {

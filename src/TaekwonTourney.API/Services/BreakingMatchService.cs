@@ -83,28 +83,31 @@ namespace TaekwonTourney.API.Services
         }
 
 
-        public async Task<BreakingMatchResponse> UpdateScore(int matchId, BreakingMatchUpdateModel match)
+        public async Task<BreakingMatchResponse> UpdateScore(int tournamentId, int matchId, BreakingMatchUpdateModel match)
         {
+            var tourney = await _tournamentRepository.FindByIdAsync(tournamentId);
+            if (tourney == null)
+                return new BreakingMatchResponse($"Tournament with Id: {tournamentId} was not found");
+
             var existingMatch = await _breakingMatchRepository.GetAsync(matchId);
-
-           if(existingMatch == null)
-              return new BreakingMatchResponse("Match not found.");
-
+            
+            if(existingMatch == null) 
+                return new BreakingMatchResponse($"Match with Id {matchId} was not found.");
+            
             existingMatch.ParticipantScore = match.ParticipantScore;
-
-           try
-           {
-              _breakingMatchRepository.UpdateScore(existingMatch);
-              await _unitOfWork.CompleteAsync();
-              return new BreakingMatchResponse(existingMatch);
+            
+            try 
+            { 
+                _breakingMatchRepository.UpdateScore(existingMatch); 
+                await _unitOfWork.CompleteAsync(); 
+                return new BreakingMatchResponse(existingMatch); 
             }
-            catch (Exception ex)
-            {
-               _logger.LogError(ex.Message);
-               _logger.LogError(ex.StackTrace);
-              return new BreakingMatchResponse($"An error occured when updating the score: {ex.Message}");
+            catch (Exception ex) 
+            { 
+                _logger.LogError(ex.Message); 
+                _logger.LogError(ex.StackTrace); 
+                return new BreakingMatchResponse($"An error occured when updating the score: {ex.Message}");
             }
-          
         }
     }
 }

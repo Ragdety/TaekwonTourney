@@ -19,6 +19,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Grid from '@mui/material/Grid';
+import Cookies from 'js-cookie';
 
 export default function TourneyEditPage(){
     const useStyles = makeStyles((theme) => ({
@@ -111,7 +112,7 @@ export default function TourneyEditPage(){
     useEffect(() => {
         const fetchParticipants = async() => {
             try {
-                await ParticipantService.getAll(tournamentId)
+                await ParticipantService.getAll(tournamentId, Cookies.get('jwt'))
                     .then((res: any) => {
                         const parts = res.data;
                         //console.log(parts)

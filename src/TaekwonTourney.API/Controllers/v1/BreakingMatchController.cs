@@ -53,7 +53,8 @@ namespace TaekwonTourney.API.Controllers.v1
             var response = await _breakingMatchService.CreateAsync(tournamentId, match);
             if (!response.Success)
                 return NotFound(response);
-
+            
+            await _hub.Clients.All.SendAsync("RefreshMatch");
             return Ok(match);
             
             //var locationUri = _uriService.GetMatchUri(match.Id.ToString(), tournamentId.ToString()); 
@@ -82,22 +83,18 @@ namespace TaekwonTourney.API.Controllers.v1
             return Ok(matches);
         }
 
-        [AllowAnonymous]
         [HttpPut(ApiRoutes.Matches.UpdateTournamentMatch)]
         public async Task<IActionResult> UpdateMatch(
+            [FromRoute] int tournamentId,
             [FromRoute] int matchId,
-            [FromRoute]BreakingMatchUpdateModel match)
+            [FromBody]BreakingMatchUpdateModel match)
         { 
-            var response = await _breakingMatchService.UpdateScore(matchId, match);
+            var response = 
+                await _breakingMatchService.UpdateScore(tournamentId, matchId, match);
 
-            if(response.Success)
-            {
-               await _hub.Clients.All.SendAsync("RefreshMatch");
-               return Ok(response.BreakingMatch);
-            }
-            return NotFound(response);   
-
+            if (!response.Success) return NotFound(response);
+            await _hub.Clients.All.SendAsync("RefreshMatch");
+            return Ok(response.BreakingMatch);
         }
-
     }
 }

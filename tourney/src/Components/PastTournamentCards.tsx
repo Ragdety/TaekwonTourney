@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import moment from "moment";
+import Button from "@mui/material/Button";
 
 export const PastTournamentCards = ({tourney}: any) => {
     return (
@@ -22,6 +23,12 @@ export const PastTournamentCards = ({tourney}: any) => {
                     <Typography component="div">
                         End Date: {moment(tourney.endDate).format('MMMM/DD/YYYY')}
                     </Typography>
+                    {/*<Button color="primary" onClick={() => editTourney(tourney.id)}>*/}
+                    {/*    Edit*/}
+                    {/*</Button>*/}
+                    {/*<Button color="primary" onClick={() => deleteTourney(tourney.id)}>*/}
+                    {/*    Delete*/}
+                    {/*</Button>*/}
                 </CardContent>
             </Box>
         </Card>

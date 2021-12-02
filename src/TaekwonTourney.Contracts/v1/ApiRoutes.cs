@@ -58,7 +58,7 @@ namespace TaekwonTourney.Contracts.v1
 			public const string GetTournamentMatches = MatchesBase;
 			//public const string GetTournamentMatch = MatchesBase + "/{matchId}";
 			public const string CreateTournamentMatch = MatchesBase;
-			public const string UpdateTournamentMatch = MatchesBase;
+			public const string UpdateTournamentMatch = MatchesBase + "/{matchId}";
 		}
 		
 		public static class Rankings
