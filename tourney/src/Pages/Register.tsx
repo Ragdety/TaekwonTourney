@@ -122,13 +122,13 @@ function Register() {
         .then(res => {
           setRedirect(true);
         })
-        .catch(error => {
-          const errors = error.response.data;
-          console.log(errors);
+        .catch((error: any) => {
+          const errors = error.response.data.errors;
+          //console.log(errors);
+          setErrors(errors);
           //Will set error states here:
           setError(true);
         });
-    console.log(res);
   }
 
   if(redirect){
@@ -214,7 +214,10 @@ function Register() {
          {confirmPasswordError && <p className={classes.p2} style={{color: 'red'}}>{confirmPasswordError}</p>}
 
         <button className={classes.submitButton} type="submit" /*onClick={register}*/>Register</button>
-        {error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}
+        {/*{error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}*/}
+        {errors && errors.map((e: any) => (
+            <p style={{color: 'red', marginTop: 5}}>{e}</p>
+            ))}
       </form>
       <p className={classes.p4}>Already have an account? 
          <Link to="/Login" style={{textDecoration:'none', color:'blue'}}> 
