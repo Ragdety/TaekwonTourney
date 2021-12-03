@@ -7,6 +7,11 @@ import {ITournamentCreate} from "../Models/creationModels";
 import TournamentService from "../Services/tournamentService";
 import {Redirect} from "react-router";
 import Cookies from "js-cookie";
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import { useHistory } from 'react-router-dom';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Button from '@mui/material/Button';
 
 export default function TourneyCreationPage(){
     // const [clicked, setClicked] = useState(false);
@@ -43,6 +48,7 @@ export default function TourneyCreationPage(){
     }));
     
     const classes = useStyles();
+    const history = useHistory();
     
     const initialTournamentState: ITournamentCreate = {
         TournamentName: "",
@@ -95,54 +101,65 @@ export default function TourneyCreationPage(){
         return <Redirect to='/Dashboard' />;
     }
 
+    function goBack(){
+        history.push('/Dashboard');
+    }
+
     return(
         <div>
             <DashBoardNavBar />
             <form className={classes.tr} 
                   onSubmit={(event => saveTourney(event))}>
+                <Stack spacing = {1} direction = "row">
+                    <IconButton aria-label = "Go-Back" onClick={goBack} style={{float: 'left', fontSize: 20}}>
+                        <ArrowBackIcon style={{float: 'left', height: 50, width: 50}}/>
+                    </IconButton>
+                    <Typography variant= "h5" style={{float: 'left', marginTop: 18}}>
+                        Go Back
+                    </Typography>
+                </Stack>
                 <h1>Name Your Tournament</h1>
-                <input className={classes.inputWidth} 
-                       onChange={(e: any) => setTourney({ ...tourney, TournamentName: e.target.value }) } 
-                       value={tourney.TournamentName} 
-                       id="tournamentName" 
-                       required/>
-                
+                <div>
+                    <input 
+                        onChange={(e: any) => setTourney({ ...tourney, TournamentName: e.target.value }) } 
+                        value={tourney.TournamentName} 
+                        id="tournamentName" 
+                        required
+                        maxLength={50} 
+                        style={{height: 40, fontSize: 17, textAlign: 'center', width: '65%'}}/>
+                </div>
                 <h1>Tournament Type</h1>
-                <select onChange={(e: any) => setTourney({ ...tourney, TournamentType: e.target.value }) }
-                        required>
-                    <option value={TournamentType.Breaking}>Breaking</option>
-                    <option value={TournamentType.Forms}>Forms</option>
-                    <option value={TournamentType.Sparring}>Sparring</option>
-                </select>
-                {/*<h3>Tournament Name: </h3>*/}
-                {/*{clicked ? <EventCard /> : null}*/}
-                
+                <div>
+                    <select style={{width: '50%', textAlign: 'center', height: 50, fontSize: 20}} onChange={(e: any) => setTourney({ ...tourney, TournamentType: e.target.value }) }
+                            required>
+                        <option style={{fontSize: 20, textAlign: 'center'}} value={TournamentType.Breaking}>Breaking</option>
+                        <option style={{fontSize: 20, textAlign: 'center'}} value={TournamentType.Forms}>Forms</option>
+                        <option style={{fontSize: 20, textAlign: 'center'}} value={TournamentType.Sparring}>Sparring</option>
+                    </select>
+                </div>
                 <h1>Scheduled Date(s) of Tournament</h1>
                 <div>
-                    {/*We want these side by side please, remove this comment after*/}
                     <h3>Start Date: </h3>
                     <input className={classes.inputWidth}
                            onChange={(e: any) => setTourney({ ...tourney, StartDate: e.target.value })}
                            type={"date"}
                            id="startDate"
-                           required/>
+                           required
+                           style={{width: '42%', fontSize: 15}}/>
                     
                     <h3>End Date: </h3>
                     <input className={classes.inputWidth}
                            onChange={(e: any) => setTourney({ ...tourney, EndDate: e.target.value }) }
                            type={"date"}
                            id="endDate"
-                           required/>
+                           required
+                           style={{width: '42%', fontSize: 15, marginBottom: 20}}/>
                 </div>
-                {/*Will add this when user clicks edit tournament*/}
-                {/*<Stack spacing={2} direction="row" className={classes.center}>*/}
-                {/*    <h1>Add Participants: </h1>*/}
-                {/*    <button className={classes.plusButton} onClick={handleClick}>Plus</button>*/}
-                {/*</Stack>*/}
-                <button /*onClick={saveTourney}*/ type={"submit"} className="btn btn-success">
-                    Create tournament
-                </button>
-                {/*For now this way of handling errors. TODO: Will fix this later*/}
+                <div style={{textAlign: 'center'}}>
+                    <Button color="primary" style={{backgroundColor: '#4aedc4', color: '#0e4686', marginBottom: 20}} type={"submit"} className="btn btn-success">
+                        Create Tournament
+                    </Button>
+                </div>
                 { error && <p style={{color: 'red', marginTop: 2}}>An error ocurred...</p>}
             </form>
         </div>
