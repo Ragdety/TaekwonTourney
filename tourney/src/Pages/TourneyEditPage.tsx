@@ -240,12 +240,9 @@ export default function TourneyEditPage(){
                     <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Sparring}>Sparring</option>
                 </select>
                 </div>
-                {/*<h3>Tournament Name: </h3>*/}
-                {/*{clicked ? <EventCard /> : null}*/}
 
                 <h1>Scheduled Date(s) of Tournament</h1>
                 <div>
-                    {/*We want these side by side please, remove this comment after*/}
                     <h3>Start Date: </h3>
                     <input className={classes.inputWidth}
                            onChange={(e) => {setStartDate(e.target.value)}}

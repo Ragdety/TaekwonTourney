@@ -11,22 +11,6 @@ import MeetTheTeam from '../Images/teamwork-3213924.jpg';
 import { CardActionArea } from "@mui/material";
 
 export default function HomeCard() {
-  //const [click, setClick] = React.useState(false);
-
-  /*
-  const handleClick = () => {
-    setClick(!click);
-  };
-  */
-/*
-  const useStyles = makeStyles((theme: MyTheme) => ({
-    root: {
-        marginLeft: 10,
-        marginTop: 75,
-      },
-  }));
-  //const classes = useStyles();
-*/
   const [spacing] = React.useState(9);
 
   return (
@@ -71,7 +55,7 @@ export default function HomeCard() {
             </Card><br></br>
           </Grid>
           <Grid item>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ maxWidth: 345, marginBottom: 1 }}>
               <CardActionArea href="/MeetTheTeam">
                 <CardHeader title="Meet The Team" />
                   <CardMedia

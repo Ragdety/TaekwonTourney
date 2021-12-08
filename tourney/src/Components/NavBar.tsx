@@ -171,7 +171,7 @@ function handleDashboard(){
               aria-label="open drawer"
               sx={{ mr: 2 }}
             >
-              TaekwonTourney
+              Taekwon Tourney
             </IconButton>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
@@ -209,7 +209,7 @@ function handleDashboard(){
                   Login
               </Button>
           </Link>
-          <Link to="/Register" style={{textDecoration:'none', color:'white'}}>
+          <Link to="/Register" style={{textDecoration:'none', backgroundColor: 'white', color:'black'}}>
               <Button
                 size="large"
                 aria-label="account of current user"
@@ -217,6 +217,8 @@ function handleDashboard(){
                 aria-haspopup="true"
                 /*onClick= *handleProfileMenuOpen*/
                 color="inherit"
+                disableRipple
+                style={{backgroundColor: 'transparent'}}
               >
                   Register
               </Button>
