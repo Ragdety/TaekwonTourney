@@ -26,13 +26,13 @@ const getAll = (tournamentId: number, cookie: any) => {
         helpers.getHeaders(cookie));
 };
 
-const get = (tournamentId: number, id: number) => {
+const get = (tournamentId: number, id: number, cookie: any) => {
     checkJwt();
     return api.get<IParticipant>(
         routes.Participants.get
             .replace('{tournamentId}', tournamentId.toString())
             .replace('{participantId}', id.toString()),
-        headers);
+        helpers.getHeaders(cookie));
 };
 
 const create = (tournamentId: number, data: IParticipantsCreate) => {

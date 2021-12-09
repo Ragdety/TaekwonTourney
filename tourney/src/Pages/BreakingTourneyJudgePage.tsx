@@ -118,9 +118,8 @@ const BreakingTourneyJudgePage = () => {
         try {
             //Will need to redesign this strategy for other types of tournaments
             
-            ParticipantService.get(tournamentId, participantId)
+            ParticipantService.get(tournamentId, participantId, Cookies.get('jwt'))
                 .then((res: any) => {
-                    const participant = res.data;
                     const match: IBreakingMatchesCreate = {
                         participantScore: points,
                         participantId: participantId

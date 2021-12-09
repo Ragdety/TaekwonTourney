@@ -17,11 +17,17 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '10px',
     width: '290px',
     marginLeft: '5px',
+    "@media (min-width: 2140px)":{
+      width: 450,
+    },
   },
   label:{
     display: 'flex',
     marginTop: '10px',
     fontSize: '18px',
+    "@media (min-width: 2140px)":{
+      fontSize: 38,
+    },
   },
   formInput:{
     width: '100%',
@@ -29,13 +35,14 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid grey',
     borderRadius: '6px',
     outline: 'none',
+    "@media (min-width: 2140px)":{
+      width: 450,
+      height: 40,
+      fontSize: 25,
+    },
   },
   submitButton: {
     backgroundColor: '#4aedc4',
-    '&: hover':{
-      boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
-      backgroundColor: '#14a37f',
-    },
     fontSize: '18px',
     color: 'white',
     marginTop: '14px',
@@ -45,12 +52,29 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     borderRadius: '6px',
     cursor: 'pointer',
+    "@media (min-width: 2140px)": {
+      width: 400,
+      height: 70,
+      fontSize: 40,
+      marginTop: 40,
+    },
   },
   p2:{
       marginTop: 0, marginBottom: -5,
   },
   p4:{
     marginTop: 0,
+    "@media (min-width: 2140px)": {
+      marginTop: 20,
+      fontSize: 30,
+      marginLeft: 120,
+    },
+  },
+  h1: {
+    justifyContent: 'center',
+    "@media (min-width: 2140px)": {
+        fontSize: 50,
+    },
   },
 }));
 
@@ -122,13 +146,13 @@ function Register() {
         .then(res => {
           setRedirect(true);
         })
-        .catch(error => {
-          const errors = error.response.data;
-          console.log(errors);
+        .catch((error: any) => {
+          const errors = error.response.data.errors;
+          //console.log(errors);
+          setErrors(errors);
           //Will set error states here:
           setError(true);
         });
-    console.log(res);
   }
 
   if(redirect){
@@ -138,7 +162,7 @@ function Register() {
   return (
     <div className={classes.container}>
       <form className={classes.form} id="signup" onSubmit={register}>
-        <h1>Register</h1>
+        <h1 className={classes.h1}>Register</h1>
           <label className={classes.label}>First Name </label>
           <input
             id="First_Name" 
@@ -214,7 +238,10 @@ function Register() {
          {confirmPasswordError && <p className={classes.p2} style={{color: 'red'}}>{confirmPasswordError}</p>}
 
         <button className={classes.submitButton} type="submit" /*onClick={register}*/>Register</button>
-        {error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}
+        {/*{error && <p style={{color: 'red', marginTop: 5}}>An error ocurred...</p>}*/}
+        {errors && errors.map((e: any) => (
+            <p style={{color: 'red', marginTop: 5}}>{e}</p>
+            ))}
       </form>
       <p className={classes.p4}>Already have an account? 
          <Link to="/Login" style={{textDecoration:'none', color:'blue'}}> 

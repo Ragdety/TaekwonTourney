@@ -231,14 +231,14 @@ export default function TourneyEditPage(){
                         style={{height: 40, fontSize: 17, textAlign: 'center', width: '65%'}}/>
                     </div>
                 <h1>Tournament Type</h1>
-                <div style={{display: 'grid', placeItems: 'center'}}>
-                    <select style={{width: '50%', textAlign: 'center', height: 50, fontSize: 20, margin: 'auto', display: 'block', marginRight: 'auto', marginLeft: 'auto'}} onChange={(e: any) => {setTournamentType(e.target.value)}}
-                            value={tournamentType}
-                            required>
-                        <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Breaking}>Breaking</option>
-                        <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Forms}>Forms</option>
-                        <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Sparring}>Sparring</option>
-                    </select>
+                <div>
+                <select style={{width: '50%', textAlign: 'center', height: 50, fontSize: 20}} onChange={(e: any) => {setTournamentType(e.target.value)}}
+                        value={tournamentType}
+                        required>
+                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Breaking}>Breaking</option>
+                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Forms}>Forms</option>
+                    <option style={{fontSize: 20, textAlign: 'center'}}value={TournamentType.Sparring}>Sparring</option>
+                </select>
                 </div>
 
                 <h1>Scheduled Date(s) of Tournament</h1>

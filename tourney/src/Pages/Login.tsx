@@ -16,13 +16,26 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     marginTop: '10px',
-    width: '290px',
     marginLeft: '5px',
+    "@media (min-width: 1440px)": {
+      fontSize: 30,
+    },
+    "@media (min-width: 2140px)": {
+      fontSize: 50,
+    }
   },
   label:{
     display: 'flex',
     marginTop: '10px',
     fontSize: '18px',
+    "@media (min-width: 1440px)": {
+      fontSize: 30,
+      marginLeft: -160,
+    },
+    "@media (min-width: 2140px)": {
+      fontSize: 50,
+      marginLeft: -460,
+    }
   },
   formInput:{
     height: 'auto',
@@ -30,14 +43,24 @@ const useStyles = makeStyles((theme) => ({
     padding: '7px',
     border: '1px solid grey',
     borderRadius: '6px',
+    marginLeft: -5,
     outline: 'none',
+    "@media (min-width: 1440px)": {
+      width: 650,
+      height: 50,
+      marginLeft: -160,
+      fontSize: 20,
+    },
+    "@media (min-width: 2140px)": {
+      width: 1250,
+      height: 100,
+      marginLeft: -470,
+      fontSize: 40,
+      borderWidth: 2,
+    }
   },
   submitButton: {
     backgroundColor: '#4aedc4',
-    '&: hover':{
-      boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
-      backgroundColor: '#14a37f',
-    },
     fontSize: '18px',
     color: 'white',
     marginTop: '24px',
@@ -46,6 +69,19 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     borderRadius: '6px',
     cursor: 'pointer',
+    "@media (min-width: 1440px)": {
+      width: 350,
+      height: 70,
+      marginLeft: -20,
+      fontSize: 30,
+    },
+    "@media (min-width: 2140px)": {
+      width: 650,
+      height: 120,
+      marginLeft: -170,
+      fontSize: 50,
+      marginTop: 40,
+    }
   },
   p2:{
       marginTop: 0, marginBottom: -5,
@@ -53,9 +89,21 @@ const useStyles = makeStyles((theme) => ({
   p4:{
       marginLeft: -20,
       marginTop: 15,
+      "@media (min-width: 1440px)": {
+        fontSize: 30,
+        marginLeft: 20,
+      },
+      "@media (min-width: 2140px)": {
+        marginTop: 30,
+        fontSize: 40,
+        marginLeft: 20,
+      },
   },
   h1: {
     justifyContent: 'center',
+    "@media (min-width: 2140px) and (max-width: 2560px)": {
+        fontSize: 100,
+    },
   },
 }));
 
@@ -128,6 +176,7 @@ function Login() {
         .catch(error => {
           console.log(error);
           const errors = error.response.data;
+          //Will set error states here:
           console.log(errors);
           setError(true);
           setErrors(errors);
@@ -135,7 +184,7 @@ function Login() {
   }
 
   if(redirect){
-    return <Redirect to='/Dashboard' />;
+    return <Redirect to='/' />;
   }
   const stringedErrors =  JSON.stringify(errors);
   const parsed = JSON.parse(stringedErrors);
@@ -167,6 +216,7 @@ function Login() {
         <button className={classes.submitButton} type="submit">Log In</button>
 
           {error && <p style={{color: 'red', marginTop: 5}}>{values}</p>}
+        {/*{errors && <p className={classes.p2} style={{color: 'red', marginTop: 5}}>{errors}</p>}*/}
       </form>
       <p className={classes.p4}>Don't have an account? 
          <Link to="/Register" style={{textDecoration:'none', color:'blue'}}> 
@@ -178,3 +228,4 @@ function Login() {
 }
 
 export default Login;
+
