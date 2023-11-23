@@ -10,7 +10,6 @@ import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 
-
 function Home(){
 
     const useStyles = makeStyles((theme) => ({
@@ -61,14 +60,25 @@ function Home(){
                                 </Grid>
                             </Grid>
                         </Grid>
-                    <Button className={classes.btn} style={{backgroundColor: 'transparent'}} disableRipple onClick={redirectToRegister}>SIGN UP!</Button>
+                    <Button style={{cursor: 'pointer', 
+            marginBottom: 20, 
+            color: 'black', 
+            border: '3px solid #2196f3',
+            fontSize: 20,
+            fontWeight: 'bold',
+            marginTop: 20,}} disableRipple onClick={redirectToRegister}>SIGN UP!</Button>
                 </div>
             <HomeCards />
             <div>
                 <Box textAlign='center'>
-                    <Button className={classes.btn} style={{backgroundColor: 'transparent', justifyContent: 'center'}} disableRipple onClick={redirectToRegister}>CREATE YOUR TOURNEY!</Button>
+                    <Button style={{cursor: 'pointer', 
+            marginBottom: 20, 
+            color: 'black', 
+            border: '3px solid #2196f3',
+            fontSize: 20,
+            fontWeight: 'bold',
+            marginTop: 20,}} disableRipple onClick={redirectToRegister}>CREATE YOUR TOURNEY!</Button>
                 </Box>
-                
             </div>
         </>
     )
